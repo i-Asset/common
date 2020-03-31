@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import at.srfg.iot.eclass.model.ClassificationClass;
-import at.srfg.iot.eclass.model.Property;
-import at.srfg.iot.eclass.model.Unit;
-import at.srfg.iot.eclass.model.Value;
+import at.srfg.iot.eclass.model.PropertyDefinition;
+import at.srfg.iot.eclass.model.PropertyUnit;
+import at.srfg.iot.eclass.model.PropertyValue;
 
 public interface EClassService {
 
@@ -31,7 +31,7 @@ public interface EClassService {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	
 	@GetMapping("/property")
-	public Optional<Property> getProperty(@RequestParam("irdiPR") String irdi);
+	public Optional<PropertyDefinition> getProperty(@RequestParam("irdiPR") String irdi);
 
 	@RequestMapping(
 			method = RequestMethod.GET,
@@ -39,7 +39,7 @@ public interface EClassService {
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping("/properties")
-	public List<Property> getValues(@RequestParam("irdiCC") String irdi) ;
+	public List<PropertyDefinition> getValues(@RequestParam("irdiCC") String irdi) ;
 	
 	@RequestMapping(
 			method = RequestMethod.GET,
@@ -47,7 +47,7 @@ public interface EClassService {
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping("/value")
-	public Optional<Value> getValue(@RequestParam("irdiVA") String irdi);
+	public Optional<PropertyValue> getValue(@RequestParam("irdiVA") String irdi);
 	
 	@RequestMapping(
 			method = RequestMethod.GET,
@@ -55,7 +55,7 @@ public interface EClassService {
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping("/values")
-	public List<Value> getPropertyValues(
+	public List<PropertyValue> getPropertyValues(
 			@RequestParam("irdiCC") String irdicc, 
 			@RequestParam("irdiPR") String irdipr);
 
@@ -65,5 +65,5 @@ public interface EClassService {
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping("/unit")
-	public Optional<Unit> getUnit(@RequestParam("irdiUN") String irdi) ;
+	public Optional<PropertyUnit> getUnit(@RequestParam("irdiUN") String irdi) ;
 }

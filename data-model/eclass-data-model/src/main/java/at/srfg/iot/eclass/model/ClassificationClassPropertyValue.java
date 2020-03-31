@@ -28,12 +28,12 @@ public class ClassificationClassPropertyValue implements Serializable {
 	//bi-directional many-to-one association to EclassValue
 	@ManyToOne
 	@JoinColumn(name="irdiva", insertable = false, updatable = false)
-	private Value value;
+	private PropertyValue value;
 
 	//bi-directional many-to-one association to Property
 	@ManyToOne
 	@JoinColumn(name="irdipr", insertable = false, updatable = false)
-	private Property property;
+	private PropertyDefinition property;
 
 	public ClassificationClassPropertyValue() {
 	}
@@ -62,19 +62,19 @@ public class ClassificationClassPropertyValue implements Serializable {
 		this.classificationClass = classificationClass;
 	}
 
-	public Value getValue() {
+	public PropertyValue getValue() {
 		return this.value;
 	}
 
-	public void setValue(Value eclassValue) {
+	public void setValue(PropertyValue eclassValue) {
 		this.value = eclassValue;
 	}
 
-	public Property getProperty() {
+	public PropertyDefinition getProperty() {
 		return this.property;
 	}
 
-	public void setProperty(Property property) {
+	public void setProperty(PropertyDefinition property) {
 		this.property = property;
 	}
 

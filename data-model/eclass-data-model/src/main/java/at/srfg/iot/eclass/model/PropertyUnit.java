@@ -15,8 +15,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="unit")
-@NamedQuery(name="Unit.findAll", query="SELECT u FROM Unit u")
-public class Unit implements Serializable {
+@NamedQuery(name="PropertyUnit.findAll", query="SELECT u FROM PropertyUnit u")
+public class PropertyUnit implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -50,7 +50,7 @@ public class Unit implements Serializable {
 	private String structuredNaming;
 
 
-	public Unit() {
+	public PropertyUnit() {
 	}
 
 

@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "eclass_value")
-public class Value {
+public class PropertyValue {
 	
 	@Column(name="supplier")
 	private String supplier;

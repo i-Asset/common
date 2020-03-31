@@ -21,8 +21,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="property")
-@NamedQuery(name="Property.findAll", query="SELECT p FROM Property p")
-public class Property implements Serializable {
+@NamedQuery(name="PropertyDefinition.findAll", query="SELECT p FROM PropertyDefinition p")
+public class PropertyDefinition implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -73,7 +73,7 @@ public class Property implements Serializable {
 	//bi-directional many-to-one association to Unit
 	@ManyToOne
 	@JoinColumn(name="irdiun")
-	private Unit unit;
+	private PropertyUnit unit;
 
 	//bi-directional many-to-many association to EclassValue
 	@ManyToMany
@@ -86,9 +86,9 @@ public class Property implements Serializable {
 			@JoinColumn(name="irdiva")
 			}
 		)
-	private List<Value> values;
+	private List<PropertyValue> values;
 
-	public Property() {
+	public PropertyDefinition() {
 	}
 
 	/**
@@ -388,28 +388,28 @@ public class Property implements Serializable {
 	/**
 	 * @return the unit
 	 */
-	public Unit getUnit() {
+	public PropertyUnit getUnit() {
 		return unit;
 	}
 
 	/**
 	 * @param unit the unit to set
 	 */
-	public void setUnit(Unit unit) {
+	public void setUnit(PropertyUnit unit) {
 		this.unit = unit;
 	}
 
 	/**
 	 * @return the values
 	 */
-	public List<Value> getValues() {
+	public List<PropertyValue> getValues() {
 		return values;
 	}
 
 	/**
 	 * @param values the values to set
 	 */
-	public void setValues(List<Value> values) {
+	public void setValues(List<PropertyValue> values) {
 		this.values = values;
 	}
 

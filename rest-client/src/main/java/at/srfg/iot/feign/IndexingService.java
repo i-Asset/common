@@ -1,4 +1,4 @@
-package at.srfg.iot.client;
+package at.srfg.iot.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
 

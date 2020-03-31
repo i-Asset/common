@@ -35,7 +35,7 @@ public class ClassificationClassProperty implements Serializable {
 	//bi-directional many-to-one association to Property
 	@ManyToOne
 	@JoinColumn(name="irdipr", insertable=false, updatable=false)
-	private Property property;
+	private PropertyDefinition property;
 
 	public ClassificationClassProperty() {
 	}
@@ -96,11 +96,11 @@ public class ClassificationClassProperty implements Serializable {
 		this.classificationClass = classificationClass;
 	}
 
-	public Property getProperty() {
+	public PropertyDefinition getProperty() {
 		return this.property;
 	}
 
-	public void setProperty(Property property) {
+	public void setProperty(PropertyDefinition property) {
 		this.property = property;
 	}
 
