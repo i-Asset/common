@@ -20,5 +20,7 @@
 	</properties>
 
 	<modules>
+		<module>eclass-data-model</module>
+		<module>indexing-data-model</module>
 	</modules>
 </project>
