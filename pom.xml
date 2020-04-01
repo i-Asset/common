@@ -36,6 +36,9 @@
 	</build>
 
 	<modules>
+		<module>data-model</module>
+		<!-- 
 		<module>rest-client</module>
+		 -->
 	</modules>
 </project>
