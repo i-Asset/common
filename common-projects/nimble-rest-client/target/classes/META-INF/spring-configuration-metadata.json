@@ -1,0 +1,13 @@
+{
+  "groups": [{
+    "name": "nimble.identity",
+    "type": "eu.nimble.common.rest.identity.IdentityProperties",
+    "sourceType": "eu.nimble.common.rest.identity.IdentityProperties"
+  }],
+  "properties": [{
+    "name": "nimble.identity.identity-url",
+    "type": "java.lang.String",
+    "sourceType": "eu.nimble.common.rest.identity.IdentityProperties"
+  }],
+  "hints": []
+}

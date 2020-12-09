@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/asset-registry-connector" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/data-model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/data-model/asset-data-model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/data-model/indexing-data-model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/data-model/semantic-lookup-data-model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/data-model/ubl-data-model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nimble-rest-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rest-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/serivce-discovery" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/utility" charset="UTF-8" />
+  </component>
+</project>

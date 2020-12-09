@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="asset-data-model" />
+        <module name="asset-registry-connector" />
+        <module name="indexing-data-model" />
+        <module name="maven-archiver (1)" />
+        <module name="maven-archiver (2)" />
+        <module name="maven-archiver (3)" />
+        <module name="maven-archiver (4)" />
+        <module name="maven-archiver (5)" />
+        <module name="maven-archiver (6)" />
+        <module name="maven-archiver (7)" />
+        <module name="rest-client (1) (eu.nimble.core.common)" />
+        <module name="rest-client (2) (at.srfg.iot.iasset)" />
+        <module name="semantic-lookup-data-model" />
+        <module name="service-discovery" />
+        <module name="ubl-data-model" />
+        <module name="utility" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="asset-data-model" options="-parameters" />
+      <module name="indexing-data-model" options="-parameters" />
+      <module name="semantic-lookup-data-model" options="-parameters" />
+    </option>
+  </component>
+</project>
