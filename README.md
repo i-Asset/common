@@ -7,6 +7,7 @@ the project consists of the "SOLR-model", "SOLR-indexing", multiple "data-model"
 ## How To build
 
 simply run the build scripts to generate all required maven-packages
+
 Build Order is:
 1) SOLR-model
 2) SOLR-indexing
