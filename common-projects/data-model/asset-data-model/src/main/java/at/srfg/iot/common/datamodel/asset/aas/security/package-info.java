@@ -1,0 +1,1 @@
+package at.srfg.iot.common.datamodel.asset.aas.security;

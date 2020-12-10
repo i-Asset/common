@@ -1,6 +1,6 @@
 package at.srfg.iot.common.registryconnector;
 
-import at.srfg.iot.provider.IAssetProvider;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 
 public interface AssetComponent {
 //	default AssetComponent create(int port) {

@@ -13,17 +13,17 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
-import at.srfg.iot.aas.basic.AssetAdministrationShell;
-import at.srfg.iot.aas.basic.directory.AssetAdministrationShellDescriptor;
-import at.srfg.iot.aas.common.Identifiable;
-import at.srfg.iot.aas.common.Referable;
-import at.srfg.iot.aas.common.SubmodelElementContainer;
-import at.srfg.iot.aas.common.referencing.Reference;
-import at.srfg.iot.aas.modeling.submodelelement.Operation;
-import at.srfg.iot.aas.modeling.submodelelement.Property;
-import at.srfg.iot.api.ISubmodelElement;
-import at.srfg.iot.connectivity.IAssetConnection;
-import at.srfg.iot.provider.IAssetProvider;
+import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
+import at.srfg.iot.common.datamodel.asset.aas.basic.directory.AssetAdministrationShellDescriptor;
+import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
+import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
+import at.srfg.iot.common.datamodel.asset.aas.common.SubmodelElementContainer;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Operation;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
+import at.srfg.iot.common.datamodel.asset.api.ISubmodelElement;
+import at.srfg.iot.common.datamodel.asset.connectivity.IAssetConnection;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 
 @Path("")
 public class AssetRestController implements IAssetConnection {

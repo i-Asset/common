@@ -10,10 +10,10 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import at.srfg.iot.aas.common.DirectoryEntry;
-import at.srfg.iot.aas.common.referencing.IdType;
+import at.srfg.iot.common.datamodel.asset.aas.common.DirectoryEntry;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.IdType;
 import at.srfg.iot.common.registryconnector.AssetComponent;
-import at.srfg.iot.provider.IAssetProvider;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 
 public class I40Component implements AssetComponent {
 	private Server server;

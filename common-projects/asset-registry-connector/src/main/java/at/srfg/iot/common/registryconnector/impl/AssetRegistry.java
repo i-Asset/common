@@ -6,26 +6,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import at.srfg.iot.aas.basic.Asset;
-import at.srfg.iot.aas.basic.AssetAdministrationShell;
-import at.srfg.iot.aas.basic.Endpoint;
-import at.srfg.iot.aas.basic.Identifier;
-import at.srfg.iot.aas.basic.Submodel;
-import at.srfg.iot.aas.basic.directory.AssetAdministrationShellDescriptor;
-import at.srfg.iot.aas.basic.directory.SubmodelDescriptor;
-import at.srfg.iot.aas.common.DirectoryEntry;
-import at.srfg.iot.aas.common.HasKind;
-import at.srfg.iot.aas.common.Identifiable;
-import at.srfg.iot.aas.common.Referable;
-import at.srfg.iot.aas.common.referencing.Kind;
-import at.srfg.iot.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.aas.basic.Asset;
+import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
+import at.srfg.iot.common.datamodel.asset.aas.basic.Endpoint;
+import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
+import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
+import at.srfg.iot.common.datamodel.asset.aas.basic.directory.AssetAdministrationShellDescriptor;
+import at.srfg.iot.common.datamodel.asset.aas.basic.directory.SubmodelDescriptor;
+import at.srfg.iot.common.datamodel.asset.aas.common.DirectoryEntry;
+import at.srfg.iot.common.datamodel.asset.aas.common.HasKind;
+import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
+import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 import at.srfg.iot.common.registryconnector.AssetComponent;
-import at.srfg.iot.connectivity.IAssetConnection;
+import at.srfg.iot.common.datamodel.asset.connectivity.IAssetConnection;
 import at.srfg.iot.common.registryconnector.IAssetRegistry;
-import at.srfg.iot.connectivity.move.IAssetDirectory;
-import at.srfg.iot.connectivity.rest.ConsumerFactory;
-import at.srfg.iot.provider.IAssetProvider;
-import at.srfg.iot.provider.impl.AssetModel;
+import at.srfg.iot.common.datamodel.asset.connectivity.move.IAssetDirectory;
+import at.srfg.iot.common.datamodel.asset.connectivity.rest.ConsumerFactory;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
+import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
 /**
  * Component for the interaction with the registry
  * @author dglachs

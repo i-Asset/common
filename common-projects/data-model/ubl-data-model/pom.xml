@@ -169,7 +169,7 @@
 									<goal>java</goal>
 								</goals>
 								<configuration>
-									<mainClass>util.GenerateSourceUtil</mainClass>
+									<mainClass>at.srfg.iot.common.datamodel.ubl.GenerateSourceUtil</mainClass>
 									<arguments>
 										<argument>${project.basedir}/src/main/java/eu/nimble/service/model/ubl</argument>
 									</arguments>

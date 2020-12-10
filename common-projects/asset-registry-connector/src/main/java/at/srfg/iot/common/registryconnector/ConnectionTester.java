@@ -7,22 +7,22 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import at.srfg.iot.aas.basic.AssetAdministrationShell;
-import at.srfg.iot.aas.basic.Identifier;
-import at.srfg.iot.aas.basic.Submodel;
-import at.srfg.iot.aas.common.Referable;
-import at.srfg.iot.aas.common.referencing.Key;
-import at.srfg.iot.aas.common.referencing.KeyElementsEnum;
-import at.srfg.iot.aas.common.referencing.Kind;
-import at.srfg.iot.aas.common.referencing.Reference;
-import at.srfg.iot.aas.common.types.DataTypeEnum;
-import at.srfg.iot.aas.common.types.DirectionEnum;
-import at.srfg.iot.aas.modeling.submodelelement.Operation;
-import at.srfg.iot.aas.modeling.submodelelement.OperationVariable;
-import at.srfg.iot.aas.modeling.submodelelement.Property;
-import at.srfg.iot.aas.modeling.submodelelement.SubmodelElementCollection;
-import at.srfg.iot.provider.IAssetProvider;
-import at.srfg.iot.provider.impl.AssetModel;
+import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
+import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
+import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
+import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.aas.common.types.DataTypeEnum;
+import at.srfg.iot.common.datamodel.asset.aas.common.types.DirectionEnum;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Operation;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.OperationVariable;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.SubmodelElementCollection;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
+import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
 
 public class ConnectionTester {
 

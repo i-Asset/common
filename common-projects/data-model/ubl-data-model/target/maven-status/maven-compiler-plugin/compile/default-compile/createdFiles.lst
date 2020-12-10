@@ -6,6 +6,7 @@ eu\nimble\service\model\ubl\commonaggregatecomponents\CertificateType.class
 eu\nimble\service\model\ubl\iteminformationresponse\ItemInformationResponseType.class
 eu\nimble\service\model\ubl\ppapresponse\PpapResponseType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\EventType.class
+at\srfg\iot\common\datamodel\ubl\DiffUtil.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\RequestForQuotationLineType.class
 eu\nimble\service\model\ubl\commonbasiccomponents\TextType.class
 eu\nimble\service\model\ubl\requestforquotation\RequestForQuotationType.class
@@ -14,7 +15,6 @@ eu\nimble\service\model\ubl\ppaprequest\PpapRequestType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\DespatchLineType.class
 eu\nimble\service\model\ubl\invoice\InvoiceType.class
 eu\nimble\service\model\ubl\receiptadvice\ReceiptAdviceType.class
-util\DiffUtil.class
 eu\nimble\service\model\ubl\ppaprequest\PpapRequestTypeDocumentTypeItem.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\CatalogueLineType.class
 eu\nimble\service\model\ubl\despatchadvice\DespatchAdviceTypeNoteItem.class
@@ -25,6 +25,7 @@ eu\nimble\service\model\ubl\commonaggregatecomponents\PaymentTermsTypePaymentCon
 eu\nimble\service\model\ubl\commonaggregatecomponents\DigitalAgreementTermsType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\SalesItemType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\CapabilityType.class
+at\srfg\iot\common\datamodel\ubl\GenerateSourceUtil.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\package-info.class
 eu\nimble\service\model\ubl\requestforquotation\package-info.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\ReceiptLineType.class
@@ -35,7 +36,6 @@ eu\nimble\service\model\ubl\commonaggregatecomponents\DataMonitoringClauseTypeMo
 eu\nimble\service\model\ubl\commonaggregatecomponents\ClassificationSchemeTypeNoteItem.class
 eu\nimble\service\model\ubl\orderresponsesimple\OrderResponseSimpleTypeNoteItem.class
 eu\nimble\service\model\ubl\requestforquotation\RequestForQuotationTypeNoteItem.class
-util\GenerateSourceUtil.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\AddressType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\ItemPropertyType.class
 eu\nimble\service\model\ubl\transportexecutionplanrequest\package-info.class
@@ -63,7 +63,6 @@ eu\nimble\service\model\ubl\commonaggregatecomponents\AttachmentType.class
 eu\nimble\service\model\ubl\despatchadvice\package-info.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\ItemIdentificationType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\PaymentTermsType.class
-util\IDocumentCodeGeneratorUtil.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\LocationType.class
 eu\nimble\service\model\ubl\catalogue\package-info.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\ClassificationSchemeType.class
@@ -83,12 +82,11 @@ eu\nimble\service\model\ubl\quotation\QuotationTypeNoteItem.class
 eu\nimble\service\model\ubl\orderresponsesimple\OrderResponseSimpleType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\LCPAInputType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\ContractType.class
-util\DataModelUtility.class
 eu\nimble\service\model\ubl\orderresponsesimple\ObjectFactory.class
 eu\nimble\service\model\ubl\iteminformationrequest\package-info.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\ItemType.class
+at\srfg\iot\common\datamodel\ubl\DataModelUtility.class
 eu\nimble\service\model\ubl\requestforquotation\ObjectFactory.class
-util\GenerateSourceUtil$FileUpdate.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\TransportMeansType.class
 eu\nimble\service\model\ubl\transportexecutionplan\package-info.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\ShipmentType.class
@@ -100,6 +98,7 @@ eu\nimble\service\model\ubl\commonaggregatecomponents\ItemLocationQuantityType.c
 eu\nimble\service\model\ubl\commonaggregatecomponents\DimensionType.class
 eu\nimble\service\model\ubl\transportexecutionplan\ObjectFactory.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\CountryType.class
+at\srfg\iot\common\datamodel\ubl\IDocumentCodeGeneratorUtil.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\LifeCyclePerformanceAssessmentDetailsType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\DocumentReferenceType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\ItemPropertyTypeValueDecimalItem.class
@@ -149,6 +148,7 @@ eu\nimble\service\model\ubl\commonaggregatecomponents\ContactType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\PartyIdentificationType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\OrderReferenceType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\LineReferenceType.class
+at\srfg\iot\common\datamodel\ubl\GenerateSourceUtil$FileUpdate.class
 eu\nimble\service\model\ubl\quotation\QuotationType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\PaymentMeansType.class
 eu\nimble\service\model\ubl\commonaggregatecomponents\PackageType.class
