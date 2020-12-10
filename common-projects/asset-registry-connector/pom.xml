@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>at.srfg.iot.iasset</groupId>
+  <groupId>at.srfg.iot.common</groupId>
   <artifactId>asset-registry-connector</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Connectivity for i-Asset Registry</name>
@@ -65,7 +65,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>at.srfg.iot.iasset</groupId>
+			<groupId>at.srfg.iot.common</groupId>
 			<artifactId>asset-data-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

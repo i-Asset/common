@@ -5,7 +5,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>at.srfg.common</groupId>
+	<groupId>at.srfg.iot.common</groupId>
 	<artifactId>solr-model</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>solr-model</name>

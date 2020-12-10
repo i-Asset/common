@@ -15,7 +15,7 @@
 
 	</properties>
 	
-  <groupId>at.srfg.iot.iasset</groupId>
+  <groupId>at.srfg.iot.common</groupId>
   <artifactId>indexing-data-model</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 	<name>Indexing Data Model for I-Asset</name>
@@ -32,7 +32,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>at.srfg.common</groupId>
+			<groupId>at.srfg.iot.common</groupId>
 			<artifactId>solr-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

@@ -8,7 +8,7 @@
 		<version>1.4.1.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>at.srfg.iot.iasset</groupId>
+	<groupId>at.srfg.iot.common</groupId>
 	<artifactId>service-discovery</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>EUREKA Service Discovery</name>

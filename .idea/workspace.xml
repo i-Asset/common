@@ -1,44 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fe976bd2-aa95-41e2-8789-669f5dac38e4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/api/EClassService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/ClassificationClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/ClassificationClassProperty.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/ClassificationClassPropertyPK.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/ClassificationClassPropertyValue.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/ClassificationClassPropertyValuePK.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/KeywordSynonym.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/KeywordSynonymPK.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/PropertyDefinition.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/PropertyUnit.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/PropertyValue.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/eclass-data-model/src/main/java/at/srfg/iot/eclass/model/package-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/indexing-data-model/src/main/java/at/srfg/indexing/asset/AssetType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/indexing-data-model/src/main/java/at/srfg/indexing/asset/IAssetType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/indexing-data-model/src/main/java/at/srfg/indexing/party/IParty.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/indexing-data-model/src/main/java/at/srfg/indexing/party/PartyType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/indexing-data-model/src/main/java/at/srfg/indexing/party/package-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-model/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest-client/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest-client/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest-client/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest-client/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest-client/src/main/java/at/srfg/iot/feign/IndexingService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest-client/src/main/java/at/srfg/iot/feign/SemanticLookupService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serivce-discovery/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serivce-discovery/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serivce-discovery/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serivce-discovery/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serivce-discovery/src/main/java/at/srfg/iot/iasset/ServiceDiscoveryApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serivce-discovery/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serivce-discovery/src/test/java/at/srfg/iot/iasset/ServiceDiscoveryApplicationTests.java" beforeDir="false" />
-    </list>
+    <list default="true" id="fe976bd2-aa95-41e2-8789-669f5dac38e4" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/data-model/semantic-lookup-data-model/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/rest-client/target/" />
@@ -80,7 +43,7 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
@@ -111,6 +74,76 @@
               <item name="common" type="462c0819:PsiDirectoryNode" />
               <item name="common-projects" type="462c0819:PsiDirectoryNode" />
               <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
+              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
+              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
+              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
+              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="at" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
+              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="at" type="462c0819:PsiDirectoryNode" />
+              <item name="srfg" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
+              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="at" type="462c0819:PsiDirectoryNode" />
+              <item name="srfg" type="462c0819:PsiDirectoryNode" />
+              <item name="iot" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
+              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="at" type="462c0819:PsiDirectoryNode" />
+              <item name="srfg" type="462c0819:PsiDirectoryNode" />
+              <item name="iot" type="462c0819:PsiDirectoryNode" />
+              <item name="connectivity" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -178,9 +211,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1186" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1186" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1705757" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24733475" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />

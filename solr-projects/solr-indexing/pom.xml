@@ -9,7 +9,7 @@
 		<version>2.1.1.RELEASE</version>
 		<!-- <relativePath/> lookup parent from repository -->
 	</parent>
-	<groupId>at.srfg.services</groupId>
+	<groupId>at.srfg.iot.common</groupId>
 	<artifactId>solr-indexing</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>solr-indexing</name>
@@ -135,7 +135,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>at.srfg.common</groupId>
+			<groupId>at.srfg.iot.common</groupId>
 			<artifactId>solr-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

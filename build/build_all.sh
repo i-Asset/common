@@ -41,12 +41,12 @@ mvn clean install -Dmaven.test.skip=true # build base pom directory
 cd ./asset-registry-connector
 mvn clean install -Dmaven.test.skip=true # build asset registry connector
 
+cd ../utility
+mvn clean install -Dmaven.test.skip=true # build utility
+
 cd ../nimble-rest-client
 mvn clean install -Dmaven.test.skip=true # Nimble compatible rest client
 
 cd ../serivce-discovery
 mvn clean install -Dmaven.test.skip=true # build service discovery
-
-cd ../utility
-mvn clean install -Dmaven.test.skip=true # build utility
 cd "$CWD"

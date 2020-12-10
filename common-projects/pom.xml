@@ -11,8 +11,8 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>at.srfg.iot.iasset</groupId>
-	<artifactId>parent</artifactId>
+	<groupId>at.srfg.iot.common</groupId>
+	<artifactId>common-root</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 

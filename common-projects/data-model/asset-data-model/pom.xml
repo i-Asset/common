@@ -8,7 +8,7 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>at.srfg.iot.iasset</groupId>
+	<groupId>at.srfg.iot.common</groupId>
 	<artifactId>asset-data-model</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>iAsset Data Model (Meta-Model)</name>
@@ -22,7 +22,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>at.srfg.iot.iasset</groupId>
+			<groupId>at.srfg.iot.common</groupId>
 			<artifactId>semantic-lookup-data-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>	
