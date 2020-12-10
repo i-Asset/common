@@ -1,6 +1,7 @@
 # common
 
-common modules to be re-used by other services, packages
+common projects to be re-used by other micro-services, packages, projects...
+
 the project consists of the "SOLR-model", "SOLR-indexing", multiple "data-model"-projects and "common"-projects
 
 ## How To build
