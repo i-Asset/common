@@ -1,7 +1,7 @@
-C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\connectivity\impl\AssetRegistry.java
-C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\connectivity\impl\AssetContext.java
-C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\connectivity\impl\rest\AssetRestController.java
-C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\connectivity\ConnectionTester.java
-C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\connectivity\AssetComponent.java
-C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\connectivity\IAssetRegistry.java
-C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\connectivity\impl\I40Component.java
+C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\common\registryconnector\ConnectionTester.java
+C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\common\registryconnector\AssetComponent.java
+C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\common\registryconnector\impl\I40Component.java
+C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\common\registryconnector\IAssetRegistry.java
+C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\common\registryconnector\impl\AssetRegistry.java
+C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\common\registryconnector\impl\AssetContext.java
+C:\Users\mschmoig\source\repos\iAsset\common\common-projects\asset-registry-connector\src\main\java\at\srfg\iot\common\registryconnector\impl\rest\AssetRestController.java
