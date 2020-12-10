@@ -1,0 +1,1 @@
+package at.srfg.iot.common.solr.model.model.party;

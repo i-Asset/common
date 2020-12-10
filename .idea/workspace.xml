@@ -1,7 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fe976bd2-aa95-41e2-8789-669f5dac38e4" name="Default Changelist" comment="" />
+    <list default="true" id="fe976bd2-aa95-41e2-8789-669f5dac38e4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/asset-registry-connector/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/common-projects/asset-registry-connector/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/AssetTypeIndexing.java" beforeDir="false" afterPath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/AssetTypeIndexing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/PartyTypeIndexing.java" beforeDir="false" afterPath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/PartyTypeIndexing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/asset/AssetType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/asset/AssetType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/asset/IAssetType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/asset/IAssetType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/asset/ISubmodelAware.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/asset/ISubmodelAware.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/asset/ISubmodelType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/asset/ISubmodelType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/asset/SubmodelType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/asset/SubmodelType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/party/IParty.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/party/IParty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/party/IPartyTypeAware.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/party/IPartyTypeAware.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/party/PartyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/party/PartyType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/party/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/party/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/playground/ISensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/playground/ISensor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/playground/ISensorAware.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/playground/ISensorAware.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/playground/ISensorPlatform.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/playground/ISensorPlatform.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/playground/Sensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/playground/Sensor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/model/playground/SensorPlatform.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/playground/SensorPlatform.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/playground/ISensorIndexingAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/playground/ISensorIndexingAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/playground/ISensorPlatformIndexingAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/common-projects/data-model/indexing-data-model/src/main/java/at/srfg/indexing/playground/ISensorPlatformIndexingAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/data-model/ubl-data-model/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/common-projects/data-model/ubl-data-model/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/nimble-rest-client/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/common-projects/nimble-rest-client/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-projects/utility/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/common-projects/utility/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/app/IndexingApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/app/IndexingApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/app/config/SolrIndexingContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/app/config/SolrIndexingContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/app/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/app/config/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/app/controller/BasicIndexingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/app/controller/BasicIndexingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/app/controller/OntologyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/app/controller/OntologyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/controller/BasicIndexingAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/controller/BasicIndexingAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/controller/OpenIdConnectUserDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/controller/OpenIdConnectUserDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/controller/SearchEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/controller/SearchEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/controller/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/controller/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/ClassService.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/ClassService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/CodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/CodeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/IdentityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/IdentityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/OntologyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/OntologyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/PropertyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/PropertyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/SolrService.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/SolrService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/config/MvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/config/MvcConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/config/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/config/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/CodeTypeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/CodeTypeEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/CodeTypeEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/CodeTypeEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/CustomPropertyAwareEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/CustomPropertyAwareEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/CustomPropertyAwareEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/CustomPropertyAwareEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/ParentChildAwareEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/ParentChildAwareEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/ParentChildAwareEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/ParentChildAwareEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/PropertyAwareEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/PropertyAwareEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/PropertyAwareEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/PropertyAwareEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/PropertyMapEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/PropertyMapEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/PropertyMapEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/PropertyMapEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/RemoveCustomPropertyAwareEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/RemoveCustomPropertyAwareEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/RemoveParentChildAwareEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/RemoveParentChildAwareEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/RemovePropertyAwareEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/RemovePropertyAwareEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/event/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/event/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/impl/ClassServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/impl/ClassServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/impl/CodeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/impl/CodeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/impl/OntologyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/impl/OntologyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/impl/PropertyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/impl/PropertyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/impl/SolrServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/impl/SolrServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/impl/onto/OntologyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/impl/onto/OntologyType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/impl/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/impl/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/repository/ClassRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/repository/ClassRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/repository/CodedRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/repository/CodedRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/repository/PropertyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/repository/PropertyRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/service/repository/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/service/repository/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/HttpSolrClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/HttpSolrClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/SolrContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/SolrContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/query/QueryHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/query/QueryHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/query/SolrJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/query/SolrJoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/schema/SimpleMappingContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/schema/SimpleMappingContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/schema/SolrCollectionOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/schema/SolrCollectionOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/schema/SolrMappingEventPublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/schema/SolrMappingEventPublisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/schema/SolrPersistentEntitySchemaCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/schema/SolrPersistentEntitySchemaCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/schema/SolrSchemaOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/schema/SolrSchemaOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/schema/SolrSchemaResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/schema/SolrSchemaResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/schema/SolrSchemaWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/schema/SolrSchemaWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/indexing/core/solr/schema/SolrTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/core/solr/schema/SolrTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/src/test/java/at/srfg/indexing/app/IndexingAppTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/src/test/java/at/srfg/iot/common/solr/indexing/test/IndexingAppTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-indexing/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-indexing/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/ClassTypeIndexing.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/ClassTypeIndexing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/CodedTypeIndexing.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/CodedTypeIndexing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/ConceptIndexing.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/ConceptIndexing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/PropertyTypeIndexing.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/PropertyTypeIndexing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/ClassType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/ClassType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/CodedType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/CodedType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/Concept.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/Concept.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/DynamicName.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/DynamicName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/IClassType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/IClassType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/ICodedType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/ICodedType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/IConcept.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/IConcept.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/IConceptTypeAware.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/IConceptTypeAware.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/ICustomPropertyAware.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/ICustomPropertyAware.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/IMultiLingualPropertyAware.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/IMultiLingualPropertyAware.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/IPropertyAware.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/IPropertyAware.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/IPropertyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/IPropertyType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/PropertyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/PropertyType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/ValueQualifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/ValueQualifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/common/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/common/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/solr/FacetResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/solr/FacetResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/solr/IndexField.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/solr/IndexField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/solr/Search.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/solr/Search.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/solr/SearchResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/solr/SearchResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/solr/annotation/SolrJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/solr/annotation/SolrJoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/solr/annotation/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/solr/annotation/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/indexing/model/solr/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/model/solr/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/eu/nimble/service/model/solr/item/ICatalogueItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/ICatalogueItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/eu/nimble/service/model/solr/item/ItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/ItemType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/src/test/java/org/solr/data/model/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/src/test/java/at/srfg/iot/common/solr/model/test/AppTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solr-projects/solr-model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/solr-projects/solr-model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/data-model/semantic-lookup-data-model/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/rest-client/target/" />
@@ -21,7 +136,68 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/ClassTypeIndexing.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="33" column="17" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/CodedTypeIndexing.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="32" column="17" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/ConceptIndexing.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/PropertyTypeIndexing.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="410">
+              <caret line="100" selection-start-line="100" selection-end-line="100" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/solr-projects/solr-indexing/src/test/java/at/srfg/iot/common/solr/indexing/test/IndexingAppTests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="335">
+              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/solr-projects/solr-model/src/test/java/at/srfg/iot/common/solr/model/test/AppTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -34,6 +210,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/solr-projects/solr-indexing/src/main/java/at/srfg/iot/common/solr/indexing/app/IndexingAppTests.java" />
+        <option value="$PROJECT_DIR$/solr-projects/solr-indexing/src/test/java/at/srfg/indexing/IndexingAppTests.java" />
+      </list>
+    </option>
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -62,88 +246,73 @@
           <expand>
             <path>
               <item name="common" type="b2602c69:ProjectViewProjectNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="solr-indexing" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="common" type="b2602c69:ProjectViewProjectNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="common" type="b2602c69:ProjectViewProjectNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
-              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="common" type="b2602c69:ProjectViewProjectNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
-              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="solr-indexing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="common" type="b2602c69:ProjectViewProjectNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
-              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="solr-indexing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="common" type="b2602c69:ProjectViewProjectNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
-              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="solr-indexing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="common" type="b2602c69:ProjectViewProjectNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
-              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="solr-indexing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="at" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="common" type="b2602c69:ProjectViewProjectNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
-              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="solr-indexing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="at" type="462c0819:PsiDirectoryNode" />
-              <item name="srfg" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="common" type="b2602c69:ProjectViewProjectNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
-              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="at" type="462c0819:PsiDirectoryNode" />
-              <item name="srfg" type="462c0819:PsiDirectoryNode" />
-              <item name="iot" type="462c0819:PsiDirectoryNode" />
+              <item name="solr-model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="common" type="b2602c69:ProjectViewProjectNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="common-projects" type="462c0819:PsiDirectoryNode" />
-              <item name="asset-registry-connector" type="462c0819:PsiDirectoryNode" />
+              <item name="solr-model" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="solr-model" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="solr-model" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="at" type="462c0819:PsiDirectoryNode" />
-              <item name="srfg" type="462c0819:PsiDirectoryNode" />
-              <item name="iot" type="462c0819:PsiDirectoryNode" />
-              <item name="connectivity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="solr-model" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="b2602c69:ProjectViewProjectNode" />
+              <item name="solr-model" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -152,8 +321,16 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1607346119050" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1607599529193" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.23793103" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mschmoig\source\repos\iAsset\common\solr-projects\solr-model\src\main\java\at\srfg\iot\common\solr\model" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -211,9 +388,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1186" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1186" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24733475" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -224,7 +401,7 @@
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="2" />
       <window_info anchor="bottom" id="Message" order="3" />
-      <window_info anchor="bottom" id="Find" order="4" />
+      <window_info anchor="bottom" id="Find" order="4" weight="0.32953465" />
       <window_info anchor="bottom" id="Run" order="5" weight="0.24406458" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.48243114" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
@@ -238,7 +415,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="5" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="6" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
-      <window_info anchor="right" id="Version Control" order="8" weight="0.32942432" />
+      <window_info active="true" anchor="right" id="Version Control" order="8" visible="true" weight="0.6641791" />
     </layout>
   </component>
   <component name="XDebuggerManager">
@@ -281,9 +458,119 @@
     <entry file="file://$PROJECT_DIR$/asset-registry-connector/src/main/java/at/srfg/iot/connectivity/ConnectionTester.java" />
     <entry file="file://$PROJECT_DIR$/data-model/asset-data-model/src/main/java/at/srfg/iot/connectivity/rest/ResourceInvocationHandler.java" />
     <entry file="file://$PROJECT_DIR$/asset-registry-connector/src/main/java/at/srfg/iot/connectivity/impl/AssetRegistry.java" />
+    <entry file="file://$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/ClassTypeIndexing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="33" column="17" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/CodedTypeIndexing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="32" column="17" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/ConceptIndexing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solr-projects/solr-model/src/main/java/at/srfg/iot/common/solr/model/PropertyTypeIndexing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="100" selection-start-line="100" selection-end-line="100" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solr-projects/solr-indexing/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solr-projects/solr-model/src/test/java/at/srfg/iot/common/solr/model/test/AppTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solr-projects/solr-indexing/src/test/java/at/srfg/iot/common/solr/indexing/test/IndexingAppTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>solr-indexing</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.23793103" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
       <state key="ProjectJDKs.UI">
         <settings>
           <last-edited>1.8</last-edited>
@@ -291,6 +578,18 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: antlr:antlr:2.7.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.23793103" />
               </list>
             </option>
           </splitter-proportions>
