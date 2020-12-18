@@ -12,10 +12,21 @@ import at.srfg.iot.common.datamodel.asset.aas.basic.directory.AssetAdministratio
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.SubmodelDescriptor;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import at.srfg.iot.common.registryconnector.impl.AssetRegistry;
+import at.srfg.iot.common.registryconnector.impl.I40Component;
 public interface IAssetRegistry extends AssetComponent {
-	static IAssetRegistry connectWithRegistry(String url) {
+	static IAssetRegistry componentWithRegistry(String url) {
 		return new AssetRegistry(url);
 	}
+	default IAssetRegistry componentAtPort(int port) {
+		setAssetComponent(new I40Component(port, "/"));
+		return this;
+	}
+	default IAssetRegistry componentAtPortWithContextPath(int port, String contextPath) {
+		setAssetComponent(new I40Component(port, contextPath));
+		return this;
+	}
+	void setAssetComponent(AssetComponent component);
+
 	/**
 	 * Connect with a remote {@link IAssetComponent}.
 	 * @param identifier

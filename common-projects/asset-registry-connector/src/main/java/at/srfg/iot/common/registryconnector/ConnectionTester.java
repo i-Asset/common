@@ -29,7 +29,8 @@ public class ConnectionTester {
 	public static void main(String[] args) {
 
 		// component.registerWith(registry);
-		IAssetRegistry registry = IAssetRegistry.connectWithRegistry("http://localhost:8085");
+		IAssetRegistry registry = IAssetRegistry.componentWithRegistry("http://localhost:8085")
+												.componentAtPort(5000);
 		
 		
 		/**

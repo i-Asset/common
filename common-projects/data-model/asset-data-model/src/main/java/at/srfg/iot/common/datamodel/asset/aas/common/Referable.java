@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -83,7 +85,7 @@ public interface Referable {
 	 * element in the context of the {@link Referable} element.
 	 * @param idShort
 	 */
-	public void setIdShort(String idShort);
+	public void setIdShort(@NotNull String idShort);
 	/** 
 	 * Getter for the element's category
 	 * @return

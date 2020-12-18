@@ -30,7 +30,8 @@ public class SubmodelDescriptor extends IdentifiableElement implements Directory
 	}
 	public SubmodelDescriptor(Submodel forModel) {
 		setIdShort(forModel.getIdShort());
-		setId(forModel.getIdentification().getId());
+		// TODO: deal with idShort!!
+		setIdentification(forModel.getIdentification());
 		setDescription(forModel.getDescription());
 		setEndpoints(forModel.getEndpoints());
 		setSemanticId(forModel.getSemanticId());

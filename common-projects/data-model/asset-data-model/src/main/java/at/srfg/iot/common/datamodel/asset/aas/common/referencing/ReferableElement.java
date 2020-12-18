@@ -30,6 +30,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -110,8 +111,8 @@ public abstract class ReferableElement implements Referable, Serializable {
 	/**
 	 * Local Identifier - see {@link Referable#getIdShort()} 
 	 */
-	@Column(name="id_short", length = 100)
-	private String idShort;
+	@Column(name="id_short", length = 100, nullable = false)
+	private String idShort = "";
 	/**
 	 * Element storing the creation date of the element
 	 */
@@ -174,7 +175,7 @@ public abstract class ReferableElement implements Referable, Serializable {
 	public String getIdShort() {
 		return idShort;
 	}
-	public void setIdShort(String idShort) {
+	public void setIdShort(@NotNull String idShort) {
 		this.idShort = idShort;
 	}
 	public LocalDateTime getCreated() {

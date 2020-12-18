@@ -122,9 +122,6 @@ public class Submodel extends IdentifiableElement implements Referable, Identifi
 		setParentElement(shell);
 		shell.addChild(this);
 		setIdentification(identifier);
-		if ( identifier.getIdType().equals(IdType.IdShort)) {
-			setIdShort(identifier.getId());
-		}
 	}
 	public Submodel(String idShort, AssetAdministrationShell shell) {
 		this(new Identifier(IdType.IdShort, idShort), shell);

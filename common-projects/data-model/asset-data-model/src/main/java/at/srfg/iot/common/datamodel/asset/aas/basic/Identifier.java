@@ -12,10 +12,10 @@ import at.srfg.iot.common.datamodel.asset.aas.common.referencing.IdType;
  */
 @Embeddable
 public class Identifier {
-	@Column(name="identifier")
+	@Column(name="identifier", nullable = false)
 	private String id;
 
-	@Column(name="identifier_type")
+	@Column(name="identifier_type", nullable = false)
 	private IdType idType;
 
 	public Identifier() {

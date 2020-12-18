@@ -20,13 +20,13 @@ import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
-import at.srfg.iot.common.registryconnector.AssetComponent;
 import at.srfg.iot.common.datamodel.asset.connectivity.IAssetConnection;
-import at.srfg.iot.common.registryconnector.IAssetRegistry;
 import at.srfg.iot.common.datamodel.asset.connectivity.move.IAssetDirectory;
 import at.srfg.iot.common.datamodel.asset.connectivity.rest.ConsumerFactory;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
+import at.srfg.iot.common.registryconnector.AssetComponent;
+import at.srfg.iot.common.registryconnector.IAssetRegistry;
 /**
  * Component for the interaction with the registry
  * @author dglachs
@@ -44,27 +44,29 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 	 * URI of the iAsset Directory
 	 */
 	final String directoryUrl;
-	private I40Component server;
+//	private I40Component server;
+	
+	private AssetComponent component;
 	
 	public void start() {
-		if ( server == null ) {
-			server = new I40Component(5000, "/");
+		if ( component == null ) {
+			component = new I40Component(5000, "/");
 		}
-		server.start();
+		component.start();
 		
 		
 	}
 	public void stop() {
-		if ( server != null ) {
-			server.stop();
+		if ( component != null ) {
+			component.stop();
 		}
 	}
 	
 	public void serve(IAssetProvider provider, String alias) {
-		if (server == null) {
-			server = new I40Component(5000, "/");
+		if (component == null) {
+			component = new I40Component(5000, "/");
 		}
-		server.serve(provider, alias);
+		component.serve(provider, alias);
 	}
 	
 	public AssetRegistry(String directoryUrl) {
@@ -276,6 +278,11 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 	@Override
 	public Object invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters) {
 		return repository.invokeOperation(aasIdentifier.getId(), path, parameters);
+	}
+	@Override
+	public void setAssetComponent(AssetComponent component) {
+		this.component = component;
+		
 	}
 
 }
