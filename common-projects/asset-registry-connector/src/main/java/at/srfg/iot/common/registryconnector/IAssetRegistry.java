@@ -2,6 +2,7 @@ package at.srfg.iot.common.registryconnector;
 
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
@@ -9,8 +10,8 @@ import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.AssetAdministrationShellDescriptor;
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.SubmodelDescriptor;
-import at.srfg.iot.common.registryconnector.impl.AssetRegistry;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
+import at.srfg.iot.common.registryconnector.impl.AssetRegistry;
 public interface IAssetRegistry extends AssetComponent {
 	static IAssetRegistry connectWithRegistry(String url) {
 		return new AssetRegistry(url);
@@ -75,5 +76,14 @@ public interface IAssetRegistry extends AssetComponent {
 	 * @return
 	 */
 	public Optional<SubmodelDescriptor> lookupSubmodel(Identifier aasIdentifier, Identifier submodelIdentifier);
+	/**
+	 * Invoke an operation at the (device) asset with the given Identifier - the repository must resolve the correct endpoint 
+	 * 
+	 * @param aasIdentifier
+	 * @param path
+	 * @param parameters
+	 * @return
+	 */
+	public Object invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters);
 	
 }

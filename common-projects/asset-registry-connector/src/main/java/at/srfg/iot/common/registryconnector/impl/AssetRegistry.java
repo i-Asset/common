@@ -4,6 +4,7 @@ package at.srfg.iot.common.registryconnector.impl;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import at.srfg.iot.common.datamodel.asset.aas.basic.Asset;
@@ -271,6 +272,10 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 			
 		}
 		return null;
+	}
+	@Override
+	public Object invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters) {
+		return repository.invokeOperation(aasIdentifier.getId(), path, parameters);
 	}
 
 }

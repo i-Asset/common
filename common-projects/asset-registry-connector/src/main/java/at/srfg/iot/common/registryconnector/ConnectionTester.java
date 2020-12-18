@@ -92,13 +92,25 @@ public class ConnectionTester {
 		 * 
 		 */
 		registry.register(beltInstance);
-		// delete the shell from the repository
-
+		
+		// create the parameter map, the keys consist of the idShort's of the OperationVariable (inputVariable)
+		Map<String,Object> params = new HashMap<String, Object>();
+		// operation specifies a "spee" input parameter -> seee localhost:5000/belt/element/operations/setSpeed
+		params.put("speed", 17.3d);
+		// send a post request to the registry, check the stored endpoint and delegate the request to the device
+		registry.invokeOperation(
+				// asset model has shell as root
+				beltInstance.getRoot().getIdentification(),
+				// path to the operation 
+				"operations/setSpeed",
+				// 
+				params);
 
 		/**
 		 * Deactivate the service endpoint
 		 */
 		registry.stop();
+		
 	}
 	
 	
