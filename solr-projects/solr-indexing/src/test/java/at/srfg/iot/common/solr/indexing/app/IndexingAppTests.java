@@ -1,4 +1,4 @@
-package at.srfg.iot.common.solr.indexing.test;
+package at.srfg.iot.common.solr.indexing.app;
 
 import static org.junit.Assert.assertTrue;
 
@@ -54,7 +54,7 @@ public class IndexingAppTests {
 		Optional<PropertyType> read = propertyService.get(p.getUri());
 		PropertyType p2 = read.get();
 		assertTrue(read.isPresent());
-		assertTrue(p2.getPropertyUsage().containsValue(c.getUri()));
+		assertTrue(p2.getPropertyUsage(c.getCollection()).contains(c.getUri()));
 		// 
 		classService.remove(c.getUri());
 		try {
@@ -67,7 +67,7 @@ public class IndexingAppTests {
 		Optional<PropertyType> read3 = propertyService.get(p.getUri());
 		PropertyType p3 = read3.get();
 		assertTrue(read.isPresent());
-		assertTrue(!p3.getPropertyUsage().containsValue(c.getUri()));
+		assertTrue(!p3.getPropertyUsage(c.getCollection()).contains(c.getUri()));
 		//
 		propertyService.remove(p.getUri());
 	}
