@@ -5,12 +5,12 @@ spring:
     name: indexing-service
   cloud:
     config:
-      enabled: ${CONFIG_SERVER_ENABLED:true}
+      enabled: ${CONFIG_SERVER_ENABLED:false}
       uri: ${CONFIG_SERVER_URI:http://localhost:8888}
       failFast: ${CONFIG_SERVER_FAILFAST:false}
     service-registry:
       auto-registration:
-        enabled: ${DISCOVERY_ENABLED:true}
+        enabled: ${DISCOVERY_ENABLED:false}
         fail-fast: ${DISCOVERY_FAILFAST:false}
     discovery:
       # by disabling the service discovery the application/service can be started in "standalone mode".
