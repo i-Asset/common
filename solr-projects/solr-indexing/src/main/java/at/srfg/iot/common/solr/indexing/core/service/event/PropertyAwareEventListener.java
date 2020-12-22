@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.jena.vocabulary.XSD;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +75,8 @@ public class PropertyAwareEventListener {
 		IPropertyAware item = event.getEventObject();
 		if (item.getPropertyMap() != null && !item.getPropertyMap().isEmpty()) {
 			// find all properties based on idxField name
-			List<PropertyType> existing = propRepo.findByIdIn(item.getPropertyMap().keySet());
+			
+			List<PropertyType> existing = propRepo.findByIdIn(escapedKey(item.getPropertyMap().keySet()));
 			// keep a map of properties to change
 			Map<String, PropertyType> changed = new HashMap<String, PropertyType>();
 
@@ -190,5 +194,15 @@ public class PropertyAwareEventListener {
 			}
 		}
 		return changeDetected;
+	}
+	private Set<String> escapedKey(Set<String> idSet) {
+		return idSet.stream().map(new Function<String, String>() {
+
+			@Override
+			public String apply(String t) {
+				return String.format("\"%s\"", t);
+			}
+		})
+		.collect(Collectors.toSet());
 	}
 }

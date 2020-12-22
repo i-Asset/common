@@ -32,77 +32,83 @@ public class ParentChildAwareEventListener {
 		ClassType item = event.getEventObject();
 
 		Collection<String> parents = item.getParents();
-		// handle the parents
-		parents.forEach(new Consumer<String>() {
-
-			@Override
-			public void accept(String t) {
-				Optional<ClassType> classType = classRepo.findById(t);
-				if (classType.isPresent()) {
-					ClassType pt = classType.get();
-					if (pt.getChildren().contains(item.getUri())) {
-						pt.removeChild(item.getUri());
-						pt.removeAllChild(item.getUri());
-						classRepo.save(pt);
+		if ( parents!=null && ! parents.isEmpty()) {
+			// handle the parents
+			parents.forEach(new Consumer<String>() {
+				
+				@Override
+				public void accept(String t) {
+					Optional<ClassType> classType = classRepo.findById(t);
+					if (classType.isPresent()) {
+						ClassType pt = classType.get();
+						if (pt.getChildren().contains(item.getUri())) {
+							pt.removeChild(item.getUri());
+							pt.removeAllChild(item.getUri());
+							classRepo.save(pt);
+						}
 					}
 				}
-			}
-		});
-		Collection<String> allParents = item.getAllParents();
-		// no need to process them as well
-		allParents.removeAll(parents);
-		// handle the all parents
-		allParents.forEach(new Consumer<String>() {
-
-			@Override
-			public void accept(String t) {
-				Optional<ClassType> classType = classRepo.findById(t);
-				if (classType.isPresent()) {
-					ClassType pt = classType.get();
-					if (pt.getAllChildren().contains(item.getUri())) {
-						pt.removeAllChild(item.getUri());
-						classRepo.save(pt);
+			});
+			Collection<String> allParents = item.getAllParents();
+			// no need to process them as well
+			allParents.removeAll(parents);
+			// handle the all parents
+			allParents.forEach(new Consumer<String>() {
+				
+				@Override
+				public void accept(String t) {
+					Optional<ClassType> classType = classRepo.findById(t);
+					if (classType.isPresent()) {
+						ClassType pt = classType.get();
+						if (pt.getAllChildren().contains(item.getUri())) {
+							pt.removeAllChild(item.getUri());
+							classRepo.save(pt);
+						}
 					}
 				}
-			}
-		});
+			});
+			
+		}
 		// handle children
 		Collection<String> children = item.getChildren();
-		children.forEach(new Consumer<String>() {
-
-			@Override
-			public void accept(String t) {
-				Optional<ClassType> classType = classRepo.findById(t);
-				if (classType.isPresent()) {
-					ClassType pt = classType.get();
-					if (pt.getParents().contains(item.getUri())) {
-						pt.removeParent(item.getUri());
-						pt.removeAllParent(item.getUri());
-						classRepo.save(pt);
+		if ( children != null && ! children.isEmpty())  {
+			children.forEach(new Consumer<String>() {
+				
+				@Override
+				public void accept(String t) {
+					Optional<ClassType> classType = classRepo.findById(t);
+					if (classType.isPresent()) {
+						ClassType pt = classType.get();
+						if (pt.getParents().contains(item.getUri())) {
+							pt.removeParent(item.getUri());
+							pt.removeAllParent(item.getUri());
+							classRepo.save(pt);
+						}
 					}
 				}
-			}
-		});
-		// obtain all children
-		Collection<String> allChildren = item.getAllChildren();
-		// no need to process direct children again
-		allChildren.removeAll(children);
-		// handle all children
-		allChildren.forEach(new Consumer<String>() {
-
-			@Override
-			public void accept(String t) {
-				Optional<ClassType> classType = classRepo.findById(t);
-				if (classType.isPresent()) {
-					ClassType pt = classType.get();
-					if (pt.getParents().contains(item.getUri())) {
-						pt.removeParent(item.getUri());
-						pt.removeAllParent(item.getUri());
-						classRepo.save(pt);
+			});
+			// obtain all children
+			Collection<String> allChildren = item.getAllChildren();
+			// no need to process direct children again
+			allChildren.removeAll(children);
+			// handle all children
+			allChildren.forEach(new Consumer<String>() {
+				
+				@Override
+				public void accept(String t) {
+					Optional<ClassType> classType = classRepo.findById(t);
+					if (classType.isPresent()) {
+						ClassType pt = classType.get();
+						if (pt.getParents().contains(item.getUri())) {
+							pt.removeParent(item.getUri());
+							pt.removeAllParent(item.getUri());
+							classRepo.save(pt);
+						}
 					}
 				}
-			}
-		});
+			});
+			
+		}
 
 	}
 
@@ -118,36 +124,40 @@ public class ParentChildAwareEventListener {
 
 		Collection<String> parents = item.getParents();
 		// handle the parents
-		parents.forEach(new Consumer<String>() {
-
-			@Override
-			public void accept(String t) {
-				Optional<ClassType> classType = classRepo.findById(t);
-				if (classType.isPresent()) {
-					ClassType pt = classType.get();
-					pt.addChild(item.getUri());
-					pt.addAllChild(item.getUri());
-					classRepo.save(pt);
-					processAllParents(pt, item.getUri());
+		if ( parents != null && parents.isEmpty() ) {
+			parents.forEach(new Consumer<String>() {
+				
+				@Override
+				public void accept(String t) {
+					Optional<ClassType> classType = classRepo.findById(t);
+					if (classType.isPresent()) {
+						ClassType pt = classType.get();
+						pt.addChild(item.getUri());
+						pt.addAllChild(item.getUri());
+						classRepo.save(pt);
+						processAllParents(pt, item.getUri());
+					}
 				}
-			}
-		});
+			});
+		}
 		// handle children
 		Collection<String> children = item.getChildren();
-		children.forEach(new Consumer<String>() {
-
-			@Override
-			public void accept(String t) {
-				Optional<ClassType> classType = classRepo.findById(t);
-				if (classType.isPresent()) {
-					ClassType pt = classType.get();
-					pt.addParent(item.getUri());
-					pt.addAllParent(item.getUri());
-					classRepo.save(pt);
-					processAllChildren(pt, item.getUri());
+		if ( children != null && children.isEmpty() ) {
+			children.forEach(new Consumer<String>() {
+				
+				@Override
+				public void accept(String t) {
+					Optional<ClassType> classType = classRepo.findById(t);
+					if (classType.isPresent()) {
+						ClassType pt = classType.get();
+						pt.addParent(item.getUri());
+						pt.addAllParent(item.getUri());
+						classRepo.save(pt);
+						processAllChildren(pt, item.getUri());
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	private void processAllParents(ClassType parentClass, String itemUri) {
