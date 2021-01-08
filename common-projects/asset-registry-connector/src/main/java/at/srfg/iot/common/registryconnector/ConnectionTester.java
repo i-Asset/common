@@ -1,24 +1,21 @@
 package at.srfg.iot.common.registryconnector;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 
 import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
-import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 import at.srfg.iot.common.datamodel.asset.aas.common.types.DataTypeEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.types.DirectionEnum;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElement;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Operation;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.OperationVariable;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.SubmodelElementCollection;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
@@ -49,14 +46,14 @@ public class ConnectionTester {
 		/**
 		 * connect the AAS INSTANCE with the local physical device, e.g. access the DEVICE's data
 		 * 
-		 * NOTE: only sample-code at thispoint 
+		 * NOTE: only sample-code at this point 
 		 */
 		beltInstance.setFunction("operations/setSpeed", new Function<Map<String, Object>, Object>() {
 
 				@Override
 				public Object apply(Map<String, Object> t) {
 					if (!t.containsKey("speed")) {
-						throw new IllegalStateException("Missing parameter [message]");
+						throw new IllegalStateException("Missing parameter [speed]");
 					}
 					Map<String, Object> result = new HashMap<>();
 					result.put("result", "Success: Speed setting updated to the new value: " + t.get("speed"));
@@ -84,6 +81,10 @@ public class ConnectionTester {
 		 * The AAS can be accessed from outside then .
 		 */
 		registry.serve(beltInstance, "belt");
+
+		IAssetProvider belt2Instance = shell();
+		registry.serve(belt2Instance, "belt2");
+		
 		registry.start();
 
 
@@ -93,20 +94,36 @@ public class ConnectionTester {
 		 * 
 		 */
 		registry.register(beltInstance);
+		/**
+		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
+		 * Problem at this point: the belt2Instance only holds references to it's "semanticId's"
+		 * 
+		 * TODO: implement a function to resolve the type information when required!
+		 * 
+		 */
+		registry.register(belt2Instance);
+		
 		
 		// create the parameter map, the keys consist of the idShort's of the OperationVariable (inputVariable)
 		Map<String,Object> params = new HashMap<String, Object>();
 		// operation specifies a "spee" input parameter -> seee localhost:5000/belt/element/operations/setSpeed
 		params.put("speed", 17.3d);
 		// send a post request to the registry, check the stored endpoint and delegate the request to the device
-		registry.invokeOperation(
+		Object o = registry.invokeOperation(
 				// asset model has shell as root
 				beltInstance.getRoot().getIdentification(),
 				// path to the operation 
 				"operations/setSpeed",
 				// 
 				params);
+		
+		if ( o instanceof Map ) {
+			Map<String,Object> map = (Map<String,Object>) o;
+			System.out.println(map.get("result"));
+		}
 
+		IAssetProvider connected = registry.connect(beltInstance.getRoot().getIdentification());
+//		connected.getElementValue(new Reference("properties/beltData/distance");
 		/**
 		 * Deactivate the service endpoint
 		 */
@@ -116,110 +133,200 @@ public class ConnectionTester {
 	
 	
 	
-	
-	
-	
+	/**
+	 * create a model from scratch - assuming the type already exists ... all the elements are
+	 * related to their semantic definition, e.g. corresponding element from the asset type 
+	 * @return
+	 */
 	private static IAssetProvider shell() {
 
-		AssetAdministrationShell aShell = new AssetAdministrationShell("http://www.irgendwo.com");
-		aShell.setIdShort("irgendwo");
-		aShell.setDerivedFrom(new Reference("http://iasset.salzburgresearch.at/labor/belt",
+		AssetAdministrationShell aShell = new AssetAdministrationShell("http://iasset.labor/belt2");
+		aShell.setIdShort("belt2");
+		// let the shell be an instance of the type
+		aShell.setDerivedFrom(new Reference("http://iasset.salzburgresearch.at/labor/belt#aas",
 				KeyElementsEnum.AssetAdministrationShell));
-		Submodel sub1 = new Submodel("sub1", aShell);
-		sub1.setIdShort("sub1");
-		sub1.setKind(Kind.Instance);
-		sub1.setDescription("de", "Operation Model");
-		sub1.setSemanticId(
-				new Reference("http://iasset.salzburgresearch.at/registry/cmms/operations", KeyElementsEnum.Submodel));
+		aShell.setDescription("de", "i-Asset Labor - Förderband");
 
-		Submodel sub2 = new Submodel("sub2", aShell);
-		sub2.setIdShort("sub2");
-		sub2.setKind(Kind.Instance);
-		sub2.setDescription("de", "Info Model");
-		sub2.setSemanticId(
-				new Reference("http://iasset.salzburgresearch.at/registry/cmms/info", KeyElementsEnum.Submodel));
+		Submodel propertiesSubmodel = new Submodel("properties", aShell);
+		
+		propertiesSubmodel.setIdShort("properties");
+		propertiesSubmodel.setKind(Kind.Instance);
+		propertiesSubmodel.setDescription("de", "i-Asset Labor - Förderband");
+		propertiesSubmodel.setKind(Kind.Instance);
+		propertiesSubmodel.setSemanticId(
+				// create reference
+				new Reference(
+						// add distinct keys
+						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+						Key.of("properties", KeyElementsEnum.Submodel)
+					)
+				);
+		// create the properties (arranged within a element collection named beltData)
+		SubmodelElementCollection beltData = new SubmodelElementCollection("beltData", propertiesSubmodel);
+		beltData.setDescription("de", "Datenelemente Förderband");
+		// set the semantic type
+		beltData.setSemanticId(
+				// create reference
+				new Reference(
+						// add distinct keys
+						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+						Key.of("properties", KeyElementsEnum.Submodel),
+						Key.of("beltData", KeyElementsEnum.SubmodelElementCollection)
+					)
+				);
 
-		SubmodelElementCollection cont1 = new SubmodelElementCollection("cont1", sub1);
-		cont1.setDescription("de", "Container Level 1");
-
-		SubmodelElementCollection cont2 = new SubmodelElementCollection("cont2", cont1);
-		cont2.setDescription("de", "Container Level 2");
-
-		Property prop = new Property("demo", cont2);
-		prop.setDescription("de", "Property Demo");
-		IAssetProvider model = new AssetModel(aShell);
-		Property prop2 = new Property();
-		prop2.setIdShort("later");
-		prop2.setDescription("de", "Property Later");
-		// provide a getter function
-		prop2.setGetter(() -> LocalDateTime.now().toString());
-		prop.setGetter(() -> LocalDate.now().plusWeeks(2).toString());
-		// provide a setter function
-		prop.setSetter((String t) -> System.out.println(t));
-
-		model.setElement(prop.getParent(), prop2);
-		// call the element value
-		Object o = model.getElementValue(prop.asReference());
-		model.setElementValue(prop.asReference(), "new Value");
-//	    	
-//	    	model.deleteElement(prop.asReference());
-		Operation operation = new Operation("maintenanceHistory", cont1);
-		operation.setDescription("de", "Test für eine ausführbare Methode");
-		Property variable = new Property();
-		variable.setParent(
-				new Reference("http://iasset.salzburgresearch.at/registry/cmms/operations", KeyElementsEnum.Submodel));
-		variable.setIdShort("maintenanceHistoryInputV1Value");
-		variable.setKind(Kind.Type);
-		variable.setDescription("de", "Typ-Defintion Input-Parameter 1 für Maintenance History");
-		variable.setValueQualifier(DataTypeEnum.STRING);
-		//
-		OperationVariable input = new OperationVariable("maintenanceHistory", operation, DirectionEnum.Input);
-		input.setIdShort("maintenanceHistory");
-		input.setDescription("de", "Typ-Defintion Input-Parameter 1 für Maintenance History");
-		input.setKind(Kind.Type);
-		input.setValue(variable);
-		//
-		input.setSemanticElement(new Reference(
-				Key.of("http://iasset.salzburgresearch.at/registry/cmms/operations", KeyElementsEnum.Submodel),
-				Key.of("maintenanceHistoryInputV1", KeyElementsEnum.OperationVariable)));
-		// provide a function for testing
-		operation.setFunction(new Function<Map<String, Object>, Object>() {
+		Property distance = new Property("distance", beltData);
+		distance.setDescription("de", "Zurückgelegte Distanz");
+		distance.setValueQualifier(DataTypeEnum.DECIMAL);
+		distance.setKind(Kind.Instance);
+		distance.setCategory("iAsstLabor-Tester");
+		distance.setSemanticId(
+				// create reference
+				new Reference(
+						// add distinct keys
+						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+						Key.of("properties", KeyElementsEnum.Submodel),
+						Key.of("beltData", KeyElementsEnum.SubmodelElementCollection),
+						Key.of("distance", KeyElementsEnum.Property)
+					)
+				);
+		
+		Property speed = new Property("speed", beltData);
+		speed.setDescription("de", "Aktuelle Geschwindigkeit");
+		speed.setValueQualifier(DataTypeEnum.DECIMAL);
+		speed.setKind(Kind.Instance);
+		speed.setCategory("iAsstLabor-Tester");
+		speed.setSemanticId(
+				// create reference
+				new Reference(
+						// add distinct keys
+						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+						Key.of("properties", KeyElementsEnum.Submodel),
+						Key.of("beltData", KeyElementsEnum.SubmodelElementCollection),
+						Key.of("speed", KeyElementsEnum.Property)
+					)
+				);
+		
+		Property state = new Property("state", beltData);
+		state.setDescription("de", "Geräte-Status (On/Off)");
+		state.setValueQualifier(DataTypeEnum.BOOLEAN);
+		state.setKind(Kind.Instance);
+		state.setCategory("iAsstLabor-Tester");
+		state.setSemanticId(
+				// create reference
+				new Reference(
+						// add distinct keys
+						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+						Key.of("properties", KeyElementsEnum.Submodel),
+						Key.of("beltData", KeyElementsEnum.SubmodelElementCollection),
+						Key.of("state", KeyElementsEnum.Property)
+					)
+				);
+		
+		Property direction = new Property("direction", beltData);
+		direction.setDescription("de", "Geräte-Status (On/Off)");
+		direction.setValueQualifier(DataTypeEnum.STRING);
+		direction.setKind(Kind.Instance);
+		direction.setCategory("iAsstLabor-Tester");
+		direction.setSemanticId(
+				// create reference
+				new Reference(
+						// add distinct keys
+						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+						Key.of("properties", KeyElementsEnum.Submodel),
+						Key.of("beltData", KeyElementsEnum.SubmodelElementCollection),
+						Key.of("direction", KeyElementsEnum.Property)
+					)
+				);
+			
+		Submodel events = new Submodel("events", aShell);
+		events.setDescription("de", "Event-Settings - Förderband");
+		events.setKind(Kind.Instance);
+		events.setSemanticId(
+				// create reference
+				new Reference(
+						// add distinct keys
+						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+						Key.of("events", KeyElementsEnum.Submodel)
+					)
+				);
+		EventElement eventElement = new EventElement("stateEvent", events);
+		eventElement.setDescription("de", "Status-Änderungen für Förderband");
+		eventElement.setSemanticId(		
+				// create reference to the type element
+				new Reference(
+						// add distinct keys
+						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+						Key.of("events", KeyElementsEnum.Submodel),
+						Key.of("stateEvent", KeyElementsEnum.EventElement)
+					)
+				);
+		// the event should observe the state of the belt
+		eventElement.setObservableElement(state);
+		eventElement.setKind(Kind.Instance);
+		// the event should "send" messages, e.g. publish the events
+		eventElement.setDirection(DirectionEnum.Output);
+		eventElement.setMessageTopic("must be filled");
+		
+		Submodel operations = new Submodel("operations", aShell);
+		operations.setDescription("de", "Funktionen für Förderband");
+		operations.setKind(Kind.Instance);
+		operations.setSemanticId(
+				// create reference
+				new Reference(
+						// add distinct keys
+						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+						Key.of("operations", KeyElementsEnum.Submodel)
+					)
+				);
+		
+		Operation setSpeed = new Operation("setSpeed", operations);
+		setSpeed.setDescription("de", "Geschwindigkeit einstellen");
+		setSpeed.setSemanticId(
+				// create reference
+				new Reference(
+						// add distinct keys
+						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+						Key.of("operations", KeyElementsEnum.Submodel),
+						Key.of("setSpeed", KeyElementsEnum.Operation)
+					)
+				);
+		
+		setSpeed.setFunction(new Function<Map<String,Object>, Object>() {
 
 			@Override
 			public Object apply(Map<String, Object> t) {
-				// TODO Auto-generated method stub
-				if (!t.containsKey("maintenanceHistory")) {
-					throw new IllegalStateException("Missing parameter [message]");
-				}
-				return t.get("message");
+				Map<String, Object> result = new HashMap<>();
+				result.put("result", "Success: Speed setting updated to the new value: " + t.get("speed"));
+				return result;
 			}
 		});
+		/*
+		 * The settings of the operation (input and output-variables) should be taken from the operation's 
+		 * "type" element  
+		 */
+//		OperationVariable speedVariable = new OperationVariable("speed", setSpeed, DirectionEnum.Input);
+//		speedVariable.setDescription("de", "Input-Variable für setSpeed");
+//		speedVariable.setKind(Kind.Instance);
+//		
+//
+//		// value of variable must be a Type-Element??
+//		speedVariable.setValue(speed);
+//		speedVariable.setSemanticId(null);
+//		speedVariable.setSemanticId(
+//				// create reference
+//				new Reference(
+//						// add distinct keys
+//						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
+//						Key.of("operations", KeyElementsEnum.Submodel),
+//						Key.of("setSpeed", KeyElementsEnum.Operation),
+//						Key.of("speed", KeyElementsEnum.OperationVariable)
+//					)
+//				);
 
-		Optional<Referable> refElem = model.getElement("sub1/cont1/cont2/demo");
-		if (refElem.isPresent()) {
-			model.deleteElement(refElem.get());
-		}
+		
 		return new AssetModel(aShell);
 
-	}
-	private static IAssetProvider submodel() {
-		Submodel subModel = new Submodel();
-		subModel.setIdentification(new Identifier("http://www.otherplace.org"));
-		subModel.setDescription("de", "Submodel");
-
-		SubmodelElementCollection subCont1 = new SubmodelElementCollection("cont1", subModel);
-		subCont1.setDescription("de", "Container Level 1");
-
-		SubmodelElementCollection subCont2 = new SubmodelElementCollection("cont2", subCont1);
-		subCont2.setDescription("de", "Container Level 2");
-
-		Property submodelProperty = new Property("demo", subCont2);
-		submodelProperty.setDescription("de", "Property from Submodel Demo");
-		submodelProperty.setGetter(() -> LocalDateTime.now().toString());
-		// provide a setter function
-		submodelProperty.setSetter((String t) -> System.out.println(t));
-
-		return new AssetModel(subModel);
 	}
 
 }
