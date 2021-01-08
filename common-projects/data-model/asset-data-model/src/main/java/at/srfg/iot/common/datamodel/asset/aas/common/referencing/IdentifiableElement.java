@@ -71,7 +71,7 @@ public abstract class IdentifiableElement extends ReferableElement implements Id
 	 * @return the identification
 	 */
 	public Identifier getIdentification() {
-		if ( IdType.IdShort.equals(identification.getIdType())) {
+		if ( identification == null || IdType.IdShort.equals(identification.getIdType())) {
 			return new Identifier(getIdShort());
 		}
 		else {
