@@ -101,6 +101,15 @@ public class Reference extends ReferableElement implements Serializable {
 //		return null;
 	}
 	/**
+	 * Override the method
+	 */
+	public String getIdShort() {
+		if ( getLastKey().getIdType().equals(IdType.IdShort)) {
+			return getLastKey().getValue();
+		}
+		return super.getIdShort();
+	}
+	/**
 	 * @return the keys
 	 */
 	public List<Key> getKeys() {
