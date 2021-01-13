@@ -36,6 +36,8 @@ public class AssetModel implements IAssetProvider {
 	
 	private final Identifiable root;
 	
+
+	
 	
 	public AssetModel(Identifiable root) {
 		this.root = root;
@@ -128,6 +130,11 @@ public class AssetModel implements IAssetProvider {
 			Optional<Referable> child = current.getChildElement(idShort);
 			if ( child.isPresent()) {
 				current = child.get();
+				// check for reference ...
+				if ( current instanceof Reference) {
+					// resolve the reference
+					
+				}
 			}
 			else {
 				return Optional.empty();

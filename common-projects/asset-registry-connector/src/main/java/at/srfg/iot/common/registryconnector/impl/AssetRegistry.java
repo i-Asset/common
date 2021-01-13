@@ -1,6 +1,8 @@
 package at.srfg.iot.common.registryconnector.impl;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +27,7 @@ import at.srfg.iot.common.datamodel.asset.connectivity.move.IAssetDirectory;
 import at.srfg.iot.common.datamodel.asset.connectivity.rest.ConsumerFactory;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
+import at.srfg.iot.common.datamodel.asset.provider.impl.ConnectedAssetModel;
 import at.srfg.iot.common.registryconnector.AssetComponent;
 import at.srfg.iot.common.registryconnector.IAssetRegistry;
 /**
@@ -270,13 +273,22 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 			// 
 			Optional<Identifiable> root = repo.getRoot(identifier.getId());
 			
+			Identifiable type = root.get();
 			
+			IAssetProvider model = new ConnectedAssetModel(type, directoryUrl + "/repository");
+			return model;
 			
 		}
 		return null;
 	}
 	@Override
 	public Object invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters) {
+		try {
+			path = URLEncoder.encode(path, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return repository.invokeOperation(aasIdentifier.getId(), path, parameters);
 	}
 	@Override

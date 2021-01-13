@@ -386,6 +386,9 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 		if ( Submodel.class.isInstance(submodel) ) {
 			return removeSubmodel(Submodel.class.cast(submodel));
 		}
+		if ( Reference.class.isInstance(submodel)) {
+			return getChildElements().remove(submodel);
+		}
 		return false;
 	}
 }
