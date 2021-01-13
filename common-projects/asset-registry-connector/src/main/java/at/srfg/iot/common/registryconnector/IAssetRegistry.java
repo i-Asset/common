@@ -36,7 +36,8 @@ public interface IAssetRegistry extends AssetComponent {
 	/**
 	 * Create a new local model based on a given type.
 	 * The type must be present in the registry 
-	 * @param identifier
+	 * @param instanceIdentifier The identifier for the newly created instance
+	 * @param identifier The identifier of the type the instance is built on
 	 * @return
 	 */
 	public IAssetProvider fromType(Identifier instanceIdentifier, Identifier typeIdentifier);
