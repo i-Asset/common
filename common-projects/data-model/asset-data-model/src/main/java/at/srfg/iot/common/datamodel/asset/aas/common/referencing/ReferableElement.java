@@ -344,6 +344,11 @@ public abstract class ReferableElement implements Referable, Serializable {
 
 					@Override
 					public boolean test(ReferableElement t) {
+						if ( t instanceof Reference ) {
+							Reference refToElement = (Reference)t;
+							return refToElement.getLastKey().getIdType() == IdType.IdShort && 
+								   refToElement.getLastKey().getValue().equals(idShort) ;
+						}
 						return idShort.equals(t.getIdShort());
 					}})
 				// use the first element
