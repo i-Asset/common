@@ -3,11 +3,13 @@ package at.srfg.iot.common.registryconnector;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
+import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
@@ -123,7 +125,10 @@ public class ConnectionTester {
 		}
 
 		IAssetProvider connected = registry.connect(beltInstance.getRoot().getIdentification());
-//		connected.getElementValue(new Reference("properties/beltData/distance");
+		// connected must do at this point:
+		// - resolve the reference for "properties"
+		// - 
+		Optional<Property> speedProperty = connected.getElement("properties/beltData/speed", Property.class);
 		/**
 		 * Deactivate the service endpoint
 		 */
