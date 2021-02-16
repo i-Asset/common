@@ -152,5 +152,17 @@ public class SubmodelElementCollection extends SubmodelElement implements Submod
 		}
 		throw new IllegalStateException("Cannot create instance!");
 	}
+	public Boolean getOrdered() {
+		return ordered;
+	}
+	public void setOrdered(Boolean ordered) {
+		this.ordered = ordered;
+	}
+	public Boolean getAllowDuplicates() {
+		return allowDuplicates;
+	}
+	public void setAllowDuplicates(Boolean allowDuplicates) {
+		this.allowDuplicates = allowDuplicates;
+	}
 
 }
