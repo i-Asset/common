@@ -63,7 +63,11 @@
 			<artifactId>jetty-server</artifactId>
 			<version>9.4.0.v20161208</version>
 		</dependency>
-
+		<dependency>
+		    <groupId>org.apache.kafka</groupId>
+		    <artifactId>kafka-clients</artifactId>
+		    <version>2.7.0</version>
+		</dependency>
 		<dependency>
 			<groupId>at.srfg.iot.common</groupId>
 			<artifactId>asset-data-model</artifactId>
