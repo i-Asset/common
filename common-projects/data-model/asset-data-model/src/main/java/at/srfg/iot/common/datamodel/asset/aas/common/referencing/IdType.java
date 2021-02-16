@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  *
  */
 public enum IdType {
-	IRI("^((https?|ftp)://)?([a-z0-9-]+(\\.[a-z0-9-]+)+)(:(\\d{4}))?(\\/)?((\\w+[\\/#])+)?((.*))?$", // matches URL
+	IRI("^((https?|ftp):\\/\\/)?([a-z0-9-]+(\\.[a-z0-9-]+)+)(:(\\d{4}))?(\\/)?(([a-z0-9-\\.]+[\\/#])+)?((.*))?$", // matches URL
 		"^(urn:[a-z0-9][a-z0-9-]{0,31}):(\\/)?((\\w+([\\/#:]))+()?()?()?()+)?((.*))?$"),	   						 // matches URN
 	
 	// matches against URI or an URN - must start with the protocol! 
