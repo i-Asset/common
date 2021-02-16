@@ -9,17 +9,18 @@ import java.util.function.Function;
 import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
-import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 import at.srfg.iot.common.datamodel.asset.aas.common.types.DataTypeEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.types.DirectionEnum;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.DataElement;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElement;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Operation;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.SubmodelElementCollection;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
 
@@ -30,8 +31,54 @@ public class ConnectionTester {
 		// component.registerWith(registry);
 		IAssetRegistry registry = IAssetRegistry.componentWithRegistry("http://localhost:8085")
 												.componentAtPort(5000);
-		
-		
+		//
+		registry.addModelListener(new IAssetModelListener() {
+
+			@Override
+			public void onEventElementCreate(String path, EventElement element) {
+				System.out.println(String.format("Event %s - element created", path));
+				
+			}
+
+			@Override
+			public void onEventElementRemove(String path, EventElement element) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onOperationCreate(String path, Operation element) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onOperationRemove(String path, Operation element) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onPropertyCreate(String path, Property property) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onPropertyRemove(String path, Property property) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onValueChange(DataElement<?> element, Object oldValue, Object newValue) {
+				// TODO Auto-generated method stub
+				System.out.println(String.format("Element %s - value changed: Old %s, New: %s", element.asReference().getPath(), oldValue, newValue));
+				
+			}
+			
+
+		});
 		/**
 		 * create an INSTANCE of the Asset 
 		 */
@@ -50,7 +97,7 @@ public class ConnectionTester {
 		 * 
 		 * NOTE: only sample-code at this point 
 		 */
-		beltInstance.setFunction("operations/setSpeed", new Function<Map<String, Object>, Object>() {
+		beltInstance.setFunction("operations/maintenanceAlert", new Function<Map<String, Object>, Object>() {
 
 				@Override
 				public Object apply(Map<String, Object> t) {
@@ -69,7 +116,7 @@ public class ConnectionTester {
 		// add a supplier function to the property
 		beltInstance.setValueSupplier("properties/beltData/distance",
 				// the getter function must return a string
-				() -> "Distance belt so far read at timestamp: " + LocalDateTime.now().toString());
+				() -> "Distance belt so far read at timestamp, special for Bernhard: " + LocalDateTime.now().toString());
 
 		
 		

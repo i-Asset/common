@@ -10,6 +10,7 @@ import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.AssetAdministrationShellDescriptor;
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.SubmodelDescriptor;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import at.srfg.iot.common.registryconnector.impl.AssetRegistry;
 import at.srfg.iot.common.registryconnector.impl.I40Component;
@@ -97,5 +98,7 @@ public interface IAssetRegistry extends AssetComponent {
 	 * @return
 	 */
 	public Object invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters);
+	
+	public void addModelListener(IAssetModelListener listener);
 	
 }

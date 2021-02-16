@@ -17,6 +17,7 @@ public abstract class DataElement<T> extends SubmodelElement implements IDataEle
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	public DataElement() {
 		super();
 	}

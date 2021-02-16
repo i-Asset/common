@@ -1,5 +1,6 @@
 package at.srfg.iot.common.registryconnector;
 
+import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 
 public interface AssetComponent {
@@ -16,4 +17,6 @@ public interface AssetComponent {
 	 * Stop servicing the component
 	 */
 	public void stop();
+	
+	public void addModelListener(IAssetModelListener listener);
 }

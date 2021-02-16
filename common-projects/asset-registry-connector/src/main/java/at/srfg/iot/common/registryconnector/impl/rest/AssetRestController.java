@@ -103,6 +103,8 @@ public class AssetRestController implements IAssetConnection {
 	public void setValue(String identifier, String path, String value) {
 		Optional<Property> opt = shell.getElement(path, Property.class);
 		if (opt.isPresent()) {
+			
+			shell.setElementValue(opt.get().asReference(), value);
 			opt.get().setValue(value);
 		}
 		

@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,11 +21,18 @@ import at.srfg.iot.common.datamodel.asset.aas.common.DirectoryEntry;
 import at.srfg.iot.common.datamodel.asset.aas.common.HasKind;
 import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.DataElement;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElement;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Operation;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
 import at.srfg.iot.common.datamodel.asset.connectivity.IAssetConnection;
 import at.srfg.iot.common.datamodel.asset.connectivity.move.IAssetDirectory;
 import at.srfg.iot.common.datamodel.asset.connectivity.rest.ConsumerFactory;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
 import at.srfg.iot.common.datamodel.asset.provider.impl.ConnectedAssetModel;
@@ -43,6 +51,72 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 	final IAssetDirectory directory;
 	final IAssetConnection repository;
 	
+	private Map<String, IAssetProvider> modelProvider = new HashMap<String, IAssetProvider>();
+	
+	private IAssetModelListener registryListener = new IAssetModelListener() {
+		
+		@Override
+		public void onValueChange(DataElement<?> element, Object oldValue, Object newValue) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onPropertyRemove(String path, Property property) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onPropertyCreate(String path, Property property) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onOperationRemove(String path, Operation element) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onOperationCreate(String path, Operation element) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onEventElementRemove(String path, EventElement element) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onEventElementCreate(String assetIdentifier, EventElement element) {
+			// obtain the message-broker element
+			Reference refToBroker = element.getMessageBroker();
+			// the reference must have the identifier of the aas or submodel points to 
+			Key keyToAAS = refToBroker.getFirstKey();
+			if ( keyToAAS != null) {
+				// obtain the element from referenced AAS
+				Optional<Referable> messageBroker = repository.getModelElement(keyToAAS.getValue(), element.getMessageBroker());
+				
+				if (messageBroker.isPresent()) {
+					// need to obtain the child element with a given semantic identifier
+					//    or
+					// use 
+					messageBroker.get().getChildElement(assetIdentifier);
+				}
+				//
+				//
+				
+			}
+			
+			
+			// 
+			
+		}
+	}; 
 	/**
 	 * URI of the iAsset Directory
 	 */
@@ -63,6 +137,9 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 		if ( component != null ) {
 			component.stop();
 		}
+	}
+	public void addModel(String alias, IAssetProvider model) {
+		modelProvider.put(alias, model);
 	}
 	
 	public void serve(IAssetProvider provider, String alias) {
@@ -294,6 +371,15 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 	@Override
 	public void setAssetComponent(AssetComponent component) {
 		this.component = component;
+		
+	}
+	@Override
+	public void addModelListener(IAssetModelListener listener) {
+		if ( component == null) {
+			throw new IllegalStateException("Component not yet initialized!");
+		}
+		component.addModelListener(listener);
+		// TODO Auto-generated method stub
 		
 	}
 

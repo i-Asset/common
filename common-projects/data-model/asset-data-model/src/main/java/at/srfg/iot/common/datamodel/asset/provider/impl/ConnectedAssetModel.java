@@ -25,6 +25,7 @@ import at.srfg.iot.common.datamodel.asset.connectivity.IAssetConnection;
 import at.srfg.iot.common.datamodel.asset.connectivity.rest.ConsumerFactory;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodel;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodelElement;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 
 public class ConnectedAssetModel implements IAssetProvider {
@@ -384,6 +385,11 @@ public class ConnectedAssetModel implements IAssetProvider {
 			// assign the function
 			operation.get().setFunction(function);
 		}
+		
+	}
+	@Override
+	public void addModelListener(IAssetModelListener listener) {
+		// TODO Auto-generated method stub
 		
 	}
 

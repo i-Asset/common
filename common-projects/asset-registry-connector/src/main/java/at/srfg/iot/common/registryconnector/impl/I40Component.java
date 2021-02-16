@@ -2,7 +2,9 @@ package at.srfg.iot.common.registryconnector.impl;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jetty.server.Server;
@@ -12,13 +14,17 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import at.srfg.iot.common.datamodel.asset.aas.common.DirectoryEntry;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.IdType;
-import at.srfg.iot.common.registryconnector.AssetComponent;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
+import at.srfg.iot.common.registryconnector.AssetComponent;
 
 public class I40Component implements AssetComponent {
 	private Server server;
 	private int port;
 	private String contextPath;
+	
+	private List<IAssetModelListener> modelListener = new ArrayList<IAssetModelListener>();
+	
 	
 	private Map<String, AssetContext> serviceMap = new HashMap<String, AssetContext>();
 
@@ -31,7 +37,15 @@ public class I40Component implements AssetComponent {
 		}
 	}
 	
-	
+	public void addModelListener(IAssetModelListener listener) {
+		// keep listener
+		modelListener.add(listener);
+		// add listener to all contexts
+		for (AssetContext context : serviceMap.values()) {
+			context.getShell().addModelListener(listener);
+		}
+		
+	}
 	/**
 	 * 
 	 * @param shell
@@ -45,7 +59,12 @@ public class I40Component implements AssetComponent {
 			DirectoryEntry e = (DirectoryEntry)shell.getRoot();
 			e.setEndpoint(0, String.format("http://%s:%s%s%s", getHostName(), port, contextPath, alias), "http");
 		}
-		serviceMap.put(alias,  new AssetContext(shell, alias));
+		AssetContext ctx = new AssetContext(shell, alias);
+		for (IAssetModelListener listener : modelListener ) {
+			ctx.getShell().addModelListener(listener);
+		}
+		serviceMap.put(alias,  ctx);
+		
 	}
 	
 	public I40Component(int port, String contextPath) {

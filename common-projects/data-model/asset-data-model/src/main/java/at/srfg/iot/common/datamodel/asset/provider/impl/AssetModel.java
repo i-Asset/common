@@ -2,8 +2,10 @@ package at.srfg.iot.common.datamodel.asset.provider.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -19,12 +21,14 @@ import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.ReferableElement;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.DataElement;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElement;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Operation;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.OperationVariable;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
 import at.srfg.iot.common.datamodel.asset.api.IAssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodel;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodelElement;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 /**
  * In Memory Model representing either an {@link AssetAdministrationShell} or a {@link Submodel}.
@@ -36,10 +40,11 @@ public class AssetModel implements IAssetProvider {
 	
 	private final Identifiable root;
 	
-
+	private List<IAssetModelListener> modelListener;
 	
 	
 	public AssetModel(Identifiable root) {
+		this.modelListener = new ArrayList<IAssetModelListener>();
 		this.root = root;
 	}
 	public Identifiable getRoot() {
@@ -235,29 +240,28 @@ public class AssetModel implements IAssetProvider {
 		Optional<Referable> elem = resolveReference(parent);
 		if ( elem.isPresent()) {
 			Referable myParent = elem.get();
+			Optional<Referable> elemExist = myParent.getChildElement(element.getIdShort());
+			if ( elemExist.isPresent()) {
+				handleDeletion(elemExist.get());
+				myParent.removeChildElement(elemExist.get());
+			}
 			myParent.addChildElement(element);
+			handleCreation(element);
+			// 
 			return myParent;
 		}
 		return null;
 	}
+	
 
-//	@Override
-//	public boolean deleteElement(Reference reference) {
-//		Optional<Referable> elem = resolveReference(reference);
-//		if ( elem.isPresent()) {
-//			
-//			Referable referable = elem.get().getParentElement();
-//			// remove it from the model
-//			return referable.removeChildElement(elem.get());
-//			
-//		}
-//		return false;
-//	}
 	public boolean deleteElement(Referable referable) {
 		
 		if ( referable instanceof Reference ) {
 			Optional<Referable> toDelete = resolveReference(Reference.class.cast(referable));
 			if (toDelete.isPresent()) {
+				// notify listeners, that the element will be deleted!
+				handleDeletion(toDelete.get());
+				// remove the element
 				return toDelete.get().getParentElement().removeChildElement(toDelete.get());
 			}
 			return false;
@@ -267,6 +271,9 @@ public class AssetModel implements IAssetProvider {
 			if ( parent.isPresent()) {
 				Optional<Referable> toDelete = parent.get().getChildElement(referable.getIdShort());
 				if ( toDelete.isPresent()) {
+					// notify listeners, that the element will be deleted!
+					handleDeletion(toDelete.get());
+					// remove the element
 					return parent.get().removeChildElement(toDelete.get());
 				}
 				return false;
@@ -308,7 +315,8 @@ public class AssetModel implements IAssetProvider {
 		@SuppressWarnings("rawtypes")
 		Optional<DataElement> dataElem = resolveReference(element, DataElement.class);
 		if ( dataElem.isPresent()) {
-			// TODO: check for type safety
+			// notify listeners that the value is about to cg
+			handleValueChange(dataElem.get(), value);
 			dataElem.get().setValue(value);
 			return dataElem.get();
 		}
@@ -341,6 +349,7 @@ public class AssetModel implements IAssetProvider {
 			Optional<SubmodelElementContainer> parent = resolveContainer(model.get(), path);
 			if ( parent.isPresent()) {
 				parent.get().addChildElement(element);
+				
 				return element;
 			}
 		}
@@ -371,5 +380,117 @@ public class AssetModel implements IAssetProvider {
 		}
 		
 	}
+	/**
+	 * Helper method for traversing the tree hierarchy, searching for {@link Property}, {@link Operation}
+	 * and {@link EventElement} elements and notifies the registered {@link IAssetModelListener}s
+	 * of the respective deletion
+	 * @param element
+	 */
+	private void handleDeletion(Referable element) {
+		switch(element.getModelType()) {
+		case Property:
+			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
 
+				@Override
+				public void accept(IAssetModelListener t) {
+					t.onPropertyRemove(element.asReference().getPath(),Property.class.cast(element));
+				}
+			});
+			break;
+		case Operation:
+			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+
+				@Override
+				public void accept(IAssetModelListener t) {
+					t.onOperationRemove(element.asReference().getPath(),Operation.class.cast(element));
+				}
+			});
+			break;
+		case EventElement:
+			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+
+				@Override
+				public void accept(IAssetModelListener t) {
+					t.onEventElementRemove(element.asReference().getPath(),EventElement.class.cast(element));
+				}
+			});
+			break;
+		case AssetAdministrationShell:
+		case Submodel:
+		case SubmodelElementCollection:
+			element.getChildren().forEach(new Consumer<Referable>() {
+				// recursively process all child elements, thus search for
+				// Property, EventElement and Operation
+				@Override
+				public void accept(Referable t) {
+					handleDeletion(t);
+					
+				}
+			});
+		default:
+			break;
+		}
+	}
+	
+	private void handleCreation(Referable element) {
+		switch(element.getModelType()) {
+		case Property:
+			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+
+				@Override
+				public void accept(IAssetModelListener t) {
+					t.onPropertyCreate(element.asReference().getPath(),Property.class.cast(element));
+				}
+			});
+			break;
+		case Operation:
+			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+
+				@Override
+				public void accept(IAssetModelListener t) {
+					t.onOperationCreate(element.asReference().getPath(),Operation.class.cast(element));
+				}
+			});
+			break;
+		case EventElement:
+			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+
+				@Override
+				public void accept(IAssetModelListener t) {
+					t.onEventElementCreate(element.asReference().getPath(),EventElement.class.cast(element));
+				}
+			});
+			break;
+		case AssetAdministrationShell:
+		case Submodel:
+		case SubmodelElementCollection:
+			element.getChildren().forEach(new Consumer<Referable>() {
+				// recursively process all child elements, thus search for
+				// Property, EventElement and Operation
+				@Override
+				public void accept(Referable t) {
+					handleDeletion(t);
+					
+				}
+			});
+		default:
+			break;
+		}
+	}
+	private void handleValueChange(DataElement<?> element, Object value) {
+		modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+
+			@Override
+			public void accept(IAssetModelListener t) {
+				t.onValueChange(element,element.getValue().toString(), value);
+			}
+		});
+		
+	}
+	
+
+	@Override
+	public void addModelListener(IAssetModelListener listener) {
+		this.modelListener.add(listener);
+	}
 }

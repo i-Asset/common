@@ -108,4 +108,5 @@ public interface IAssetProvider {
 	void setValueConsumer(String pathToProperty, Consumer<String> consumer);
 	void setValueSupplier(String pathToProperty, Supplier<String> supplier);
 	void setFunction(String pathToOperation, Function<Map<String, Object>, Object> function);
+	void addModelListener(IAssetModelListener listener);
 }
