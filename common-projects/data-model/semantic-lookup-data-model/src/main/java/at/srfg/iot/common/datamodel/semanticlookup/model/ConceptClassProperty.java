@@ -32,7 +32,7 @@ public class ConceptClassProperty {
 	@JoinColumn(name="class_id", insertable = false, updatable = false)
 	private ConceptClass conceptClass;
 	
-	@ManyToOne
+	@ManyToOne( cascade = {CascadeType.ALL, CascadeType.REMOVE})
 	@JoinColumn(name="property_id", insertable = false, updatable = false)
 	private ConceptProperty property;
 	@JsonIgnore

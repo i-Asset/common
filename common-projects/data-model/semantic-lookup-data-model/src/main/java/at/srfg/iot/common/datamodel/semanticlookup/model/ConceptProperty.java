@@ -1,7 +1,12 @@
 package at.srfg.iot.common.datamodel.semanticlookup.model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -26,8 +31,13 @@ public class ConceptProperty extends ConceptBase {
 	 */
 	@Column(name="data_type")
 	private DataTypeEnum dataType;
+	@JsonIgnore
+	@XmlTransient
+	@OneToMany(mappedBy = "property", cascade = {CascadeType.REMOVE})
+	private List<ConceptClassProperty> classProperty;
+
 	//bi-directional many-to-many association to EclassValue
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE})
 	@JoinTable(
 		name="concept_property_value_assignment"
 		, joinColumns={
