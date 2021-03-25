@@ -295,47 +295,28 @@ public abstract class ReferableElement implements Referable, Serializable {
 		}
 		return this.childElements;
 	}
-	protected <T extends Referable> List<T> getChildelements(Class<T> clazz) {
-		if ( ! getChildElements().isEmpty() ) {
+
+	public <T extends Referable> List<T> getChildElements(Class<T> clazz) {
+		if ( ! getChildElements().isEmpty()) {
 			return getChildElements().stream()
 					.filter(new Predicate<ReferableElement>() {
-
+						
 						@Override
 						public boolean test(ReferableElement t) {
-							if ( clazz.isInstance(t)) {
-								return true;
-							}
-							return false;
+							return clazz.isInstance(t);
 						}})
-					.map(new Function<ReferableElement, T>()  {
-
+					// map to desired class
+					.map(new Function<ReferableElement, T>() {
+						
 						@Override
 						public T apply(ReferableElement t) {
 							return clazz.cast(t);
-						}})
-					
+						}
+					})
+					// provide the result
 					.collect(Collectors.toList());
 		}
 		return Collections.emptyList();
-	}
-	public <T extends Referable> List<T> getChildElements(Class<T> clazz) {
-		return getChildElements().stream()
-				.filter(new Predicate<ReferableElement>() {
-
-					@Override
-					public boolean test(ReferableElement t) {
-						return clazz.isInstance(t);
-					}})
-				// map to desired class
-				.map(new Function<ReferableElement, T>() {
-
-					@Override
-					public T apply(ReferableElement t) {
-						return clazz.cast(t);
-					}
-				})
-				// provide the result
-				.collect(Collectors.toList());
 	}
 	public Optional<Referable> getChildElement(String idShort) {
 		return getChildElements().stream()
