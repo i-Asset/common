@@ -1,5 +1,10 @@
 package at.srfg.iot.common.registryconnector;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,10 +28,13 @@ import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.SubmodelE
 import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
+import org.json.JSONObject;
 
 public class ConnectionTester {
 
 	public static void main(String[] args) {
+
+		//AssetAdministrationShell aas = createAASTypeFromJSONFile(); // TODO: Testing AAS JSON loading
 
 		// component.registerWith(registry);
 		IAssetRegistry registry = IAssetRegistry.componentWithRegistry("http://localhost:8085")
@@ -182,7 +190,24 @@ public class ConnectionTester {
 		registry.stop();
 		
 	}
-	
+
+	/**
+	 * create a AssetAdministrationShell based on loaded example full AAS Json file
+	 * @return returns constructed AAS to caller
+	 */
+	public static AssetAdministrationShell createAASTypeFromJSONFile()
+	{
+		byte[] bytes = new byte[0];
+		try {
+			URL resource = ConnectionTester.class.getClassLoader().getResource("ExampleAssetType.json");
+			bytes = Files.readAllBytes(Paths.get(resource.toURI()));
+		}
+		catch (IOException e) { e.printStackTrace(); }
+		catch (URISyntaxException e) {e.printStackTrace();}
+
+		String jsonString = new String(bytes);
+		return new AssetAdministrationShell(new JSONObject(jsonString));
+	}
 	
 	
 	/**
@@ -380,5 +405,4 @@ public class ConnectionTester {
 		return new AssetModel(aShell);
 
 	}
-
 }
