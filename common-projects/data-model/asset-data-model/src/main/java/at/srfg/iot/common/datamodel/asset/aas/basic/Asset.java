@@ -109,14 +109,9 @@ public class Asset extends IdentifiableElement implements Referable, Identifiabl
 		this.kind = assetKind;
 	}
 	@Override
-	public Optional<Referable> asInstance(Referable parent) {
-		if ( AssetAdministrationShell.class.isInstance(parent)) {
-			AssetAdministrationShell shell = AssetAdministrationShell.class.cast(parent);
-			Asset instance = new Asset();
-			instance.setKind(Kind.Instance);
-			shell.setAsset(instance);
-			return Optional.of(instance);
-		}
-		throw new IllegalStateException("Parent element must be an AssetAdministrationShell");
+	public Optional<Referable> asInstance() {
+		Asset instance = new Asset();
+		instance.setKind(Kind.Instance);
+		return Optional.of(instance);
 	}
 }

@@ -69,21 +69,18 @@ public class Blob extends DataElement<byte[]> {
 		this.mimeType = mimeType;
 	}
 	@Override
-	public Optional<Referable> asInstance(Referable parent) {
+	public Optional<Referable> asInstance() {
 		if ( isInstance()) {
-			return Optional.empty();
+			return Optional.of(this);
 		}
-		if (SubmodelElementContainer.class.isInstance(parent)) {
-			Blob instance = new Blob(getIdShort(), SubmodelElementContainer.class.cast(parent));
-			instance.setKind(Kind.Instance);
-			instance.setCategory(getCategory());
-			instance.setDescription(getDescription());
-			instance.setMimeType(getMimeType());
-			instance.setSemanticElement(this);
-			return Optional.of(instance);
-		}
-			
-		throw new IllegalStateException("Provided parent must be a SubmodelElementContainer");
+		Blob instance = new Blob();
+		instance.setIdShort(getIdShort());
+		instance.setKind(Kind.Instance);
+		instance.setCategory(getCategory());
+		instance.setDescription(getDescription());
+		instance.setMimeType(getMimeType());
+		instance.setSemanticElement(this);
+		return Optional.of(instance);
 	}
 	
 	// TODO: add value Id Reference
