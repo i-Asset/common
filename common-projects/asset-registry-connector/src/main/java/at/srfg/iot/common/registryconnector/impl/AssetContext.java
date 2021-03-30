@@ -3,16 +3,20 @@ package at.srfg.iot.common.registryconnector.impl;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
+import at.srfg.iot.common.aas.IAssetModel;
 
 
-
+/**
+ * Represents the REST handler bound to a specific AAS
+ * @author dglachs
+ *
+ */
 public class AssetContext extends ResourceConfig {
 	
-	private final IAssetProvider shell;
+	private final IAssetModel shell;
 	private final String pathSpec;
 	
-	public AssetContext(IAssetProvider shell, String pathSpec) {
+	public AssetContext(IAssetModel shell, String pathSpec) {
 		this.shell = shell;
 		this.pathSpec = pathSpec;
 		// register the provided shell for dependency injection
@@ -20,7 +24,7 @@ public class AssetContext extends ResourceConfig {
 			
 			@Override
 			protected void configure() {
-				bind(shell).to(IAssetProvider.class);
+				bind(shell).to(IAssetModel.class);
 				
 			}
 		});
@@ -30,7 +34,7 @@ public class AssetContext extends ResourceConfig {
 		
 	}
 
-	public IAssetProvider getShell() {
+	public IAssetModel getShell() {
 		return shell;
 	}
 
