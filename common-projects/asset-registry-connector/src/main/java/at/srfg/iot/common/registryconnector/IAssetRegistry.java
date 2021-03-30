@@ -4,50 +4,57 @@ package at.srfg.iot.common.registryconnector;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
+import at.srfg.iot.common.aas.IAssetModel;
+import at.srfg.iot.common.aas.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.AssetAdministrationShellDescriptor;
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.SubmodelDescriptor;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
+import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.registryconnector.impl.AssetRegistry;
-import at.srfg.iot.common.registryconnector.impl.I40Component;
-public interface IAssetRegistry extends AssetComponent {
+public interface IAssetRegistry {
+	
 	static IAssetRegistry componentWithRegistry(String url) {
 		return new AssetRegistry(url);
 	}
-	default IAssetRegistry componentAtPort(int port) {
-		setAssetComponent(new I40Component(port, "/"));
-		return this;
-	}
-	default IAssetRegistry componentAtPortWithContextPath(int port, String contextPath) {
-		setAssetComponent(new I40Component(port, contextPath));
-		return this;
-	}
-	void setAssetComponent(AssetComponent component);
-
+	public AssetComponent getComponent();
 	/**
-	 * Connect with a remote {@link IAssetComponent}.
+	 * Create a local Model based on a stored {@link AssetAdministrationShell} or 
+	 * {@link Submodel}. Only elements of {@link Kind#Instance} are created.
+	 * @param identifier Either IRI or IRDI.
+	 * @return
+	 */
+	public IAssetModel create(String alias, Identifier identifier);
+	/**
+	 * Create a local Model based on the provided {@link Identifiable}. 
+	 * 
+	 * @param identifiable The full identifiable.
+	 * @return
+	 */
+	public IAssetModel create(String alias, Identifiable root); 
+	/**
+	 * Connect with a remote {@link AssetAdministrationShell}.  
 	 * @param identifier
+	 * @param type
 	 * @return
 	 */
-	public IAssetProvider connect(Identifier identifier);
+	public IAssetModel create(String alias, Identifier identifier, Identifier type);
 	/**
-	 * Create a new local model based on a given type.
-	 * The type must be present in the registry 
-	 * @param instanceIdentifier The identifier for the newly created instance
-	 * @param identifier The identifier of the type the instance is built on
-	 * @return
+	 * Delete an model from the remote service, e.g. all instance data is
+	 * removed
+	 * @param provider
 	 */
-	public IAssetProvider fromType(Identifier instanceIdentifier, Identifier typeIdentifier);
+	public void delete(IAssetModel provider);
+	public void delete(String alias);
 	/**
 	 * Register a new Asset with the directory service. 
 	 * @param descriptor
 	 */
-	public void register(AssetAdministrationShellDescriptor descriptor);
-	public void register(IAssetProvider assetProvider);
+	public void register(IAssetModel assetProvider);
 	/**
 	 * Register a new Submodel with the directory service
 	 * @param aasIdentifier
@@ -100,5 +107,8 @@ public interface IAssetRegistry extends AssetComponent {
 	public Object invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters);
 	
 	public void addModelListener(IAssetModelListener listener);
+	public void accept(Consumer<IAssetModelListener> method);
+	void start(int port);
+	public void stop();
 	
 }

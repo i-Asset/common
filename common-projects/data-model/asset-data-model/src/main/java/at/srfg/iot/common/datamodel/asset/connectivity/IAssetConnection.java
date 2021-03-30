@@ -61,6 +61,14 @@ public interface IAssetConnection extends at.srfg.iot.common.datamodel.asset.api
 			@HeaderParam(ASSET_ID_HEADER)
 			String identifier,
 			Reference element);
+	@POST
+	@Path("/instance")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Optional<Referable> getModelInstance(
+			@HeaderParam(ASSET_ID_HEADER)
+			String identifier,
+			Reference element);
 	/**
 	 * Add a new model element to the {@link IAssetConnection}. The element must
 	 * contain a proper parent element (see {@link Reference}) pointing to it's root container!

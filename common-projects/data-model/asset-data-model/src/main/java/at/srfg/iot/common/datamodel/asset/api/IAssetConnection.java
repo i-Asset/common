@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
@@ -61,11 +62,21 @@ public interface IAssetConnection {
 	 * @param element
 	 * @return
 	 */
-	@ApiOperation(value = "Obtain the identifiable element by it's reference")
+	@ApiOperation(value = "Obtain a referable element by it's reference")
 	@RequestMapping(
 			method = RequestMethod.POST,
 			path="/reference")
 	public Optional<Referable> getModelElement(
+			@ApiParam("The identifier of the Asset Administration Shell or Submodel!")
+			@RequestHeader(name=ASSET_ID_HEADER)
+			String identifier,
+			@RequestBody
+			Reference element);
+	@ApiOperation(value = "Obtain a referable element by it's reference. Each element is exported as instance")
+	@RequestMapping(
+			method = RequestMethod.POST,
+			path="/instance")
+	public Optional<Referable> getModelInstance(
 			@ApiParam("The identifier of the Asset Administration Shell or Submodel!")
 			@RequestHeader(name=ASSET_ID_HEADER)
 			String identifier,
@@ -131,7 +142,8 @@ public interface IAssetConnection {
 	@ApiOperation(value = "Obtain the identifiable element")
 	@RequestMapping(
 			method = RequestMethod.GET,
-			path="/element/{path}")
+			path="/element/{path}"
+			)
 	public Optional<Referable> getElement(
 			@ApiParam("The identifier of the Asset Administration Shell or Submodel!")
 			@RequestHeader(name=ASSET_ID_HEADER)

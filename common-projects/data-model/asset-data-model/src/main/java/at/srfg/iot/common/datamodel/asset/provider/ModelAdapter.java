@@ -5,6 +5,7 @@ import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElem
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Operation;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
 
+@Deprecated
 public class ModelAdapter implements IAssetModelListener {
 
 
