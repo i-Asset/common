@@ -152,9 +152,9 @@ public class Reference extends ReferableElement implements Serializable {
 		return false;
 	}
 	/**
-	 * Check whether the first key resolves to the provided identifiable
+	 * Check whether the first key resolves to the provided {@link Identifiable}
 	 * @param root The (expected) root 
-	 * @return
+	 * @return <code>true</code> when the first key points to the provided {@link Identifiable}, <code>false</code> otherwise.
 	 */
 	public boolean hasRoot(Identifiable identifiable) {
 		Optional<Key> firstKey = getKey(identifiable.getModelType());
@@ -164,6 +164,12 @@ public class Reference extends ReferableElement implements Serializable {
 		return false;
 
 	}
+	/**
+	 * Check whether the reference (finally) points to an element of
+	 * the requested Type.
+	 * @param modelType 
+	 * @return 
+	 */
 	public boolean hasTargetType(KeyElementsEnum modelType) {
 		if (!keys.isEmpty()) {
 			return keys.getLast().getType().equals(modelType);

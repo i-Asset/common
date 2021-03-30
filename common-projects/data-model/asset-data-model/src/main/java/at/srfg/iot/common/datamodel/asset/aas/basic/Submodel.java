@@ -120,7 +120,7 @@ public class Submodel extends IdentifiableElement implements Referable, Identifi
 	 */
 	public Submodel(Identifier identifier, AssetAdministrationShell shell) {
 		setParentElement(shell);
-		shell.addChild(this);
+		shell.addSubmodel(this);
 		setIdentification(identifier);
 	}
 	public Submodel(String idShort, AssetAdministrationShell shell) {
@@ -259,27 +259,27 @@ public class Submodel extends IdentifiableElement implements Referable, Identifi
 			addSubmodelElement(element);
 		}
 	}
-
 	@Override
-	public Optional<Referable> asInstance(Referable parent) {
+	public Optional<Referable> asInstance() {
 		// TODO Auto-generated method stub
 		if (isInstance()) {
-			return Optional.empty();
+			return Optional.of(this);
 		}
-		if (AssetAdministrationShell.class.isInstance(parent)) {
-			AssetAdministrationShell s = AssetAdministrationShell.class.cast(parent);
-			Submodel model = new Submodel(getIdShort(), s);
-			model.setKind(Kind.Instance);
-			model.setIdShort(getIdShort());
-			model.setCategory(getCategory());
-			model.setDescription(parent.getDescription());
-			model.setSemanticElement(this);
-			for (HasKind hasKind : getChildElements(HasKind.class)) {
-				// clone the 
-				hasKind.asInstance(model);
-			}
-			return Optional.of(model);
-		}
-		throw new IllegalStateException("Wrong usage");
+		Submodel model = new Submodel();
+		model.setKind(Kind.Instance);
+		model.setIdShort(getIdShort());
+		model.setCategory(getCategory());
+		model.setDescription(getDescription());
+		model.setSemanticElement(this);
+		return Optional.of(model);
+//		if (AssetAdministrationShell.class.isInstance(parent)) {
+//			AssetAdministrationShell s = AssetAdministrationShell.class.cast(parent);
+////			for (HasKind hasKind : getChildElements(HasKind.class)) {
+////				// clone the children
+////				hasKind.asInstance(model);
+////			}
+//			
+//		}
+//		throw new IllegalStateException("Wrong usage");
 	}
 }

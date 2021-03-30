@@ -109,22 +109,19 @@ public class Property extends DataElement<String> {
 		this.consumer = consumer;
 	}
 	@Override
-	public Optional<Referable> asInstance(Referable parent) {
+	public Optional<Referable> asInstance() {
 		if ( isInstance()) {
-			return Optional.empty();
+			return Optional.of(this);
 		}
-		if (SubmodelElementContainer.class.isInstance(parent)) {
-			Property instance = new Property(getIdShort(), SubmodelElementContainer.class.cast(parent));
-			instance.setKind(Kind.Instance);
-			instance.setCategory(getCategory());
-			instance.setDescription(getDescription());
-			instance.setSemanticElement(this);
-			// set the value qualifier
-			instance.setValueQualifier(getValueQualifier());
-			return Optional.of(instance);
-		}
-			
-		throw new IllegalStateException("Provided parent must be a SubmodelElementContainer");
+		Property instance = new Property();
+		instance.setIdShort(getIdShort());
+		instance.setKind(Kind.Instance);
+		instance.setCategory(getCategory());
+		instance.setDescription(getDescription());
+		instance.setSemanticElement(this);
+		// set the value qualifier
+		instance.setValueQualifier(getValueQualifier());
+		return Optional.of(instance);
 	}
 
 }

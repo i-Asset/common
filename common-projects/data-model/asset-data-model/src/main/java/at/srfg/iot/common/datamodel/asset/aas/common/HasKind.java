@@ -24,7 +24,7 @@ public interface HasKind extends Referable {
 	 * @param kind The kind
 	 */
 	void setKind(Kind kind);
-	Optional<Referable> asInstance(Referable parent);
+//	Optional<Referable> asInstance(Referable parent);
 	/**
 	 * Check whether the current element is an instance
 	 * @return
@@ -33,5 +33,13 @@ public interface HasKind extends Referable {
 	default boolean isInstance() {
 		return Kind.Instance.equals(getKind());
 	}
-	
+	@JsonIgnore
+	default boolean isTemplate() {
+		return Kind.Type.equals(getKind());
+	}
+	/**
+	 * Clone the actual element as {@link Kind#Instance}
+	 * @return
+	 */
+	Optional<Referable> asInstance();
 }

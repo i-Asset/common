@@ -152,6 +152,7 @@ public abstract class ReferableElement implements Referable, Serializable {
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "id.modelElement", fetch=FetchType.EAGER)
 	@MapKey(name="id.language")
 	private Map<String, ReferableDescription> descriptionMap = new HashMap<String, ReferableDescription>(3);
+	
 	/**
 	 * Getter for the element identifier
 	 * @return
@@ -273,13 +274,14 @@ public abstract class ReferableElement implements Referable, Serializable {
 	 * Helper method to maintain the 
 	 * @param child
 	 */
-	public void addChild(ReferableElement child) {
+	protected void addChild(ReferableElement child) {
 		// keep track of the parent/child relationship
 		child.setParentElement(this);
 		// maintain the childElements collection
 		if (this.childElements == null) {
 			this.childElements = new ArrayList<ReferableElement>();
 		}
+		// T
 		this.childElements.add(child);
 	}
 	protected boolean removeChild(ReferableElement child) {

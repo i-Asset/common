@@ -70,7 +70,7 @@ public class SubmodelDescriptor extends IdentifiableElement implements Directory
 		
 	}
 	@Override
-	public Optional<Referable> asInstance(Referable parent) {
+	public Optional<Referable> asInstance() {
 		throw new IllegalStateException("Wrong usage!");
 	}
 }

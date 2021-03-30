@@ -72,21 +72,18 @@ public class RelationshipElement extends SubmodelElement {
 		this.second = second;
 	}
 	@Override
-	public Optional<Referable> asInstance(Referable parent) {
+	public Optional<Referable> asInstance() {
 		if ( isInstance()) {
-			return Optional.empty();
+			return Optional.of(this);
 		}
-		if (SubmodelElementContainer.class.isInstance(parent)) {
-			RelationshipElement instance = new RelationshipElement(getIdShort(), SubmodelElementContainer.class.cast(parent));
-			instance.setKind(Kind.Instance);
-			instance.setCategory(getCategory());
-			instance.setDescription(getDescription());
-			instance.setSemanticElement(this);
-			// set the value qualifier
-			return Optional.of(instance);
-		}
-			
-		throw new IllegalStateException("Provided parent must be a SubmodelElementContainer");
+		RelationshipElement instance = new RelationshipElement();
+		instance.setIdShort(getIdShort());
+		instance.setKind(Kind.Instance);
+		instance.setCategory(getCategory());
+		instance.setDescription(getDescription());
+		instance.setSemanticElement(this);
+		// set the value qualifier
+		return Optional.of(instance);
 	}
 	
 }
