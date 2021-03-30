@@ -27,7 +27,7 @@ import at.srfg.iot.common.datamodel.asset.api.ISubmodel;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodelElement;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
-
+@Deprecated
 public class ConnectedAssetModel implements IAssetProvider {
 	
 	private final Identifiable root;

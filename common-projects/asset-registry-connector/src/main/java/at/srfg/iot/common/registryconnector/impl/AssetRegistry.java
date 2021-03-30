@@ -3,26 +3,26 @@ package at.srfg.iot.common.registryconnector.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
+import at.srfg.iot.common.aas.AssetModel;
+import at.srfg.iot.common.aas.IAssetModel;
+import at.srfg.iot.common.aas.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Asset;
 import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
-import at.srfg.iot.common.datamodel.asset.aas.basic.Endpoint;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
-import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.AssetAdministrationShellDescriptor;
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.SubmodelDescriptor;
-import at.srfg.iot.common.datamodel.asset.aas.common.DirectoryEntry;
-import at.srfg.iot.common.datamodel.asset.aas.common.HasKind;
 import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.DataElement;
@@ -32,10 +32,6 @@ import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
 import at.srfg.iot.common.datamodel.asset.connectivity.IAssetConnection;
 import at.srfg.iot.common.datamodel.asset.connectivity.move.IAssetDirectory;
 import at.srfg.iot.common.datamodel.asset.connectivity.rest.ConsumerFactory;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
-import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
-import at.srfg.iot.common.datamodel.asset.provider.impl.ConnectedAssetModel;
 import at.srfg.iot.common.registryconnector.AssetComponent;
 import at.srfg.iot.common.registryconnector.IAssetRegistry;
 /**
@@ -43,15 +39,25 @@ import at.srfg.iot.common.registryconnector.IAssetRegistry;
  * @author dglachs
  *
  */
-public class AssetRegistry implements IAssetRegistry, AssetComponent {
+public class AssetRegistry implements IAssetRegistry {
 	/**
 	 * Service Proxy to the i-Asset Directory Service for registration and lookup 
 	 * 
 	 */
 	final IAssetDirectory directory;
+	/**
+	 * Service Proxy to the i-Asset Repository Service interacting with AAS
+	 */
 	final IAssetConnection repository;
-	
-	private Map<String, IAssetProvider> modelProvider = new HashMap<String, IAssetProvider>();
+	/**
+	 * Map holding the 
+	 */
+	private Map<String, IAssetModel> modelProvider = new HashMap<String, IAssetModel>();
+	/**
+	 * Registry ModelListener
+	 */
+	List<IAssetModelListener> modelListener = new ArrayList<IAssetModelListener>();
+
 	
 	private IAssetModelListener registryListener = new IAssetModelListener() {
 		
@@ -124,10 +130,14 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 //	private I40Component server;
 	
 	private AssetComponent component;
-	
-	public void start() {
+	@Override
+	public void start(int port) {
+		
 		if ( component == null ) {
-			component = new I40Component(5000, "/");
+			component = new I40Component(port, "/");
+		}
+		for (String alias : modelProvider.keySet()) {
+			serve(modelProvider.get(alias), alias);
 		}
 		component.start();
 		
@@ -138,11 +148,11 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 			component.stop();
 		}
 	}
-	public void addModel(String alias, IAssetProvider model) {
+	public void addModel(String alias, IAssetModel model) {
 		modelProvider.put(alias, model);
 	}
 	
-	public void serve(IAssetProvider provider, String alias) {
+	public void serve(IAssetModel provider, String alias) {
 		if (component == null) {
 			component = new I40Component(5000, "/");
 		}
@@ -159,111 +169,210 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 	}
 
 	@Override
-	public void register(AssetAdministrationShellDescriptor descriptor) {
-		Optional<AssetAdministrationShell> storedAAS = directory.register(descriptor);
-		
-
-	}
-
-	/**
-	 * Obtain a new AssetInstance from a provided type
-	 * @param identifier
-	 * @return
-	 */
-	public IAssetProvider fromType(Identifier instanceId, Identifier identifier) {
-		Optional<Identifiable> instanceRoot = repository.getRoot(instanceId.getId());
-		// 
+	public IAssetModel create(String alias, Identifier identifier) {
 		Optional<Identifiable> root = repository.getRoot(identifier.getId());
-		if ( root.isPresent()) {
-			Identifiable type = root.get();
-			switch(root.get().getModelType()) {
-			case AssetAdministrationShell:
-				AssetAdministrationShell shell = new AssetAdministrationShell(instanceId);
-				shell.setDerivedFrom(type.asReference());
-				shell.setAsset(new Asset());
-				shell.getAsset().setKind(Kind.Instance);
-				shell.setDescription(type.getDescription());
-				for (Referable ref : type.getChildren()) {
-					// ref might be a reference
-					switch(ref.getModelType()) {
-					case Reference:
-						Reference refToSub = Reference.class.cast(ref);
-						if ( refToSub.hasRoot(type) ) {
-							// 
-							Optional<Referable> full = repository.getModelElement(identifier.getId(), Reference.class.cast(ref));
-							if ( full.isPresent() ) {
-								if ( HasKind.class.isInstance(full.get())) {
-									HasKind kind = HasKind.class.cast(full.get());
-									full = kind.asInstance(shell);
-									if ( full.isPresent()) {
-										//sh
-									}
-								}
-								else {
-									shell.addChildElement(full.get());
-								}
-							}
-						}
-						else {
-							Optional<Referable> full = repository.getModelElement(refToSub.getFirstIdentifier().getId(), refToSub);
-							if ( full.isPresent() ) {
-								Referable fullType = full.get();
-								if ( HasKind.class.isInstance(fullType)) {
-									HasKind kind = HasKind.class.cast(fullType);
-									full = kind.asInstance(shell);
-									if ( full.isPresent()) {
-										//sh
-									}
-								}
-								else {
-									shell.addChildElement(full.get());
-								}
-							}
-							
-						}
-						break;
-					case Submodel:
-						shell.addSubmodel(Submodel.class.cast(ref));
-						break;
-					}
-				}
-//				for (Submodel sub : type.getChildElements(Submodel.class)) {
-//					//
-//					repository.getModelElement(identifier.getId(), element)
-//				}
-				return new AssetModel(shell);
-			case Submodel:
-				Submodel submodel = new Submodel();
-				submodel.setSemanticId(type.asReference());
-				submodel.setDescription(type.getDescription());
-			
-			default:
-			}
+		if ( root.isPresent() ) {
+			Identifiable rootElement = root.get();
+			return create(alias, rootElement);
+		}
+		if (! modelProvider.containsKey(alias)) {
 			
 		}
-		
-		Optional<AssetAdministrationShellDescriptor> aasDescriptor = directory.lookup(identifier.getId());
-		if (aasDescriptor.isPresent()) {
-			AssetAdministrationShellDescriptor descriptor = aasDescriptor.get();
-			IAssetConnection repoConn = ConsumerFactory.createConsumer(directoryUrl+"/repository", IAssetConnection.class);
-			AssetAdministrationShell shell = new AssetAdministrationShell();
-			// copy from Descriptor
-			shell.setDerivedFrom(descriptor.asReference());
-			shell.setAsset(descriptor.getAsset());
-			shell.setDescription(descriptor.getDescription());
-			
-			// 
-			
-			for (SubmodelDescriptor desc : descriptor.getSubmodels() ) {
-				// deal with endpoints
+		throw new RuntimeException("Model creation failed!");
+
+	}
+	public Optional<Referable> resolve(String identifier, Reference reference) {
+		return repository.getModelElement(identifier, reference);
+	}
+	public Optional<Referable> resolveInstance(String identifier, Reference reference) {
+		return repository.getModelInstance(identifier, reference);
+	}
+//	private IAssetModel connectWithAgent(Identifier identifier) {
+//		Optional<AssetAdministrationShellDescriptor> descriptor = directory.lookup(identifier.getId());
+//		if ( descriptor.isPresent() ) {
+//			// create the (Connected)AssetModel
+//			String endpoint = getEndpoint(descriptor.get());
+//			IAssetConnection repo =ConsumerFactory.createConsumer(endpoint, IAssetConnection.class);
+//			// 
+//			Optional<Identifiable> root = repo.getRoot(identifier.getId());
+//			
+//			Identifiable type = root.get();
+//			
+//			IAssetModel model = new AssetModel(type, directoryUrl + "/repository");
+//			return model;
+//			
+//		}
+//		return null;
+//	}
+	@Override
+	public IAssetModel create(String alias, Identifier identifier, Identifier type) {
+		Optional<Identifiable> root = repository.getRoot(identifier.getId());
+		if ( root.isPresent() ) {
+			Identifiable rootElement = root.get();
+			return create(alias, rootElement);
+		}
+		else {
+			Optional<Identifiable> typeRoot = repository.getRoot(type.getId());
+			if ( typeRoot.isPresent()) {
+				Identifiable typeElement = typeRoot.get();
+				AssetAdministrationShell shell = new AssetAdministrationShell(type);
+				shell.setDerivedFrom(typeElement.asReference());
+				shell.setAsset(new Asset());
+				shell.getAsset().setKind(Kind.Instance);
+				shell.setDescription(typeElement.getDescription());
+				AssetModel instanceModel = new AssetModel(this,shell);
+				for ( Referable child : typeElement.getChildren()) {
+					if ( Reference.class.isInstance(child)) {
+						Optional<Referable> full = repository.getModelInstance(type.getId(), Reference.class.cast(child));
+						
+						if ( full.isPresent()) {
+							child = full.get();
+						}
+					}
+					// add the element to the model
+					instanceModel.setElement(shell.asReference(), child);
+					
+				}
+				return instanceModel;
 			}
-			AssetModel model = new AssetModel(shell);
 			
 		}
 		return null;
 	}
+	@Override
+	public IAssetModel create(String alias, Identifiable rootElement) {
+		AssetModel rootModel = new AssetModel(this,rootElement);
+		for ( Reference childRef : rootElement.getChildElements(Reference.class)) {
+			Optional<Referable> child = repository.getModelInstance(rootElement.getId(), childRef);
+			if ( child.isPresent()) {
+				// add the model
+				rootModel.setElement(rootElement.asReference(), child.get());
+			}
+		}
+		// handle the activation of the model
+		modelProvider.put(alias, rootModel);
+		// when I4.0 component has been started already, then add the model
+		if ( component != null && component.isStarted()) {
+			component.serve(rootModel, alias);
+		}
+		//
+		return rootModel;
+	}
+	@Override
+	public void delete(IAssetModel provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+//	/**
+//	 * Obtain a new AssetInstance from a provided type
+//	 * @param identifier
+//	 * @return
+//	 */
+//	public IAssetModel fromType(Identifier instanceId, Identifier identifier) {
+//		Optional<Identifiable> instanceRoot = repository.getRoot(instanceId.getId());
+//		// 
+//		Optional<Identifiable> root = repository.getRoot(identifier.getId());
+//		if ( root.isPresent()) {
+//			Identifiable type = root.get();
+//			switch(root.get().getModelType()) {
+//			case AssetAdministrationShell:
+//				AssetAdministrationShell shell = new AssetAdministrationShell(instanceId);
+//				shell.setDerivedFrom(type.asReference());
+//				shell.setAsset(new Asset());
+//				shell.getAsset().setKind(Kind.Instance);
+//				shell.setDescription(type.getDescription());
+//				AssetModel instanceModel = new AssetModel(this,shell);
+//				
+//				for (Referable ref : type.getChildren()) {
+//					// ref might be a reference
+//					switch(ref.getModelType()) {
+//					case Reference:
+//						Reference refToSub = Reference.class.cast(ref);
+//						if ( refToSub.hasRoot(type) ) {
+//							// 
+//							Optional<Referable> full = repository.getModelElement(identifier.getId(), Reference.class.cast(ref));
+//							if ( full.isPresent() ) {
+//								
+//								if ( HasKind.class.isInstance(full.get())) {
+//									HasKind kind = HasKind.class.cast(full.get());
+//									// 
+////									kind.accept(new HasKindVisitorImpl(instanceModel));
+//									// 
+//									full = kind.asInstance(shell);
+//									if ( full.isPresent()) {
+//										// 
+//										instanceModel.setElement(shell.asReference(), full.get());
+//										//sh
+//									}
+//								}
+//								else {
+//									shell.addChildElement(full.get());
+//								}
+//							}
+//						}
+//						else {
+//							Optional<Referable> full = repository.getModelElement(refToSub.getFirstIdentifier().getId(), refToSub);
+//							if ( full.isPresent() ) {
+//								Referable fullType = full.get();
+//								if ( HasKind.class.isInstance(fullType)) {
+//									HasKind kind = HasKind.class.cast(fullType);
+//									full = kind.asInstance(shell);
+//									if ( full.isPresent()) {
+//										//sh
+//									}
+//								}
+//								else {
+//									shell.addChildElement(full.get());
+//								}
+//							}
+//							
+//						}
+//						break;
+//					case Submodel:
+//						// 
+//						instanceModel.setElement(shell.asReference(),  Submodel.class.cast(ref));
+////						shell.addSubmodel(Submodel.class.cast(ref));
+//						break;
+//					}
+//				}
+////				for (Submodel sub : type.getChildElements(Submodel.class)) {
+////					//
+////					repository.getModelElement(identifier.getId(), element)
+////				}
+//				return instanceModel;
+//			case Submodel:
+//				Submodel submodel = new Submodel();
+//				submodel.setSemanticId(type.asReference());
+//				submodel.setDescription(type.getDescription());
+//			
+//			default:
+//			}
+//			
+//		}
+//		
+//		Optional<AssetAdministrationShellDescriptor> aasDescriptor = directory.lookup(identifier.getId());
+//		if (aasDescriptor.isPresent()) {
+//			AssetAdministrationShellDescriptor descriptor = aasDescriptor.get();
+//			IAssetConnection repoConn = ConsumerFactory.createConsumer(directoryUrl+"/repository", IAssetConnection.class);
+//			AssetAdministrationShell shell = new AssetAdministrationShell();
+//			// copy from Descriptor
+//			shell.setDerivedFrom(descriptor.asReference());
+//			shell.setAsset(descriptor.getAsset());
+//			shell.setDescription(descriptor.getDescription());
+//			
+//			// 
+//			
+//			for (SubmodelDescriptor desc : descriptor.getSubmodels() ) {
+//				// deal with endpoints
+//			}
+//			AssetModel model = new AssetModel(this,shell);
+//			
+//		}
+//		return null;
+//	}
 	
-	public void register(IAssetProvider provider) {
+	public void register(IAssetModel provider) {
 		Identifiable root = provider.getRoot();
 		if ( AssetAdministrationShell.class.isInstance(root)) {
 			//
@@ -296,7 +405,11 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 		// pass the id for unregistering
 		directory.unregister(aasIdentifier.getId());
 	}
-
+	public void delete(String alias) {
+		if ( modelProvider.containsKey(alias)) {
+			modelProvider.get(alias).getRoot();
+		}
+	}
 	@Override
 	public void delete(Identifier aasIdentifier, Identifier submodelIdentifier) {
 		// 
@@ -329,35 +442,7 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 		return directory.lookup(aasIdentifier.getId(), submodelIdentifier.getId());
 	}
 
-	private String getEndpoint(DirectoryEntry directory) {
-		Optional<Endpoint> ep = directory.getFirstEndpoint();
-		if ( ep.isPresent()) {
-			return ep.get().getAddress();
-		}
-		return directoryUrl;
-	}
-	public void add(IAssetProvider provider) {
-		
-	}
 
-	@Override
-	public IAssetProvider connect(Identifier identifier) {
-		Optional<AssetAdministrationShellDescriptor> descriptor = directory.lookup(identifier.getId());
-		if ( descriptor.isPresent() ) {
-			// create the (Connected)AssetModel
-			String endpoint = getEndpoint(descriptor.get());
-			IAssetConnection repo =ConsumerFactory.createConsumer(endpoint, IAssetConnection.class);
-			// 
-			Optional<Identifiable> root = repo.getRoot(identifier.getId());
-			
-			Identifiable type = root.get();
-			
-			IAssetProvider model = new ConnectedAssetModel(type, directoryUrl + "/repository");
-			return model;
-			
-		}
-		return null;
-	}
 	@Override
 	public Object invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters) {
 		try {
@@ -369,17 +454,24 @@ public class AssetRegistry implements IAssetRegistry, AssetComponent {
 		return repository.invokeOperation(aasIdentifier.getId(), path, parameters);
 	}
 	@Override
-	public void setAssetComponent(AssetComponent component) {
-		this.component = component;
+	public AssetComponent getComponent() {
+		if ( component == null) {
+			component = new I40Component(5000, "/");
+			
+		}
+		return component;
 		
 	}
 	@Override
 	public void addModelListener(IAssetModelListener listener) {
-		if ( component == null) {
-			throw new IllegalStateException("Component not yet initialized!");
+		this.modelListener.add(listener);
+		
+	}
+	@Override
+	public void accept(Consumer<IAssetModelListener> method) {
+		if (! this.modelListener.isEmpty()) {
+			this.modelListener.parallelStream().forEach(method);
 		}
-		component.addModelListener(listener);
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -1,11 +1,9 @@
-package at.srfg.iot.common.datamodel.asset.provider.impl;
+package at.srfg.iot.common.aas;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -28,24 +26,23 @@ import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
 import at.srfg.iot.common.datamodel.asset.api.IAssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodel;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodelElement;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
+import at.srfg.iot.common.registryconnector.impl.AssetRegistry;
 /**
  * In Memory Model representing either an {@link AssetAdministrationShell} or a {@link Submodel}.
  * 
  * @author dglachs
  *
  */
-@Deprecated
-public class AssetModel implements IAssetProvider {
+public class AssetModel implements IAssetModel {
 	
 	private final Identifiable root;
+	private final AssetRegistry registry;
 	
-	private final List<IAssetModelListener> modelListener;
-	
-	public AssetModel(Identifiable root) {
-		this.modelListener = new ArrayList<IAssetModelListener>();
+	public AssetModel(AssetRegistry registry, Identifiable root) {
 		this.root = root;
+		this.registry = registry;
+		// 
+		handleCreation(root);
 	}
 	public Identifiable getRoot() {
 		return this.root;
@@ -144,9 +141,7 @@ public class AssetModel implements IAssetProvider {
 			else {
 				return Optional.empty();
 			}
-			
 		}
-		
 		return Optional.of(current);
 	}
 	private String[] checkPath(String path) {
@@ -266,6 +261,7 @@ public class AssetModel implements IAssetProvider {
 			parent.removeChildElement(elemExist.get());
 		}
 		parent.addChildElement(element);
+		//
 		handleCreation(element);
 		// 
 		return element;
@@ -397,6 +393,7 @@ public class AssetModel implements IAssetProvider {
 		}
 		
 	}
+	
 	/**
 	 * Helper method for traversing the tree hierarchy, searching for {@link Property}, {@link Operation}
 	 * and {@link EventElement} elements and notifies the registered {@link IAssetModelListener}s
@@ -406,7 +403,7 @@ public class AssetModel implements IAssetProvider {
 	private void handleDeletion(Referable element) {
 		switch(element.getModelType()) {
 		case Property:
-			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+			registry.accept(new Consumer<IAssetModelListener>() {
 
 				@Override
 				public void accept(IAssetModelListener t) {
@@ -415,7 +412,7 @@ public class AssetModel implements IAssetProvider {
 			});
 			break;
 		case Operation:
-			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+			registry.accept(new Consumer<IAssetModelListener>() {
 
 				@Override
 				public void accept(IAssetModelListener t) {
@@ -424,7 +421,7 @@ public class AssetModel implements IAssetProvider {
 			});
 			break;
 		case EventElement:
-			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+			registry.accept(new Consumer<IAssetModelListener>() {
 
 				@Override
 				public void accept(IAssetModelListener t) {
@@ -448,11 +445,16 @@ public class AssetModel implements IAssetProvider {
 			break;
 		}
 	}
-	
 	private void handleCreation(Referable element) {
 		switch(element.getModelType()) {
+//		case Reference:
+//			Optional<Referable> ref = registry.resolveInstance(root.getId(), Reference.class.cast(element));
+//			if ( ref.isPresent() ) {
+//				
+//			}
+//			break;
 		case Property:
-			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+			registry.accept(new Consumer<IAssetModelListener>() {
 
 				@Override
 				public void accept(IAssetModelListener t) {
@@ -461,7 +463,7 @@ public class AssetModel implements IAssetProvider {
 			});
 			break;
 		case Operation:
-			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+			registry.accept(new Consumer<IAssetModelListener>() {
 
 				@Override
 				public void accept(IAssetModelListener t) {
@@ -470,7 +472,7 @@ public class AssetModel implements IAssetProvider {
 			});
 			break;
 		case EventElement:
-			modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+			registry.accept(new Consumer<IAssetModelListener>() {
 
 				@Override
 				public void accept(IAssetModelListener t) {
@@ -495,7 +497,7 @@ public class AssetModel implements IAssetProvider {
 		}
 	}
 	private void handleValueChange(DataElement<?> element, Object value) {
-		modelListener.parallelStream().forEach(new Consumer<IAssetModelListener>() {
+		registry.accept(new Consumer<IAssetModelListener>() {
 
 			@Override
 			public void accept(IAssetModelListener t) {
@@ -504,10 +506,5 @@ public class AssetModel implements IAssetProvider {
 		});
 		
 	}
-	
 
-	@Override
-	public void addModelListener(IAssetModelListener listener) {
-		this.modelListener.add(listener);
-	}
 }
