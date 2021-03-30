@@ -66,11 +66,6 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 	private List<ConceptDictionary> conceptDictionary;
 	@OneToOne (mappedBy = "assetAdministrationShell", cascade = CascadeType.ALL, optional = false)
 	private Asset asset;
-//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	@JoinTable(name = "aas_submodel_assignment", 
-//		joinColumns = {	@JoinColumn(name = "model_element_id") }, 
-//		inverseJoinColumns = { @JoinColumn(name = "submodel_id") })
-//	private List<Submodel> subModel;
 	
 	/**
 	 * Map of {@link Endpoint} elements, at least one entry
