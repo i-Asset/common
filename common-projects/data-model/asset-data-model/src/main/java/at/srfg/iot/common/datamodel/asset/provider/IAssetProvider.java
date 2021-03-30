@@ -24,6 +24,7 @@ import at.srfg.iot.common.datamodel.asset.api.ISubmodel;
  * @author dglachs
  *
  */
+@Deprecated
 public interface IAssetProvider {
 	public IAssetAdministrationShell getShell();
 	
@@ -96,17 +97,54 @@ public interface IAssetProvider {
 	 */
 	public Optional<Referable> getElement(String path);
 	/**
-	 * 
+	 * Retrieve an element by it's path with type check
 	 * @param <T>
-	 * @param path
-	 * @param clazz
+	 * @param path The path to the element
+	 * @param clazz The expected type of the element, subclass of {@link Referable}
 	 * @return
 	 */
 
 	<T extends Referable> Optional<T> getElement(String path, Class<T> clazz);
+	/**
+	 * Retrieve an element by it's path with type check
+	 * @param <T>
+	 * @param submodelIdShort The explicit idShort of the {@link Submodel}
+	 * @param path The path to the element
+	 * @param clazz The expected type of the element, subclass of {@link Referable}
+	 * @return
+	 */
 	<T extends Referable> Optional<T> getElement(String submodelIdShort, String path, Class<T> clazz);
+	/**
+	 * Connect the asset model with a physical asset {@link Consumer} function in order 
+	 * to accept a new value. The function is called when a new value for the property is provided.
+	 * @param pathToProperty The path to the property 
+	 * @param consumer The consumer function
+	 */
 	void setValueConsumer(String pathToProperty, Consumer<String> consumer);
+	/**
+	 * Connect the asset model with a physicial asset {@link Supplier} function in order to provide
+	 * the actual value. The function is called whenever the property is serialized.
+	 * @param pathToProperty The path to the property
+	 * @param supplier The siupplier function
+	 */
 	void setValueSupplier(String pathToProperty, Supplier<String> supplier);
+	/**
+	 * Connect the asset model with a physical operation. This is realized with a 
+	 * {@link Function} that takes a {@link Map} as arguments. The map represents
+	 * the the (named) arguments for the operation to execute. 
+	 * @param pathToOperation
+	 * @param function The {@link Function} to execute
+	 */
 	void setFunction(String pathToOperation, Function<Map<String, Object>, Object> function);
+	/**
+	 * Add a model listener. The model listener methods are notified whenver
+	 * <ul>
+	 * <li>An EventElement is added/removed
+	 * <li>An Operation is added/removed
+	 * <li>A Property is added/removed
+	 * <li>A Property's value has been updated
+	 * </ul> 
+	 * @param listener
+	 */
 	void addModelListener(IAssetModelListener listener);
 }
