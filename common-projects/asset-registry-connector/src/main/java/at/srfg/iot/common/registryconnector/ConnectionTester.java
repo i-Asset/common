@@ -34,8 +34,6 @@ public class ConnectionTester {
 
 	public static void main(String[] args) {
 
-		//AssetAdministrationShell aas = createAASTypeFromJSONFile(); // TODO: Testing AAS JSON loading
-
 		// component.registerWith(registry);
 		IAssetRegistry registry = IAssetRegistry.componentWithRegistry("http://localhost:8085")
 												.componentAtPort(5000);
@@ -144,6 +142,10 @@ public class ConnectionTester {
 		
 		registry.start();
 
+		/**
+ 		* Alternatively init an AssetAdministrationShell with a full JSON file
+ 		*/
+		//AssetAdministrationShell aas = createAASTypeFromJSONFile(); // Testing AAS JSON loading
 
 		
 		/**
