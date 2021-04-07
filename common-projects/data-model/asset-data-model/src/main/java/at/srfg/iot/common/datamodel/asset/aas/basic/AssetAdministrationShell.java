@@ -23,6 +23,10 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.*;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.SubmodelElement;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElement;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.OperationVariable;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.ReferenceElement;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import at.srfg.iot.common.datamodel.asset.aas.common.DirectoryEntry;
@@ -395,7 +399,7 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 	/**
 	 * initialize this class with data from json object
 	 */
-	public void initWithJSONData(JSONObject obj)
+	private void initWithJSONData(JSONObject obj)
 	{
 		Iterator<String> keys = obj.keys();
 		while(keys.hasNext()) {
@@ -413,6 +417,7 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 
 						Submodel sub = new Submodel();
 						parseJSONEntry(arr.getJSONObject(i), key, sub);
+						addAllSubmodelElements(sub, arr.getJSONObject(i).getJSONArray("submodelElements"));
 						this.addSubmodel(sub);
 					}
 				}
@@ -428,7 +433,7 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 	 * @param key : string value to find current object
 	 * @param model : optional parameter to reuse this helper function for submodel entries
 	 */
-	public void parseJSONEntry(JSONObject obj, String key, Submodel model)
+	private void parseJSONEntry(JSONObject obj, String key, Submodel model)
 	{
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
@@ -473,11 +478,54 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 					else throw new Exception("Format not allowed: Submodels may never have Asset entries");
 					break;
 
-				default: // TODO: not yet implemented: "submodelElements" of submodels
+				default:
 					break;
 			}
 		}
 		catch (JsonProcessingException e) {e.printStackTrace();}
 		catch (Exception e) {e.printStackTrace();}
+	}
+
+	/**
+	 * add submodelElements to submodel
+	 * @param model : submodel will be filled with submodelelements
+	 * @param arr : JSONArray contains all submodelElements
+	 */
+	private void addAllSubmodelElements(Submodel model, JSONArray arr)
+	{
+		if(model != null)
+		{
+			for (int i = 0; i < arr.length(); i++) {
+
+				SubmodelElement elem = null; // e.g. DataElement/EventElement/OperationElement
+				String str = arr.getJSONObject(i).getString("modelType");
+
+				if(str.equals("OperationVariable")) // OperationVariable
+				{
+					elem = new OperationVariable();
+				}
+				else if(str.equals("EventElement")) // EventElement
+				{
+					elem = new EventElement();
+				}
+				else if(str.equals("Reference")) // DataElement?
+				{
+					elem = new ReferenceElement();
+				}
+				else // TODO: rest not yet implemented
+				{
+					continue;
+				}
+
+				elem.setCategory(arr.getJSONObject(i).getString("category"));
+				elem.setIdShort(arr.getJSONObject(i).getString("idShort"));
+
+				if (arr.getJSONObject(i).getString("kind").equals("Type")) elem.setKind(Kind.Type);
+				else elem.setKind(Kind.Instance);
+
+				// add more props if needed...
+				model.addSubmodelElement(elem);
+			}
+		}
 	}
 }
