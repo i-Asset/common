@@ -3,12 +3,15 @@ package at.srfg.iot.common.registryconnector;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
+import at.srfg.iot.common.aas.IAssetModel;
+import at.srfg.iot.common.aas.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
+import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
@@ -20,53 +23,52 @@ import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElem
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Operation;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.SubmodelElementCollection;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetModelListener;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
-import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
 
 public class ConnectionTester {
 
 	public static void main(String[] args) {
 
 		// component.registerWith(registry);
-		IAssetRegistry registry = IAssetRegistry.componentWithRegistry("http://localhost:8085")
-												.componentAtPort(5000);
+		IAssetRegistry registry = IAssetRegistry.componentWithRegistry("http://localhost:8085");
+//												.componentAtPort(5000);
 		//
 		registry.addModelListener(new IAssetModelListener() {
 
 			@Override
 			public void onEventElementCreate(String path, EventElement element) {
+				
 				System.out.println(String.format("Event %s - element created", path));
 				
 			}
 
 			@Override
 			public void onEventElementRemove(String path, EventElement element) {
-				// TODO Auto-generated method stub
+				System.out.println(String.format("Event %s - element removed", path));
 				
 			}
 
 			@Override
 			public void onOperationCreate(String path, Operation element) {
-				// TODO Auto-generated method stub
+				System.out.println(String.format("Operation %s - element created", path));
 				
 			}
 
 			@Override
 			public void onOperationRemove(String path, Operation element) {
-				// TODO Auto-generated method stub
+				System.out.println(String.format("Operation %s - element removed", path));
 				
 			}
 
 			@Override
 			public void onPropertyCreate(String path, Property property) {
-				// TODO Auto-generated method stub
+				System.out.println(String.format("Property %s - element created", path));
+				property.setGetter(()->"Value of Property " + path + " "+ LocalDateTime.now());
 				
 			}
 
 			@Override
 			public void onPropertyRemove(String path, Property property) {
-				// TODO Auto-generated method stub
+				System.out.println(String.format("Property %s - element removed", path));
 				
 			}
 
@@ -79,25 +81,40 @@ public class ConnectionTester {
 			
 
 		});
+
 		/**
-		 * create an INSTANCE of the Asset 
+		 * connect an existing AAS or Submodel (loaded from file)
 		 */
-		IAssetProvider beltInstance = registry.fromType(
-				// 
-				new Identifier("http://iasset.labor/belt"),
-				// 
-				new Identifier("http://iasset.salzburgresearch.at/labor/belt#aas"));
-		// use the idShort - possibly for an alias
-		beltInstance.getRoot().setIdShort("belt");
-		
-		
-		
+		registry.create("belt2", shell());
+		/**
+		 * connect an existing AAS 
+		 */
+		IAssetModel beltInstance = registry.create("belt",
+			// 
+			new Identifier("http://iasset.labor/belt"),
+			// 
+			new Identifier("http://iasset.salzburgresearch.at/labor/belt#aas"));
+//		//registry.connect(AAS | Submodel)
+//		/**
+//		 * connect an 
+//		 * 
+//		 */
+//		//registry.create(
+//		/**
+//		 * create an INSTANCE of the Asset 
+//		 */
+//		IAssetProvider beltInstance = registry.fromType(
+//		// use the idShort - possibly for an alias
+//		beltInstance.getRoot().setIdShort("belt");
+//		
+//		
+//		
 		/**
 		 * connect the AAS INSTANCE with the local physical device, e.g. access the DEVICE's data
 		 * 
 		 * NOTE: only sample-code at this point 
 		 */
-		beltInstance.setFunction("operations/maintenanceAlert", new Function<Map<String, Object>, Object>() {
+		beltInstance.setFunction("operations/setSpeed", new Function<Map<String, Object>, Object>() {
 
 				@Override
 				public Object apply(Map<String, Object> t) {
@@ -116,69 +133,71 @@ public class ConnectionTester {
 		// add a supplier function to the property
 		beltInstance.setValueSupplier("properties/beltData/distance",
 				// the getter function must return a string
-				() -> "Distance belt so far read at timestamp, special for Bernhard: " + LocalDateTime.now().toString());
+				() -> "Distance belt so far read at timestamp: " + LocalDateTime.now().toString());
+//
+//		
+//		
+//		
+//		
+//		
+//		/**
+//		 * Tell the Industry 4.0 Component to serve the INSTANCE with a given context 
+//		 * and start the component's endpoint
+//		 * 
+//		 * The AAS can be accessed from outside then .
+//		 */
+//		registry.serve(beltInstance, "belt");
+//
+//		IAssetModel belt2Instance = shell();
+//		registry.serve(belt2Instance, "belt2");
+//		
+//		registry.start(5000);
+//
+//
+//		
+////		/**
+////		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
+////		 * 
+////		 */
+////		registry.register(beltInstance);
+////		/**
+////		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
+////		 * Problem at this point: the belt2Instance only holds references to it's "semanticId's"
+////		 * 
+////		 * TODO: implement a function to resolve the type information when required!
+////		 * 
+////		 */
+////		registry.register(belt2Instance);
+//		
+//		
+//		// create the parameter map, the keys consist of the idShort's of the OperationVariable (inputVariable)
+//		Map<String,Object> params = new HashMap<String, Object>();
+//		// operation specifies a "spee" input parameter -> seee localhost:5000/belt/element/operations/setSpeed
+//		params.put("speed", 17.3d);
+//		// send a post request to the registry, check the stored endpoint and delegate the request to the device
+//		Object o = registry.invokeOperation(
+//				// asset model has shell as root
+//				beltInstance.getRoot().getIdentification(),
+//				// path to the operation 
+//				"operations/setSpeed",
+//				// 
+//				params);
+//		
+//		if ( o instanceof Map ) {
+//			Map<String,Object> map = (Map<String,Object>) o;
+//			System.out.println(map.get("result"));
+//		}
+//
+//		IAssetProvider connected = registry.connect(beltInstance.getRoot().getIdentification());
+//		// connected must do at this point:
+//		// - resolve the reference for "properties"
+//		// - 
+//		Optional<Property> speedProperty = connected.getElement("properties/beltData/speed", Property.class);
+//		/**
+//		 * Deactivate the service endpoint
+//		 */
+		registry.start(5000);
 
-		
-		
-		
-		
-		
-		/**
-		 * Tell the Industry 4.0 Component to serve the INSTANCE with a given context 
-		 * and start the component's endpoint
-		 * 
-		 * The AAS can be accessed from outside then .
-		 */
-		registry.serve(beltInstance, "belt");
-
-		IAssetProvider belt2Instance = shell();
-		registry.serve(belt2Instance, "belt2");
-		
-		registry.start();
-
-
-		
-		/**
-		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
-		 * 
-		 */
-		registry.register(beltInstance);
-		/**
-		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
-		 * Problem at this point: the belt2Instance only holds references to it's "semanticId's"
-		 * 
-		 * TODO: implement a function to resolve the type information when required!
-		 * 
-		 */
-		registry.register(belt2Instance);
-		
-		
-		// create the parameter map, the keys consist of the idShort's of the OperationVariable (inputVariable)
-		Map<String,Object> params = new HashMap<String, Object>();
-		// operation specifies a "spee" input parameter -> seee localhost:5000/belt/element/operations/setSpeed
-		params.put("speed", 17.3d);
-		// send a post request to the registry, check the stored endpoint and delegate the request to the device
-		Object o = registry.invokeOperation(
-				// asset model has shell as root
-				beltInstance.getRoot().getIdentification(),
-				// path to the operation 
-				"operations/setSpeed",
-				// 
-				params);
-		
-		if ( o instanceof Map ) {
-			Map<String,Object> map = (Map<String,Object>) o;
-			System.out.println(map.get("result"));
-		}
-
-		IAssetProvider connected = registry.connect(beltInstance.getRoot().getIdentification());
-		// connected must do at this point:
-		// - resolve the reference for "properties"
-		// - 
-		Optional<Property> speedProperty = connected.getElement("properties/beltData/speed", Property.class);
-		/**
-		 * Deactivate the service endpoint
-		 */
 		registry.stop();
 		
 	}
@@ -190,7 +209,7 @@ public class ConnectionTester {
 	 * related to their semantic definition, e.g. corresponding element from the asset type 
 	 * @return
 	 */
-	private static IAssetProvider shell() {
+	private static Identifiable shell() {
 
 		AssetAdministrationShell aShell = new AssetAdministrationShell("http://iasset.labor/belt2");
 		aShell.setIdShort("belt2");
@@ -377,7 +396,7 @@ public class ConnectionTester {
 //				);
 
 		
-		return new AssetModel(aShell);
+		return aShell;
 
 	}
 
