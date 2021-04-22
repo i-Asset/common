@@ -1,10 +1,6 @@
 package at.srfg.iot.common.datamodel.asset.aas.basic;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -26,19 +22,24 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.*;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.SubmodelElement;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElement;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.OperationVariable;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.ReferenceElement;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import at.srfg.iot.common.datamodel.asset.aas.common.DirectoryEntry;
 import at.srfg.iot.common.datamodel.asset.aas.common.HasDataSpecification;
 import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.IdentifiableElement;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.ReferableElement;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 import at.srfg.iot.common.datamodel.asset.aas.dictionary.ConceptDictionary;
 import at.srfg.iot.common.datamodel.asset.api.IAssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodel;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @Entity
 @Table(name="aas")
@@ -82,9 +83,7 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 	/**
 	 * Default constructor
 	 */
-	public AssetAdministrationShell() {
-		
-	}
+	public AssetAdministrationShell() {}
 	public AssetAdministrationShell(String identifier) {
 		this(new Identifier(identifier));
 	}
@@ -92,6 +91,11 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 		this.setIdentification(identifier);
 		this.setIdShort("");
 	}
+	public AssetAdministrationShell(JSONObject obj)
+	{
+		initWithJSONData(obj);
+	}
+
 	/**
 	 * 
 	 * @param asset
@@ -385,5 +389,138 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 			return getChildElements().remove(submodel);
 		}
 		return false;
+	}
+
+	/**
+	 * initialize this class with data from json object
+	 */
+	private void initWithJSONData(JSONObject obj)
+	{
+		Iterator<String> keys = obj.keys();
+		while(keys.hasNext()) {
+			String key = keys.next();
+			if (obj.get(key) instanceof JSONObject) // add entries for AAS
+			{
+				parseJSONEntry(obj, key, null);
+			}
+			else if(obj.get(key) instanceof JSONArray) // add submodels
+			{
+				if(key.equals("submodels"))
+				{
+					JSONArray arr = obj.getJSONArray("submodels");
+					for (int i = 0; i < arr.length(); i++) {
+
+						Submodel sub = new Submodel();
+						parseJSONEntry(arr.getJSONObject(i), key, sub);
+						addAllSubmodelElements(sub, arr.getJSONObject(i).getJSONArray("submodelElements"));
+						this.addSubmodel(sub);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * parse one entry, may be added to submodel or to this asset administration shell
+	 * if model is not null, function will add entry to submodel
+	 * if model is null, function will add entry to aas instead
+	 * @param obj : entity to be parsed
+	 * @param key : string value to find current object
+	 * @param model : optional parameter to reuse this helper function for submodel entries
+	 */
+	private void parseJSONEntry(JSONObject obj, String key, Submodel model)
+	{
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			switch (key)
+			{
+				case "category":
+					if ((model == null)) this.setCategory((String) obj.get("category"));
+					else model.setCategory((String) obj.get("category"));
+					break;
+
+				case "idShort":
+					if ((model == null)) this.setIdShort((String) obj.get("idShort"));
+					else model.setIdShort((String) obj.get("idShort"));
+					break;
+
+				case "description":
+					if ((model == null)) this.setDescription("de", obj.get("description").toString());
+					else model.setDescription("de", obj.get("description").toString());
+					break;
+
+				case "administration":
+					AdministrativeInformation info = objectMapper.readValue(obj.get("administration").toString(), AdministrativeInformation.class);
+					if ((model == null)) this.setAdministration(info);
+					else model.setAdministration(info);
+					break;
+
+				case "identification":
+					Identifier id = objectMapper.readValue(obj.get("identification").toString(), Identifier.class);
+					if ((model == null)) this.setIdentification(id);
+					else model.setIdentification(id);
+					break;
+
+				case "asset":
+					JSONObject assetObj = (JSONObject)obj.get("asset");
+					Identifier assetID = objectMapper.readValue(assetObj.get("identification").toString(), Identifier.class);
+					Asset asset = new Asset();
+					asset.setIdentification(assetID);
+					asset.setDescription("de", assetObj.get("description").toString());
+					asset.setKind(((String) assetObj.get("kind")).equals("Type") ? Kind.Type : Kind.Instance);
+
+					if ((model == null)) this.setAsset(asset);
+					else throw new Exception("Format not allowed: Submodels may never have Asset entries");
+					break;
+
+				default:
+					break;
+			}
+		}
+		catch (JsonProcessingException e) {e.printStackTrace();}
+		catch (Exception e) {e.printStackTrace();}
+	}
+
+	/**
+	 * add submodelElements to submodel
+	 * @param model : submodel will be filled with submodelelements
+	 * @param arr : JSONArray contains all submodelElements
+	 */
+	private void addAllSubmodelElements(Submodel model, JSONArray arr)
+	{
+		if(model != null)
+		{
+			for (int i = 0; i < arr.length(); i++) {
+
+				SubmodelElement elem = null; // e.g. DataElement/EventElement/OperationElement
+				String str = arr.getJSONObject(i).getString("modelType");
+
+				if(str.equals("OperationVariable")) // OperationVariable
+				{
+					elem = new OperationVariable();
+				}
+				else if(str.equals("EventElement")) // EventElement
+				{
+					elem = new EventElement();
+				}
+				else if(str.equals("Reference")) // DataElement?
+				{
+					elem = new ReferenceElement();
+				}
+				else // TODO: rest not yet implemented
+				{
+					continue;
+				}
+
+				elem.setCategory(arr.getJSONObject(i).getString("category"));
+				elem.setIdShort(arr.getJSONObject(i).getString("idShort"));
+
+				if (arr.getJSONObject(i).getString("kind").equals("Type")) elem.setKind(Kind.Type);
+				else elem.setKind(Kind.Instance);
+
+				// add more props if needed...
+				model.addSubmodelElement(elem);
+			}
+		}
 	}
 }
