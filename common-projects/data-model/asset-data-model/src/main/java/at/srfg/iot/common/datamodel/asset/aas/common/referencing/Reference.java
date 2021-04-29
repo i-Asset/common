@@ -59,6 +59,8 @@ public class Reference extends ReferableElement implements Serializable {
 		}
 	}
 	public Reference(Referable to) {
+		setIdShort(to.getIdShort());
+		setCategory(to.getCategory());
 		do {
 			if (Reference.class.isInstance(to)) {
 				Reference ref = Reference.class.cast(to);
@@ -236,8 +238,8 @@ public class Reference extends ReferableElement implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
+//		if (!super.equals(obj))
+//			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Reference other = (Reference) obj;
