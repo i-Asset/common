@@ -65,6 +65,7 @@ public interface IAssetConnection extends at.srfg.iot.common.datamodel.asset.api
 	@Path("/instance")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public Optional<Referable> getModelInstance(
 			@HeaderParam(ASSET_ID_HEADER)
 			String identifier,
