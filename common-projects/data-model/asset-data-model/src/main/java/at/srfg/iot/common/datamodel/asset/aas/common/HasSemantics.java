@@ -1,5 +1,7 @@
 package at.srfg.iot.common.datamodel.asset.aas.common;
 
+import java.util.Optional;
+
 import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.ReferableElement;
@@ -26,7 +28,7 @@ public interface HasSemantics {
 	 * 
 	 * @return
 	 */
-	Referable getSemanticElement();
+	Optional<Referable> getSemanticElement();
 	/**
 	 * Set the semantic element
 	 * @param semanticId
@@ -38,16 +40,19 @@ public interface HasSemantics {
 	 * @return
 	 */
 	default Reference getSemanticId() {
-		if ( getSemanticElement()== null) {
-			return null;
-		}
-		if ( getSemanticElement() instanceof Reference) {
-			return (Reference) getSemanticElement();
+		if ( getSemanticElement().isPresent()) {
+			Referable semRef = getSemanticElement().get();
+			if ( Reference.class.isInstance(semRef)) {
+				return Reference.class.cast(semRef);
+			}
+			else {
+				return semRef.asReference();
+			}
 		}
 		else {
-			Referable semantic = getSemanticElement();
-			return semantic.asReference();
+			return null;
 		}
+
 	}
 	/**
 	 * Setter for the reference

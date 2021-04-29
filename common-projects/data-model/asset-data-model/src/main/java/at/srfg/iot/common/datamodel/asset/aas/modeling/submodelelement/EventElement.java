@@ -139,7 +139,7 @@ public class EventElement extends SubmodelElement {
 	private void joinObservableReference(Reference element) {
 		if ( element != null) {
 			Reference thisRef = asReference();
-			
+			// fixme
 			List<Key> newKeys = new ArrayList<>();
 			newKeys.add(thisRef.getFirstKey());
 			Iterator<Key> iter = element.getPathIterator();
@@ -176,26 +176,29 @@ public class EventElement extends SubmodelElement {
 		setObservableElement(reference);
 	}
 	@Override
-	public Optional<Referable> asInstance() {
+	public Optional<Referable> asInstance(Referable parent) {
 		if ( isInstance()) {
-			Optional.of(this);
+			Optional.empty();
 		}
-		EventElement instance = new EventElement();
-		instance.setIdShort(getIdShort());
-		instance.setKind(Kind.Instance);
-		instance.setCategory(getCategory());
-		instance.setDescription(getDescription());
-		// hold the semantics to the parent
-		instance.setSemanticElement(this);
-		// event specific data
-		instance.setMessageBroker(getMessageBroker());
-		instance.setMessageTopic(getMessageTopic());
-		// FIXME: the reference is no longer valid ...
-		instance.joinObservableReference(getObservableReference());
-		// 
-		instance.setDirection(getDirection());
-		instance.setActive(isActive());
-		return Optional.of(instance);
+		if (SubmodelElementContainer.class.isInstance(parent)) {
+			EventElement instance = new EventElement(getIdShort(), SubmodelElementContainer.class.cast(parent));
+			instance.setKind(Kind.Instance);
+			instance.setCategory(getCategory());
+			instance.setDescription(getDescription());
+			// hold the semantics to the parent
+			instance.setSemanticElement(this);
+			// event specific data
+			instance.setMessageBroker(getMessageBroker());
+			instance.setMessageTopic(getMessageTopic());
+			// combine the first key of the instance element with the remainder of the type
+			instance.joinObservableReference(getObservableReference());
+			// 
+			instance.setDirection(getDirection());
+			instance.setActive(isActive());
+			return Optional.of(instance);
+		}
+			
+		throw new IllegalStateException("Provided parent must be a SubmodelElementContainer");
 	}
-	
+
 }

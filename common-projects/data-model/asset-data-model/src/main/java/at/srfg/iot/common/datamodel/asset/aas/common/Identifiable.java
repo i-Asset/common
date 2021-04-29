@@ -1,5 +1,7 @@
 package at.srfg.iot.common.datamodel.asset.aas.common;
 
+import java.util.UUID;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import at.srfg.iot.common.datamodel.asset.aas.basic.AdministrativeInformation;
@@ -10,6 +12,14 @@ public interface Identifiable extends Referable {
 	public AdministrativeInformation getAdministration();
 	public void setAdministration(AdministrativeInformation administration);
 	public void setIdentification(Identifier identification);
+	/**
+	 * Return the {@link Identifier} for the current {@link Identifiable} element.
+	 * <p>
+	 * If not yet specfied, the method will create an {@link Identifier} with {@link IdType#IdShort}
+	 * and an arbitrary generated UUID value.
+	 * </id>
+	 * @return
+	 */
 	public Identifier getIdentification();
 	@JsonIgnore
 	default IdType getIdType() {
@@ -18,22 +28,38 @@ public interface Identifiable extends Referable {
 		}
 		return IdType.IdShort;
 	}
+	/**
+	 * Return the identifier for the {@link Identifiable} element.
+	 * <p>
+	 * In case the identifiable element does not have a global
+	 * identifier, e.g. has a id of {@link IdType#IdShort}, the 
+	 * corresponding {@link #getIdShort()} is returned. 
+	 * @return 
+	 */
 	@JsonIgnore
 	default String getId() {
-		if (getIdentification() != null) {
-			return getIdentification().getId();
+		if (getIdentification().getIdType().equals(IdType.IdShort)) {
+			Referable parent = getParentElement();
+			if ( Identifiable.class.isInstance(parent)) {
+				Identifiable i = Identifiable.class.cast(parent);
+				return i.getId()
+						.concat("#")
+						.concat(getIdShort());
+			}
 		}
-		return "";
+		//
+		return getIdentification().getId();
 	}
+	@JsonIgnore
 	default void setId(String id) {
-		if ( getIdentification() == null) {
-			setIdentification(new Identifier(id));
+		Identifier identifier = new Identifier(id);
+		if ( IdType.IdShort.equals(identifier.getIdType())) {
+			// an identifiable requires an uniqe id value, an arbitrary idShort is not valid
+			setIdentification(null);
+			setIdShort(id);
 		}
 		else {
-			// detect the type
-			getIdentification().setIdType(IdType.getType(id));
-			// set the id
-			getIdentification().setId(id);
+			setIdentification(identifier);
 		}
 	}
 	default void setVersion(String version) {

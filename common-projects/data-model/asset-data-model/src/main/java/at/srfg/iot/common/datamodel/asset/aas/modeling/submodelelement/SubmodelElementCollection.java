@@ -133,22 +133,26 @@ public class SubmodelElementCollection extends SubmodelElement implements Submod
 		return removeChildElement(element);
 	}
 	@Override
-	public Optional<Referable> asInstance() {
+	public Optional<Referable> asInstance(Referable parent) {
 		if ( isInstance()) {
-			return Optional.of(this);
+			return Optional.empty();
 		}
-		SubmodelElementCollection model = new SubmodelElementCollection();
-		model.setIdShort(getIdShort());
-		model.setKind(Kind.Instance);
-		model.setCategory(getCategory());
-		model.setDescription(getDescription());
-		model.setSemanticElement(this);
-//			for (HasKind hasKind : getChildElements(HasKind.class)) {
-//				// clone the 
-//				hasKind.asInstance(model);
-//			}
-		return Optional.of(model);
+		if (SubmodelElementContainer.class.isInstance(parent)) {
+			SubmodelElementContainer s = SubmodelElementContainer.class.cast(parent);
+			SubmodelElementCollection model = new SubmodelElementCollection(getIdShort(), s);
+			model.setKind(Kind.Instance);
+			model.setCategory(getCategory());
+			model.setDescription(parent.getDescription());
+			model.setSemanticElement(this);
+			for (HasKind hasKind : getChildElements(HasKind.class)) {
+				// clone the 
+				hasKind.asInstance(model);
+			}
+			return Optional.of(model);
+		}
+		throw new IllegalStateException("Cannot create instance!");
 	}
+
 	public Boolean getOrdered() {
 		return ordered;
 	}

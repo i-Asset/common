@@ -67,19 +67,23 @@ public class File extends DataElement<String> {
 		this.mimeType = mime_type;
 	}
 	@Override
-	public Optional<Referable> asInstance() {
+	public Optional<Referable> asInstance(Referable parent) {
 		if ( isInstance()) {
-			return Optional.of(this);
+			return Optional.empty();
 		}
-		File instance = new File();
-		instance.setIdShort(getIdShort());
-		instance.setKind(Kind.Instance);
-		instance.setCategory(getCategory());
-		instance.setDescription(getDescription());
-		instance.setMimeType(getMimeType());
-		instance.setSemanticElement(this);
-		return Optional.of(instance);
+		if (SubmodelElementContainer.class.isInstance(parent)) {
+			File instance = new File(getIdShort(), SubmodelElementContainer.class.cast(parent));
+			instance.setKind(Kind.Instance);
+			instance.setCategory(getCategory());
+			instance.setDescription(getDescription());
+			instance.setMimeType(getMimeType());
+			instance.setSemanticElement(this);
+			return Optional.of(instance);
+		}
+			
+		throw new IllegalStateException("Provided parent must be a SubmodelElementContainer");
 	}	
+
 	//@TODO: add value Id Reference
 	
 

@@ -52,8 +52,8 @@ public class SubmodelDescriptor extends IdentifiableElement implements Directory
 		}
 	}
 	@Override
-	public Referable getSemanticElement() {
-		return semanticElement;
+	public Optional<Referable> getSemanticElement() {
+		return Optional.ofNullable(semanticElement);
 	}
 	@Override
 	public void setSemanticElement(Referable semanticId) {
@@ -70,7 +70,7 @@ public class SubmodelDescriptor extends IdentifiableElement implements Directory
 		
 	}
 	@Override
-	public Optional<Referable> asInstance() {
+	public Optional<Referable> asInstance(Referable parent) {
 		throw new IllegalStateException("Wrong usage!");
 	}
 }

@@ -74,19 +74,21 @@ public class ReferenceElement extends DataElement<ReferableElement> {
 		return Optional.empty();
 	}
 	@Override
-	public Optional<Referable> asInstance() {
+	public Optional<Referable> asInstance(Referable parent) {
 		if ( isInstance()) {
-			return Optional.of(this);
+			return Optional.empty();
 		}
-		ReferenceElement instance = new ReferenceElement();
-		instance.setIdShort(getIdShort());
-		instance.setKind(Kind.Instance);
-		instance.setCategory(getCategory());
-		instance.setDescription(getDescription());
-		
-		instance.setSemanticElement(this);
-		// set the value qualifier
-		return Optional.of(instance);
+		if (SubmodelElementContainer.class.isInstance(parent)) {
+			ReferenceElement instance = new ReferenceElement(getIdShort(), SubmodelElementContainer.class.cast(parent));
+			instance.setKind(Kind.Instance);
+			instance.setCategory(getCategory());
+			instance.setDescription(getDescription());
+			instance.setSemanticElement(this);
+			// set the value qualifier
+			return Optional.of(instance);
+		}
+			
+		throw new IllegalStateException("Provided parent must be a SubmodelElementContainer");
 	}
 
 }

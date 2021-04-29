@@ -24,7 +24,6 @@ public interface HasKind extends Referable {
 	 * @param kind The kind
 	 */
 	void setKind(Kind kind);
-//	Optional<Referable> asInstance(Referable parent);
 	/**
 	 * Check whether the current element is an instance
 	 * @return
@@ -41,5 +40,5 @@ public interface HasKind extends Referable {
 	 * Clone the actual element as {@link Kind#Instance}
 	 * @return
 	 */
-	Optional<Referable> asInstance();
+	Optional<Referable> asInstance(Referable parent);
 }

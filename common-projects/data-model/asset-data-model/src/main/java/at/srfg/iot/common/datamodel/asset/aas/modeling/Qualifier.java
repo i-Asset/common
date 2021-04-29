@@ -1,5 +1,7 @@
 package at.srfg.iot.common.datamodel.asset.aas.modeling;
 
+import java.util.Optional;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -33,8 +35,8 @@ public class Qualifier extends Constraint implements HasSemantics {
 	@JoinColumn(name = "semantic_id")
 	private ReferableElement semanticId;
 
-	public Referable getSemanticElement() {
-		return semanticId;
+	public Optional<Referable> getSemanticElement() {
+		return Optional.ofNullable(semanticId);
 	}
 
 	public void setSemanticElement(Referable semanticId) {
