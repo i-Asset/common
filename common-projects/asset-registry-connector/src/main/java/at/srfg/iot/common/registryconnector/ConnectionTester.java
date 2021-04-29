@@ -34,7 +34,6 @@ public class ConnectionTester {
 
 	public static void main(String[] args) {
 
-		// component.registerWith(registry);
 		IAssetRegistry registry = IAssetRegistry.componentWithRegistry("http://localhost:8085");
 //												.componentAtPort(5000);
 		//
@@ -42,7 +41,6 @@ public class ConnectionTester {
 
 			@Override
 			public void onEventElementCreate(String path, EventElement element) {
-				
 				System.out.println(String.format("Event %s - element created", path));
 				
 			}
@@ -90,31 +88,19 @@ public class ConnectionTester {
 
 		/**
 		 * connect an existing AAS or Submodel (loaded from file)
+		 * 
+		 * 
 		 */
-		registry.create("belt2", shell());
+		IAssetModel beltInstance2 = registry.create("belt2", shell());
 		/**
 		 * connect an existing AAS 
 		 */
 		IAssetModel beltInstance = registry.create("belt",
-			// 
+			// Identifier of new Shell
 			new Identifier("http://iasset.labor/belt"),
-			// 
+			// Identifier of Shell-Template
 			new Identifier("http://iasset.salzburgresearch.at/labor/belt#aas"));
-//		//registry.connect(AAS | Submodel)
-//		/**
-//		 * connect an 
-//		 * 
-//		 */
-//		//registry.create(
-//		/**
-//		 * create an INSTANCE of the Asset 
-//		 */
-//		IAssetProvider beltInstance = registry.fromType(
-//		// use the idShort - possibly for an alias
-//		beltInstance.getRoot().setIdShort("belt");
-//		
-//		
-//		
+
 		/**
 		 * connect the AAS INSTANCE with the local physical device, e.g. access the DEVICE's data
 		 * 
@@ -140,40 +126,7 @@ public class ConnectionTester {
 		beltInstance.setValueSupplier("properties/beltData/distance",
 				// the getter function must return a string
 				() -> "Distance belt so far read at timestamp: " + LocalDateTime.now().toString());
-//
-//		
-//		
-//		
-//		
-//		
-//		/**
-//		 * Tell the Industry 4.0 Component to serve the INSTANCE with a given context 
-//		 * and start the component's endpoint
-//		 * 
-//		 * The AAS can be accessed from outside then .
-//		 */
-//		registry.serve(beltInstance, "belt");
-//
-//		IAssetModel belt2Instance = shell();
-//		registry.serve(belt2Instance, "belt2");
-//		
-//		registry.start(5000);
-//
-//
-//		
-////		/**
-////		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
-////		 * 
-////		 */
-////		registry.register(beltInstance);
-////		/**
-////		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
-////		 * Problem at this point: the belt2Instance only holds references to it's "semanticId's"
-////		 * 
-////		 * TODO: implement a function to resolve the type information when required!
-////		 * 
-////		 */
-////		registry.register(belt2Instance);
+
 //		
 //		
 //		// create the parameter map, the keys consist of the idShort's of the OperationVariable (inputVariable)
@@ -203,6 +156,20 @@ public class ConnectionTester {
 //		 * Deactivate the service endpoint
 //		 */
 		registry.start(5000);
+		/**
+		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
+		 * 
+		 */
+		registry.register(beltInstance);
+		/**
+		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
+		 * Problem at this point: the belt2Instance only holds references to it's "semanticId's"
+		 * 
+		 * TODO: implement a function to resolve the type information when required!
+		 * 
+		 */
+		registry.register(beltInstance2);
+
 		registry.stop();
 		
 	}

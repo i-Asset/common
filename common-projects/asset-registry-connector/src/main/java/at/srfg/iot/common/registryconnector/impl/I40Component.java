@@ -5,7 +5,6 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -47,7 +46,10 @@ public class I40Component implements AssetComponent {
 		AssetContext ctx = new AssetContext(shell, alias);
 		serviceMap.put(alias,  ctx);
 		if ( isStarted() ) {
-			addContext(server, alias, ctx);
+			// stop the server 
+			stop();
+			// recreate the server
+			start();
 		}
 	}
 	
@@ -58,20 +60,7 @@ public class I40Component implements AssetComponent {
 	public boolean isStarted() {
 		return server != null && server.isStarted();
 	}
-	private void addContext(Server server, String alias, AssetContext model ) {
-		ServletContextHandler handler = (ServletContextHandler) server.getHandler();
-		
-		try {
-			server.stop();
-			
-			ServletHolder holder = new ServletHolder(new ServletContainer(serviceMap.get(alias)));
-			holder.setInitOrder(0);
-			handler.addServlet(holder, "/"+alias+"/*");
-			
-			server.start();
-		} catch(Exception e) {}
-		
-	}
+
 	public void start() {
 		if (! serviceMap.isEmpty()) {
 			// TODO: decide what to do ...
@@ -100,11 +89,13 @@ public class I40Component implements AssetComponent {
 		if (server != null && server.isRunning() ) {
 			try {
 				server.stop();
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				server.destroy();
+				server = null;
 			}
 		}
 		
