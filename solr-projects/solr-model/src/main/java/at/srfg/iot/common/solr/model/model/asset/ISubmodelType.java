@@ -21,7 +21,8 @@ public interface ISubmodelType extends IConcept {
 	 */
 	public String ASSET_ID = "asset";
 	public String KIND = "kind";
-	
+	public String TYPE_ID = "typeId";
+	String CLASSIFICATION_CLASS_FIELD = "classificationClass";
 	public String SEMANTIC_ID = "semanticId";
 	
 
