@@ -1,6 +1,5 @@
 package at.srfg.iot.common.datamodel.asset.aas.common.referencing;
 
-import java.util.UUID;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -49,12 +48,7 @@ public abstract class IdentifiableElement extends ReferableElement implements Id
 	@Embedded
 	private Identifier identification;
 
-	public void setIdType(IdType idType) {
-		if ( identification == null) {
-			identification = new Identifier();
-		}
-		this.identification.setIdType(idType);
-	}
+
 	/**
 	 * @return the administration
 	 */
@@ -71,26 +65,16 @@ public abstract class IdentifiableElement extends ReferableElement implements Id
 	 * @return the identification
 	 */
 	public Identifier getIdentification() {
-		if ( identification == null || IdType.IdShort.equals(identification.getIdType())) {
-			return new Identifier(getIdShort());
+		if ( identification == null) {
+			return new Identifier(IdType.IdShort, getIdShort());
 		}
-		else {
-			return identification;
-		}
+		return identification;
 	}
 	/**
 	 * @param identification the identification to set
 	 */
 	public void setIdentification(Identifier identification) {
-		if ( IdType.IdShort.equals(identification.getIdType())) {
-			setIdShort(identification.getId());
-			// only when identification not yet set 
-			if (this.identification == null && this.getElementId() == null) {
-				// use a (interal) UUID as unique identifier 
-				this.identification = new Identifier(identification.getIdType(), UUID.randomUUID().toString());
-			}
-		}
-		else {
+		if (! identification.getIdType().equals(IdType.IdShort)) {
 			this.identification = identification;
 		}
 	}
