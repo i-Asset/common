@@ -422,12 +422,11 @@ public abstract class ReferableElement implements Referable, Serializable {
 //		setCreated(LocalDateTime.now());
 		setModified(LocalDateTime.now());
 	}
-	
+	/**
+	 * 
+	 */
 	public String toString() {
-		if (this instanceof IdentifiableElement) {
-			return getModelType().name() + ": " + ((IdentifiableElement)this).getId();
-		}
-		return getModelType().name() + ": " + idShort; 
+		return getModelType().name() + ": " + getId();
 	}
 	@Override
 	public int hashCode() {

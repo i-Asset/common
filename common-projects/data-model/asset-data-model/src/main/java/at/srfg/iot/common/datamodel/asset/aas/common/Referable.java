@@ -86,6 +86,14 @@ public interface Referable {
 	 * @param idShort
 	 */
 	public void setIdShort(@NotNull String idShort);
+	/**
+	 * Shortcut for {@link #getIdShort()} for {@link Referable} elements
+	 * @return
+	 */
+	@JsonIgnore
+	default String getId() {
+		return getIdShort();
+	}
 	/** 
 	 * Getter for the element's category
 	 * @return
