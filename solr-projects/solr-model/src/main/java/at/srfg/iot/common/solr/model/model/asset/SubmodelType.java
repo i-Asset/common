@@ -2,6 +2,7 @@ package at.srfg.iot.common.solr.model.model.asset;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.springframework.data.annotation.ReadOnlyProperty;
@@ -9,10 +10,12 @@ import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
+import at.srfg.iot.common.solr.model.model.common.ClassType;
 import at.srfg.iot.common.solr.model.model.common.Concept;
 import at.srfg.iot.common.solr.model.model.common.IConcept;
 import at.srfg.iot.common.solr.model.model.common.ICustomPropertyAware;
 import at.srfg.iot.common.solr.model.model.common.PropertyType;
+import at.srfg.iot.common.solr.model.model.solr.annotation.SolrJoin;
 @SolrDocument(collection = ISubmodelType.COLLECTION)
 public class SubmodelType extends Concept implements IConcept, ISubmodelType, ICustomPropertyAware {
 	@Indexed(name=CUSTOM_INTEGER_PROPERTY, type=SOLR_INT)
@@ -36,6 +39,13 @@ public class SubmodelType extends Concept implements IConcept, ISubmodelType, IC
 	
 	@Indexed(name=ASSET_ID, type=SOLR_STRING)
 	private String asset;
+	@Indexed(name=KIND, type=SOLR_STRING)
+	private String kind;
+	@Indexed(name=TYPE_ID, type=SOLR_STRING)
+	private String typeId;
+	@Indexed(name=CLASSIFICATION_CLASS_FIELD, type=SOLR_STRING)
+	@SolrJoin(joinedType = ClassType.class)
+	private Collection<String> conceptClass = new HashSet<String>();
 	/**
 	 * Stores custom property metadata
 	 */
@@ -117,4 +127,27 @@ public class SubmodelType extends Concept implements IConcept, ISubmodelType, IC
 	public void setAsset(String assetIdentifier) {
 		this.asset = assetIdentifier;
 	}
+	
+	public Collection<String> getConceptClass() {
+		if (conceptClass == null ) {
+			conceptClass = new HashSet<String>(); 
+		}
+		return conceptClass;
+	}
+	public void addConceptClass(String conceptClassUri) {
+		if ( this.conceptClass == null ) {
+			this.conceptClass = new HashSet<>();
+		}
+		this.conceptClass.add(conceptClassUri);
+	}
+	public void setConceptClass(Collection<String> conceptClassUris) {
+		this.conceptClass = conceptClassUris;
+	}
+	public void removeConceptClass(String conceptClassUri) {
+		if ( this.conceptClass == null ) {
+			this.conceptClass = new HashSet<>();
+		}
+		this.conceptClass.remove(conceptClassUri);
+	}
+	
 }
