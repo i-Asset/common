@@ -1,6 +1,7 @@
 package at.srfg.iot.common.datamodel.asset.aas.modeling;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -121,8 +122,8 @@ public abstract class SubmodelElement extends ReferableElement
 	}
 
 	@JsonIgnore
-	public Referable getSemanticElement() {
-		return semanticElement;
+	public Optional<Referable> getSemanticElement() {
+		return Optional.ofNullable(semanticElement);
 	}
 	/**
 	 * The semantic element may point to 
