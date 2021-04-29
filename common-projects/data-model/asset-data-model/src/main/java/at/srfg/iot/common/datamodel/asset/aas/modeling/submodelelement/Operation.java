@@ -173,20 +173,23 @@ public class Operation extends SubmodelElement {
 	}
 	
 	@Override
-	public Optional<Referable> asInstance() {
+	public Optional<Referable> asInstance(Referable parent) {
 		if ( isInstance()) {
-			return Optional.of(this);
+			return Optional.empty();
 		}
-		Operation instance = new Operation();
-		instance.setIdShort(getIdShort());
-		instance.setKind(Kind.Instance);
-		instance.setCategory(getCategory());
-		instance.setDescription(getDescription());
-		instance.setSemanticElement(this);
-//			for (OperationVariable variable : getChildElements(OperationVariable.class)) {
-//				variable.asInstance(instance);
-//			}
-		return Optional.of(instance);
+		if (SubmodelElementContainer.class.isInstance(parent)) {
+			Operation instance = new Operation(getIdShort(), SubmodelElementContainer.class.cast(parent));
+			instance.setKind(Kind.Instance);
+			instance.setCategory(getCategory());
+			instance.setDescription(getDescription());
+			instance.setSemanticElement(this);
+			for (OperationVariable variable : getChildElements(OperationVariable.class)) {
+				variable.asInstance(instance);
+			}
+			return Optional.of(instance);
+		}
+			
+		throw new IllegalStateException("Provided parent must be a SubmodelElementContainer");
 	}	
 
 }

@@ -77,20 +77,21 @@ public class OperationVariable extends SubmodelElement {
 		this.direction = direction;
 	}
 	@Override
-	public Optional<Referable> asInstance() {
+	public Optional<Referable> asInstance(Referable parent) {
 		if ( isInstance()) {
-			return Optional.of(this);
+			return Optional.empty();
 		}
-		OperationVariable instance = new OperationVariable();
-		instance.setIdShort(getIdShort());
-		instance.setKind(Kind.Instance);
-		instance.setCategory(getCategory());
-		instance.setDescription(getDescription());
-		instance.setDirection(getDirection());
-		instance.setSemanticElement(this);
-		// use the operation variable's value which must be a submodel element of kind "Type"
-		instance.setValue(getValue());
-		return Optional.of(instance);
+		if (Operation.class.isInstance(parent)) {
+			OperationVariable instance = new OperationVariable(getIdShort(), Operation.class.cast(parent), getDirection());
+			instance.setKind(Kind.Instance);
+			instance.setCategory(getCategory());
+			instance.setDescription(getDescription());
+			instance.setSemanticElement(this);
+			// use the operation variable's value which must be a submodel element of kind "Type"
+			instance.setValue(getValue());
+			return Optional.of(instance);
+		}
+			
+		throw new IllegalStateException("Provided parent must be a SubmodelElementContainer");
 	}
-
 }
