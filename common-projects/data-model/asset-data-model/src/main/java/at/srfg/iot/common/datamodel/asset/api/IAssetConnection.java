@@ -212,7 +212,7 @@ public interface IAssetConnection {
 	@RequestMapping(
 			method = RequestMethod.POST,
 			path="/invoke/{path}")	
-	public Object invokeOperation(
+	public Map<String,Object> invokeOperation(
 			@ApiParam("The identifier of the Asset Administration Shell or Submodel!")
 			@RequestHeader(name=ASSET_ID_HEADER)
 			String identifier,

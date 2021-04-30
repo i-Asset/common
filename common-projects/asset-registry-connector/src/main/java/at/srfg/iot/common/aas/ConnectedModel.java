@@ -97,9 +97,11 @@ public class ConnectedModel implements IAssetModel {
 
 	@Override
 	public Map<String, Object> execute(Reference reference, Map<String, Object> parameter) {
-		Object obj= connection.invokeOperation(root.getId(), reference.getPath(), parameter);
-		// TODO Auto-generated method stub
-		return Collections.emptyMap(); 
+		return connection.invokeOperation(root.getId(), reference.getPath(), parameter);
+	}
+	@Override
+	public Map<String, Object> execute(String path, Map<String, Object> parameter) {
+		return connection.invokeOperation(root.getId(), path, parameter);
 	}
 
 	@Override

@@ -96,6 +96,8 @@ public interface IAssetModel {
 	 * @return 
 	 */
 	public Map<String, Object> execute(Reference reference, Map<String, Object> parameter);
+	public Map<String, Object> execute(String path, Map<String, Object> parameter);
+
 	/**
 	 * Retrieve an element by it's path
 	 * @param path
@@ -153,4 +155,5 @@ public interface IAssetModel {
 //	 * @param listener
 //	 */
 //	void addModelListener(IAssetModelListener listener);
+
 }

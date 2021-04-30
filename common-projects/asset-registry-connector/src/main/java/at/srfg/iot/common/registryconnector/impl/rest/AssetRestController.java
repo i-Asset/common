@@ -86,7 +86,7 @@ public class AssetRestController implements IAssetConnection {
 		return new ArrayList<Referable>();
 	}
 	@Override
-	public Object invokeOperation(String identifier, String path, Map<String, Object> parameterMap) {
+	public Map<String,Object> invokeOperation(String identifier, String path, Map<String, Object> parameterMap) {
 		Optional<Operation> operation = shell.getElement(path,  Operation.class);
 		if ( operation.isPresent()) {
 			return operation.get().invoke(parameterMap);

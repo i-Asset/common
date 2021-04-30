@@ -157,7 +157,7 @@ public interface IAssetConnection extends at.srfg.iot.common.datamodel.asset.api
 	@Path("/invoke/{path: .*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Object invokeOperation(
+	public Map<String,Object> invokeOperation(
 			@HeaderParam(ASSET_ID_HEADER)
 			String identifier,
 			@PathParam("path") String path, Map<String, Object> parameterMap);

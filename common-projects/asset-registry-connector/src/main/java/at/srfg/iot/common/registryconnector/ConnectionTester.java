@@ -113,9 +113,7 @@ public class ConnectionTester {
 					if (!t.containsKey("speed")) {
 						throw new IllegalStateException("Missing parameter [speed]");
 					}
-					Map<String, Object> result = new HashMap<>();
-					result.put("result", "Success: Speed setting updated to the new value: " + t.get("speed"));
-					return result;
+					return "Speed setting updated to the new value: " + t.get("speed");
 				}
 			});
 		// add a consumer function to the property
@@ -168,7 +166,7 @@ public class ConnectionTester {
 		 * TODO: implement a function to resolve the type information when required!
 		 * 
 		 */
-		registry.register(beltInstance2);
+//		registry.register(beltInstance2);
 
 		registry.stop();
 		

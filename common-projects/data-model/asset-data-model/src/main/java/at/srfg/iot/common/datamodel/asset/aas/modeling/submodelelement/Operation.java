@@ -1,6 +1,8 @@
 package at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -143,8 +145,10 @@ public class Operation extends SubmodelElement {
 	public void setOut(List<OperationVariable> out) {
 		this.getChildElements().addAll(out);
 	}
-	public Object invoke(Map<String,Object> params) {
+	public Map<String,Object> invoke(Map<String,Object> params) {
 		// OPTIONALLY validate in & out
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("timestamp", LocalDateTime.now());
 		if ( function!= null) {
 			boolean ok = true;
 			if ( !getIn().isEmpty()) {
@@ -157,13 +161,21 @@ public class Operation extends SubmodelElement {
 				});
 			}
 			if ( ok ) {
-				return function.apply(params);
+				Object result = function.apply(params);
+				resultMap.put("result", result);
+				resultMap.put("success", true);
+				return resultMap;
 			}
 			else {
-				throw new IllegalArgumentException("Not all parameters have been provided!");
+				resultMap.put("error", "Not all parameters have been provided");
+				resultMap.put("error", "Not all parameters have been provided");
+				resultMap.put("success", false);
+				return resultMap;
 			}
 		}
-		throw new UnsupportedOperationException("No function provided");
+		resultMap.put("error", "No function has been provided");
+		resultMap.put("success", false);
+		return resultMap;
 	}
 	/**
 	 * @param function the function to set

@@ -144,6 +144,13 @@ public class AssetModel implements IAssetModel {
 		}
 		return Optional.of(current);
 	}
+	private  <T extends ReferableElement> Optional<T> resolveReference(String path, Class<T> clazz) {
+		Optional<Referable> referable = resolveReference(path);
+		if ( referable.isPresent() && clazz.isInstance(referable.get())) {
+			return Optional.of(clazz.cast(referable.get()));
+		}
+		return Optional.empty();
+	}
 	private String[] checkPath(String path) {
 		// remove leading and trailing slashes
 		try {
@@ -295,6 +302,26 @@ public class AssetModel implements IAssetModel {
 		return deleteElement(referable.asReference());
 	}
 	@Override
+	public Map<String,Object> execute(String path, Map<String,Object> parameter) {
+		Optional<Operation> optOperation = resolveReference(path, Operation.class);
+		if ( optOperation.isPresent() ) {
+			Operation operation = optOperation.get();
+			// check input variable
+			for (OperationVariable vIn : operation.getIn() ) {
+				if (! parameter.containsKey(vIn.getIdShort())) {
+					// throw MissingParameter Exception
+				}
+			}
+			for (OperationVariable vOut : operation.getOut()) {
+				// 
+			}
+			Object result = operation.invoke(parameter);
+			return null;
+		}
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
 	public Map<String,Object> execute(Reference reference, Map<String, Object> parameter) {
 		Optional<Operation> optOperation = resolveReference(reference, Operation.class);
 		if ( optOperation.isPresent() ) {
@@ -308,7 +335,8 @@ public class AssetModel implements IAssetModel {
 			for (OperationVariable vOut : operation.getOut()) {
 				// 
 			}
-			
+			Object result = operation.invoke(parameter);
+			return null;
 		}
 		// TODO Auto-generated method stub
 		return null;
