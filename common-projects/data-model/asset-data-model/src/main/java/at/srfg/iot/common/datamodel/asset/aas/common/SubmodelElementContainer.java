@@ -1,12 +1,17 @@
 package at.srfg.iot.common.datamodel.asset.aas.common;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import at.srfg.iot.common.datamodel.asset.aas.modeling.SubmodelElement;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.DataElement;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodel;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodelElement;
 
@@ -106,5 +111,18 @@ public interface SubmodelElementContainer extends Referable {
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new IllegalArgumentException("Error when creating child element of type:  " + clazz.getSimpleName());
 		}
+	}
+	@JsonIgnore
+	default Object getValue() {
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		for (SubmodelElement sme : getChildElements(SubmodelElement.class)) {
+			if ( DataElement.class.isInstance(sme)) {
+				resultMap.put(sme.getIdShort(), DataElement.class.cast(sme).getValue());
+			}
+			else if ( SubmodelElementContainer.class.isInstance(sme)) {
+				resultMap.put(getIdShort(), SubmodelElementContainer.class.cast(sme).getValue());
+			}
+		}
+		return resultMap;
 	}
 }
