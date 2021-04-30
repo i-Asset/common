@@ -23,6 +23,20 @@ public interface IAssetRegistry {
 	}
 	public AssetComponent getComponent();
 	/**
+	 * Directly connect with a edge device by asking the registry for the edge's endpoint
+	 * and establish a connection
+	 * @param identifier
+	 * @return
+	 */
+	public IAssetModel connect(String identifier);
+	/**
+	 * Directly connect with a edge device by asking the registry for the edge's endpoint
+	 * and establish a connection
+	 * @param identifier
+	 * @return
+	 */
+	public IAssetModel connect(Identifier identifier);
+	/**
 	 * Create a local Model based on a stored {@link AssetAdministrationShell} or 
 	 * {@link Submodel}. Only elements of {@link Kind#Instance} are created.
 	 * @param identifier Either IRI or IRDI.

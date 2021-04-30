@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 import at.srfg.iot.common.aas.AssetModel;
+import at.srfg.iot.common.aas.ConnectedModel;
 import at.srfg.iot.common.aas.IAssetModel;
 import at.srfg.iot.common.aas.IAssetModelListener;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Asset;
@@ -195,28 +196,19 @@ public class AssetRegistry implements IAssetRegistry {
 	public Optional<Referable> resolve(String identifier, Reference reference) {
 		return repository.getModelElement(identifier, reference);
 	}
-
-	public Optional<Referable> resolveInstance(String identifier, Reference reference) {
-		return repository.getModelInstance(identifier, reference);
+	public IAssetModel connect(String id) {
+		return connect(new Identifier(id));
+	}
+	public IAssetModel connect(Identifier identifier) {
+		Optional<AssetAdministrationShellDescriptor> descriptor = directory.lookup(identifier.getId());
+		if ( descriptor.isPresent() ) {
+			// create the (Connected)AssetModel
+			return new ConnectedModel(descriptor.get());
+			
+		}
+		return null;
 	}
 
-//	private IAssetModel connectWithAgent(Identifier identifier) {
-//		Optional<AssetAdministrationShellDescriptor> descriptor = directory.lookup(identifier.getId());
-//		if ( descriptor.isPresent() ) {
-//			// create the (Connected)AssetModel
-//			String endpoint = getEndpoint(descriptor.get());
-//			IAssetConnection repo =ConsumerFactory.createConsumer(endpoint, IAssetConnection.class);
-//			// 
-//			Optional<Identifiable> root = repo.getRoot(identifier.getId());
-//			
-//			Identifiable type = root.get();
-//			
-//			IAssetModel model = new AssetModel(type, directoryUrl + "/repository");
-//			return model;
-//			
-//		}
-//		return null;
-//	}
 	@Override
 	public IAssetModel create(String alias, Identifier identifier, Identifier type) {
 		Optional<Identifiable> root = repository.getRoot(identifier.getId());
