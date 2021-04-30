@@ -20,6 +20,7 @@ import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.common.SubmodelElementContainer;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.DataElement;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Operation;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodelElement;
@@ -93,20 +94,26 @@ public class AssetRestController implements IAssetConnection {
 		return null;
 	}
 	@Override
-	public String getValue(String identifier, String path) {
-		Optional<Property> opt = shell.getElement(path, Property.class);
-		if (opt.isPresent()) {
-			return opt.get().getValue();
+	public Object getValue(String identifier, String path) {
+		Optional<Referable> referable = shell.getElement(path);
+		if ( referable.isPresent()) {
+			Referable ref = referable.get();
+			if ( SubmodelElementContainer.class.isInstance(ref)) {
+				return SubmodelElementContainer.class.cast(ref).getValue();
+			}
+			if ( DataElement.class.isInstance(ref)) {
+				return DataElement.class.cast(ref).getValue();
+			}
 		}
 		return null;
 	}
 	@Override
-	public void setValue(String identifier, String path, String value) {
+	public void setValue(String identifier, String path, Object value) {
 		Optional<Property> opt = shell.getElement(path, Property.class);
 		if (opt.isPresent()) {
 			
 			shell.setElementValue(opt.get().asReference(), value);
-			opt.get().setValue(value);
+			opt.get().setValue(value.toString());
 		}
 		
 	}

@@ -53,6 +53,13 @@ public interface IAssetModel {
 	 * @param reference Reference pointing to a {@link DataElement}
 	 * @return
 	 */
+	public Object getElementValue(String path);
+	/**
+	 * Retrieve the value of the referenced element. 
+	 * 
+	 * @param reference Reference pointing to a {@link DataElement}
+	 * @return
+	 */
 	public Object getElementValue(Reference reference);
 	/**
 	 * Update the value of an existing element. 
@@ -104,15 +111,15 @@ public interface IAssetModel {
 	 */
 
 	<T extends Referable> Optional<T> getElement(String path, Class<T> clazz);
-	/**
-	 * Retrieve an element by it's path with type check
-	 * @param <T>
-	 * @param submodelIdShort The explicit idShort of the {@link Submodel}
-	 * @param path The path to the element
-	 * @param clazz The expected type of the element, subclass of {@link Referable}
-	 * @return
-	 */
-	<T extends Referable> Optional<T> getElement(String submodelIdShort, String path, Class<T> clazz);
+//	/**
+//	 * Retrieve an element by it's path with type check
+//	 * @param <T>
+//	 * @param submodelIdShort The explicit idShort of the {@link Submodel}
+//	 * @param path The path to the element
+//	 * @param clazz The expected type of the element, subclass of {@link Referable}
+//	 * @return
+//	 */
+//	<T extends Referable> Optional<T> getElement(String submodelIdShort, String path, Class<T> clazz);
 	/**
 	 * Connect the asset model with a physical asset {@link Consumer} function in order 
 	 * to accept a new value. The function is called when a new value for the property is provided.

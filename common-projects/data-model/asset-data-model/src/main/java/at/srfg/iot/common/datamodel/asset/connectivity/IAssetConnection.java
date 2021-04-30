@@ -134,18 +134,19 @@ public interface IAssetConnection extends at.srfg.iot.common.datamodel.asset.api
 			@PathParam("path") String path);
 	@GET
 	@Path("/value/{path: .*}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getValue(	
+	@Produces(MediaType.APPLICATION_JSON)
+	public Object getValue(	
 			@HeaderParam(ASSET_ID_HEADER)
 			String identifier,
 			@PathParam("path") String path);
 	@POST
 	@Path("/value/{path: .*}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public void setValue(
 			@HeaderParam(ASSET_ID_HEADER)
 			String identifier,
-			@PathParam("path") String path, String value);
+			@PathParam("path") String path, Object value);
 	/**
 	 * Invoke the operation named with the path
 	 * @param path

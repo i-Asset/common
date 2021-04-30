@@ -177,9 +177,9 @@ public interface IAssetConnection {
 	@ApiOperation(value = "Obtain the identifiable element")
 	@RequestMapping(
 			method = RequestMethod.GET,
-			produces = MediaType.TEXT_PLAIN_VALUE,
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE},
 			path="/value/{path}")
-	public String getValue(	
+	public Object getValue(	
 			@ApiParam("The identifier of the Asset Administration Shell or Submodel!")
 			@RequestHeader(name=ASSET_ID_HEADER)
 			String identifier,
@@ -191,6 +191,7 @@ public interface IAssetConnection {
 	@ApiOperation(value = "Obtain the identifiable element")
 	@RequestMapping(
 			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
 			path="/value/{path}")
 	public void setValue(
 			@ApiParam("The identifier of the Asset Administration Shell or Submodel!")
@@ -200,7 +201,7 @@ public interface IAssetConnection {
 			@PathVariable("path") 
 			String path,
 			@RequestBody
-			String value);
+			Object value);
 	/**
 	 * Invoke the operation named with the path
 	 * @param path
