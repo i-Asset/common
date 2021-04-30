@@ -314,12 +314,40 @@ public class AssetModel implements IAssetModel {
 		return null;
 	}
 	@Override
-	public Object getElementValue(Reference reference) {
-		@SuppressWarnings("rawtypes")
-		Optional<DataElement> dataElem = resolveReference(reference, DataElement.class);
-		if ( dataElem.isPresent()) {
-			return dataElem.get().getValue();
+	public Object getElementValue(String path) {
+		Optional<Referable> referable = resolveReference(path);
+		if ( referable.isPresent()) {
+			Referable ref = referable.get();
+			if ( SubmodelElementContainer.class.isInstance(ref)) {
+				return SubmodelElementContainer.class.cast(ref).getValue();
+			}
+			if ( DataElement.class.isInstance(ref)) {
+				return DataElement.class.cast(ref).getValue();
+			}
 		}
+//		Optional<DataElement> dataElem = resolveReference(reference, DataElement.class);
+//		if ( dataElem.isPresent()) {
+//			return dataElem.get().getValue();
+//		}
+		return null;
+
+	}
+	@Override
+	public Object getElementValue(Reference reference) {
+		Optional<Referable> referable = resolveReference(reference);
+		if ( referable.isPresent()) {
+			Referable ref = referable.get();
+			if ( SubmodelElementContainer.class.isInstance(ref)) {
+				return SubmodelElementContainer.class.cast(ref).getValue();
+			}
+			if ( DataElement.class.isInstance(ref)) {
+				return DataElement.class.cast(ref).getValue();
+			}
+		}
+//		Optional<DataElement> dataElem = resolveReference(reference, DataElement.class);
+//		if ( dataElem.isPresent()) {
+//			return dataElem.get().getValue();
+//		}
 		return null;
 	}
 	@SuppressWarnings("unchecked")
@@ -343,18 +371,7 @@ public class AssetModel implements IAssetModel {
 	public void setSubmodel(ISubmodel submodel) {
 		getShell().addSubmodel(submodel);
 	}
-	@Override
-	public <T extends Referable> Optional<T> getElement(String submodelIdShort, String path, Class<T> clazz) {
-		Optional<ISubmodel> sub = getElement(submodelIdShort, ISubmodel.class);
-		if ( sub.isPresent()) {
-			Optional<ISubmodelElement> elem = resolvePath(sub.get(), path);
-			if ( elem.isPresent() && clazz.isInstance(elem.get())) {
-				return Optional.of(clazz.cast(elem.get()));
-			}
-				
-		}
-		return Optional.empty();
-	}
+
 	@Override
 	public Referable setElement(String submodelIdentifier, String path, Referable element) {
 		Optional<ISubmodel> model = root.getChildElement(submodelIdentifier, ISubmodel.class);
