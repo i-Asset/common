@@ -71,7 +71,7 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 	/**
 	 * Map of {@link Endpoint} elements, at least one entry
 	 */
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "id.modelElement", fetch=FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.MERGE}, mappedBy = "id.modelElement", fetch=FetchType.LAZY)
 	@MapKey(name="id.index")
 	private Map<Integer, Endpoint> endpointMap = new HashMap<Integer, Endpoint>(1);
 	
