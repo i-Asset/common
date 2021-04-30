@@ -4,7 +4,6 @@ package at.srfg.iot.common.registryconnector;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import at.srfg.iot.common.aas.IAssetModel;
 import at.srfg.iot.common.aas.IAssetModelListener;
@@ -22,6 +21,8 @@ public interface IAssetRegistry {
 		return new AssetRegistry(url);
 	}
 	public AssetComponent getComponent();
+	public AssetComponent getComponent(int port);
+	public AssetComponent getComponent(int port, String context);
 	/**
 	 * Directly connect with a edge device by asking the registry for the edge's endpoint
 	 * and establish a connection
@@ -65,10 +66,20 @@ public interface IAssetRegistry {
 	public void delete(IAssetModel provider);
 	public void delete(String alias);
 	/**
-	 * Register a new Asset with the directory service. 
+	 * Register a new Asset with the directory service. This will
+	 * <ul>
+	 * <li>create/update the root element {@link AssetAdministrationShell} or {@link Submodel} to the registry
+	 * <li>store the endpoint with the root element, e.g. tell the registry the model's networking endpoint
+	 * </ul>
+	 * For updating the entire model, use {@link #save(IAssetModel)}
 	 * @param descriptor
 	 */
 	public void register(IAssetModel assetProvider);
+	/**
+	 * Updates all elements of the model in the registry
+	 * @param assetModel
+	 */
+	public void save(IAssetModel assetModel);
 	/**
 	 * Register a new Submodel with the directory service
 	 * @param aasIdentifier
@@ -112,17 +123,17 @@ public interface IAssetRegistry {
 	public Optional<SubmodelDescriptor> lookupSubmodel(Identifier aasIdentifier, Identifier submodelIdentifier);
 	/**
 	 * Invoke an operation at the (device) asset with the given Identifier - the repository must resolve the correct endpoint 
-	 * 
+	 * when the model is not from found in the local registry.
 	 * @param aasIdentifier
 	 * @param path
 	 * @param parameters
 	 * @return
 	 */
-	public Object invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters);
+	public Map<String,Object> invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters);
 	
 	public void addModelListener(IAssetModelListener listener);
-	public void accept(Consumer<IAssetModelListener> method);
-	void start(int port);
-	public void stop();
+//	public void accept(Consumer<IAssetModelListener> method);
+//	void start(int port);
+//	public void stop();
 	
 }

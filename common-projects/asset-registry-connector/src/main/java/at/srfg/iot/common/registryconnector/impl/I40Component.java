@@ -16,11 +16,22 @@ import at.srfg.iot.common.datamodel.asset.aas.common.referencing.IdType;
 import at.srfg.iot.common.registryconnector.AssetComponent;
 
 public class I40Component implements AssetComponent {
+	
 	private Server server;
-	private int port;
-	private String contextPath;
+	private final int port;
+	private final String contextPath;
+	
+	private final AssetRegistry registry;
 	
 	private Map<String, AssetContext> serviceMap = new HashMap<String, AssetContext>();
+	
+	public I40Component(int port, String contextPath, AssetRegistry reg) {
+		this.port = port;
+		// contextPath must start with slash
+		this.contextPath = contextPath.startsWith("/")? contextPath : "/"+contextPath;
+		// required for registering the models on startup
+		this.registry = reg;
+	}
 
 	public String getHostName() {
 		try {
@@ -36,33 +47,30 @@ public class I40Component implements AssetComponent {
 	 * @param alias
 	 */
 	public void serve(IAssetModel shell, String alias) {
-		if (!IdType.getType(alias).equals(IdType.IdShort)) {
-			throw new IllegalArgumentException("Not a valid alias");
+		// method only allowed prior to startup
+		if ( ! isStarted()) {
+			if (!IdType.getType(alias).equals(IdType.IdShort)) {
+				throw new IllegalArgumentException("Not a valid alias");
+			}
+			if (shell.getRoot() instanceof DirectoryEntry) {
+				DirectoryEntry e = (DirectoryEntry)shell.getRoot();
+				e.setEndpoint(0, String.format("http://%s:%s%s%s", getHostName(), port, contextPath, alias), "http");
+			}
+			AssetContext ctx = new AssetContext(shell, alias);
+			serviceMap.put(alias,  ctx);
 		}
-		if (shell.getRoot() instanceof DirectoryEntry) {
-			DirectoryEntry e = (DirectoryEntry)shell.getRoot();
-			e.setEndpoint(0, String.format("http://%s:%s%s%s", getHostName(), port, contextPath, alias), "http");
-		}
-		AssetContext ctx = new AssetContext(shell, alias);
-		serviceMap.put(alias,  ctx);
-		if ( isStarted() ) {
-			// stop the server 
-			stop();
-			// recreate the server
-			start();
+		else {
+			throw new IllegalStateException("Component already activated, cannot add a new model!");
 		}
 	}
 	
-	public I40Component(int port, String contextPath) {
-		this.port = port;
-		this.contextPath = contextPath;
-	}
 	public boolean isStarted() {
 		return server != null && server.isStarted();
 	}
 
 	public void start() {
 		if (! serviceMap.isEmpty()) {
+			
 			// TODO: decide what to do ...
 		}
 		//
@@ -73,6 +81,9 @@ public class I40Component implements AssetComponent {
 		// 
 		for ( String alias : serviceMap.keySet()) {
 			//
+			AssetContext ctx = serviceMap.get(alias);
+			IAssetModel modelToRegister = ctx.getShell();
+			registry.register(modelToRegister, false);
 //			addContext(server, alias, serviceMap.get(alias));
 			ServletHolder holder = new ServletHolder(new ServletContainer(serviceMap.get(alias)));
 			holder.setInitOrder(0);

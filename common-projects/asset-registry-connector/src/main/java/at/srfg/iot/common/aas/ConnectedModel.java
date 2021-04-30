@@ -79,6 +79,10 @@ public class ConnectedModel implements IAssetModel {
 	public Referable setElementValue(Reference element, Object value) {
 		throw new UnsupportedOperationException();
 	}
+	@Override
+	public Referable setElementValue(String path, Object value) {
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public Referable setElement(Reference parent, Referable element) {

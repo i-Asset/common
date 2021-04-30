@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.json.JSONObject;
@@ -35,7 +36,7 @@ public class ConnectionTester {
 	public static void main(String[] args) {
 
 		IAssetRegistry registry = IAssetRegistry.componentWithRegistry("http://localhost:8085");
-//												.componentAtPort(5000);
+		
 		//
 		registry.addModelListener(new IAssetModelListener() {
 
@@ -85,7 +86,8 @@ public class ConnectionTester {
 			
 
 		});
-
+		
+//		registry.start(5000);
 		/**
 		 * connect an existing AAS or Submodel (loaded from file)
 		 * 
@@ -100,7 +102,7 @@ public class ConnectionTester {
 			new Identifier("http://iasset.labor/belt"),
 			// Identifier of Shell-Template
 			new Identifier("http://iasset.salzburgresearch.at/labor/belt#aas"));
-
+		// 
 		/**
 		 * connect the AAS INSTANCE with the local physical device, e.g. access the DEVICE's data
 		 * 
@@ -113,6 +115,11 @@ public class ConnectionTester {
 					if (!t.containsKey("speed")) {
 						throw new IllegalStateException("Missing parameter [speed]");
 					}
+					Optional<Property> speedProperty = beltInstance.getElement("properties/beltData/speed", Property.class);
+					if ( speedProperty.isPresent()) {
+						speedProperty.get().setValue(t.get("speed").toString());
+					}
+					beltInstance.setElementValue("properties/beltData/speed", t.get("speed").toString());
 					return "Speed setting updated to the new value: " + t.get("speed");
 				}
 			});
@@ -128,37 +135,36 @@ public class ConnectionTester {
 //		
 //		
 //		// create the parameter map, the keys consist of the idShort's of the OperationVariable (inputVariable)
-//		Map<String,Object> params = new HashMap<String, Object>();
-//		// operation specifies a "spee" input parameter -> seee localhost:5000/belt/element/operations/setSpeed
-//		params.put("speed", 17.3d);
-//		// send a post request to the registry, check the stored endpoint and delegate the request to the device
-//		Object o = registry.invokeOperation(
-//				// asset model has shell as root
-//				beltInstance.getRoot().getIdentification(),
-//				// path to the operation 
-//				"operations/setSpeed",
-//				// 
-//				params);
-//		
-//		if ( o instanceof Map ) {
-//			Map<String,Object> map = (Map<String,Object>) o;
-//			System.out.println(map.get("result"));
-//		}
-//
-//		IAssetProvider connected = registry.connect(beltInstance.getRoot().getIdentification());
-//		// connected must do at this point:
-//		// - resolve the reference for "properties"
-//		// - 
-//		Optional<Property> speedProperty = connected.getElement("properties/beltData/speed", Property.class);
-//		/**
-//		 * Deactivate the service endpoint
-//		 */
-		registry.start(5000);
+		Map<String,Object> params = new HashMap<String, Object>();
+		// operation specifies a "speed" input parameter -> seee localhost:5000/belt/element/operations/setSpeed
+		params.put("speed", 17.3d);
+		// send a post request to the registry, check the stored endpoint and delegate the request to the device
+		Map<String,Object> result = registry.invokeOperation(
+				// asset model has shell as root
+				beltInstance.getRoot().getIdentification(),
+				// path to the operation 
+				"operations/setSpeed",
+				// 
+				params);
+		if ( result != null ) {
+			System.out.println(result.get("result"));
+		}
+		/**
+		 * Obtain the edge component
+		 */
+		AssetComponent edgeServer = registry.getComponent(5000);
+		// add the distinct models to serve
+		edgeServer.serve(beltInstance, "belt");
+		AssetComponent edgeServer2 = registry.getComponent(5005);
+		edgeServer2.serve(beltInstance2, "belt2");
+		// start the edge component, e.g. activate the endpoint
+		edgeServer.start();
+		edgeServer2.start();
 		/**
 		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
 		 * 
 		 */
-		registry.register(beltInstance);
+//		registry.register(beltInstance);
 		/**
 		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
 		 * Problem at this point: the belt2Instance only holds references to it's "semanticId's"
@@ -167,8 +173,20 @@ public class ConnectionTester {
 		 * 
 		 */
 //		registry.register(beltInstance2);
-
-		registry.stop();
+		//
+		IAssetModel connected = registry.connect(beltInstance.getRoot().getIdentification());
+		// connected must do at this point:
+		// - resolve the reference for "properties"
+		// - 
+		Optional<Property> speedProperty = connected.getElement("properties/beltData/speed", Property.class);
+		if ( speedProperty.isPresent()) {
+			System.out.println(speedProperty.get().getValue());
+		}
+//		/**
+//		 * Deactivate the service endpoint(s)
+//		 */
+		edgeServer.stop();
+		edgeServer2.stop();
 		
 	}
 

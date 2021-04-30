@@ -56,7 +56,7 @@ public class AssetRegistry implements IAssetRegistry {
 	/**
 	 * Map holding the
 	 */
-	private Map<String, IAssetModel> modelProvider = new HashMap<String, IAssetModel>();
+	private Map<Identifier, IAssetModel> modelProvider = new HashMap<Identifier, IAssetModel>();
 	/**
 	 * Registry ModelListener
 	 */
@@ -132,43 +132,46 @@ public class AssetRegistry implements IAssetRegistry {
 	final String directoryUrl;
 //	private I40Component server;
 
-	private AssetComponent component;
+//	private AssetComponent component;
 
-	@Override
-	public void start(int port) {
+//	@Override
+//	public void start(int port) {
+//
+//		if (component == null) {
+//			component = new I40Component(port, "/");
+//		}
+//		for (String alias : modelProvider.keySet()) {
+//			serve(modelProvider.get(alias), alias);
+//			// the modelprovider now has a 
+//			register(modelProvider.get(alias));
+//		}
+//		component.start();
+//
+//	}
+//
+//	public void stop() {
+//		if (component != null) {
+//			component.stop();
+//		}
+//	}
 
-		if (component == null) {
-			component = new I40Component(port, "/");
-		}
-		for (String alias : modelProvider.keySet()) {
-			serve(modelProvider.get(alias), alias);
-		}
-		component.start();
+//	public void addModel(String alias, IAssetModel model) {
+//		modelProvider.put(alias, model);
+//	}
 
-	}
-
-	public void stop() {
-		if (component != null) {
-			component.stop();
-		}
-	}
-
-	public void addModel(String alias, IAssetModel model) {
-		modelProvider.put(alias, model);
-	}
-
-	public void serve(IAssetModel provider, String alias) {
-		if (component != null && component.isStarted()) {
-			//
-			component.stop();
-			//
-
-		}
-		if (component == null) {
-			component = new I40Component(5000, "/");
-		}
-		component.serve(provider, alias);
-	}
+//	public void serve(IAssetModel provider, String alias) {
+//		if (component != null && component.isStarted()) {
+//			//
+//			component.stop();
+//			component = null;
+//			//
+//
+//		}
+//		if (component == null) {
+//			component = new I40Component(5000, "/");
+//		}
+//		component.serve(provider, alias);
+//	}
 
 	public AssetRegistry(String directoryUrl) {
 		// create the proxy with the provided url
@@ -185,9 +188,6 @@ public class AssetRegistry implements IAssetRegistry {
 		if (root.isPresent()) {
 			Identifiable rootElement = root.get();
 			return create(alias, rootElement);
-		}
-		if (!modelProvider.containsKey(alias)) {
-
 		}
 		throw new RuntimeException("Model creation failed!");
 
@@ -250,12 +250,9 @@ public class AssetRegistry implements IAssetRegistry {
 					}
 
 				}
-				// handle the activation of the model
-				modelProvider.put(alias, instanceModel);
-				// when I4.0 component has been started already, then add the model
-				if (component != null && component.isStarted()) {
-					component.serve(instanceModel, alias);
-				}
+				// keep the model
+				modelProvider.put(identifier, instanceModel);
+				//
 				return instanceModel;
 			}
 
@@ -280,15 +277,15 @@ public class AssetRegistry implements IAssetRegistry {
 				rootModel.setElement(rootElement.asReference(), child.get());
 			}
 		}
-		// resolved submodels remain as they are
-
+		// 
+		// store the model's endpoint with the registry 
 		// handle the activation of the model
-		modelProvider.put(alias, rootModel);
-		// when I4.0 component has been started already, then add the model
-		if (component != null && component.isStarted()) {
-			component.serve(rootModel, alias);
-		}
-		//
+		modelProvider.put(rootElement.getIdentification(), rootModel);
+//		// when I4.0 component has been started already, then add the model
+//		if (component != null && component.isStarted()) {
+//			component.serve(rootModel, alias);
+//		}
+//		register(rootModel);
 		return rootModel;
 	}
 
@@ -405,12 +402,12 @@ public class AssetRegistry implements IAssetRegistry {
 		}
 		return null;
 	}
-
-	public void register(IAssetModel provider) {
+	public void register(IAssetModel provider, boolean complete) {
 		Identifiable root = provider.getRoot();
 		if (AssetAdministrationShell.class.isInstance(root)) {
 			//
 			AssetAdministrationShell shell = AssetAdministrationShell.class.cast(root);
+			// create the AAS Descriptor (including all SubmodelDescriptors)
 			AssetAdministrationShellDescriptor descriptor = new AssetAdministrationShellDescriptor(shell);
 			if (descriptor.getEndpoints().isEmpty()) {
 
@@ -418,7 +415,7 @@ public class AssetRegistry implements IAssetRegistry {
 			// create the descriptor entries for shell and contained submodels
 			Optional<AssetAdministrationShell> registered = directory.register(descriptor);
 			// create / update all elements
-			if (registered.isPresent()) {
+			if (registered.isPresent() && complete) {
 				for (Referable referable : root.getChildren()) {
 					repository.setModelElement(root.getIdentification().getId(), referable);
 				}
@@ -426,11 +423,26 @@ public class AssetRegistry implements IAssetRegistry {
 
 		}
 	}
+	public void register(IAssetModel provider) {
+		register(provider, true);
+	}
+	public void save(IAssetModel provider) {
+		Identifiable root = provider.getRoot();
+		Optional<Identifiable> storedRoot = repository.getRoot(root.getId());
+		if ( storedRoot.isPresent()) {
+			for (Referable referable : root.getChildren()) {
+				repository.setModelElement(root.getIdentification().getId(), referable);
+			}
+		}
+	}
 
 	@Override
 	public void register(Identifier aasIdentifier, SubmodelDescriptor descriptor) {
 		directory.register(aasIdentifier.getId(), descriptor);
 
+	}
+	public void unregister(IAssetModel model) {
+		directory.unregister(model.getRoot().getId());
 	}
 
 	@Override
@@ -478,7 +490,11 @@ public class AssetRegistry implements IAssetRegistry {
 	}
 
 	@Override
-	public Object invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters) {
+	public Map<String,Object> invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters) {
+		// try to find the aas in the local registry
+		if ( modelProvider.containsKey(aasIdentifier)) {
+			return modelProvider.get(aasIdentifier).execute(path, parameters);
+		}
 		try {
 			path = URLEncoder.encode(path, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -487,14 +503,18 @@ public class AssetRegistry implements IAssetRegistry {
 		}
 		return repository.invokeOperation(aasIdentifier.getId(), path, parameters);
 	}
-
+	public AssetComponent getComponent(int port) {
+		return new I40Component(port, "/", this);
+	}
+	public AssetComponent getComponent(int port, String contextPath) {
+		if ( ! contextPath.startsWith("/") ) {
+			contextPath = "/"+contextPath;
+		}
+		return new I40Component(port, contextPath, this);
+	}
 	@Override
 	public AssetComponent getComponent() {
-		if (component == null) {
-			component = new I40Component(5000, "/");
-
-		}
-		return component;
+		return new I40Component(5000, "/", this);
 
 	}
 
@@ -504,7 +524,6 @@ public class AssetRegistry implements IAssetRegistry {
 
 	}
 
-	@Override
 	public void accept(Consumer<IAssetModelListener> method) {
 		if (!this.modelListener.isEmpty()) {
 			this.modelListener.parallelStream().forEach(method);

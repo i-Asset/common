@@ -69,6 +69,14 @@ public interface IAssetModel {
 	 */
 	public Referable setElementValue(Reference element, Object value);
 	/**
+	 * Update the value of an existing element. 
+	 * @param element The path to the element whose value should be updated
+	 * @param value The new value of the element
+	 * @return
+	 */
+	public Referable setElementValue(String path, Object value);
+
+	/**
 	 * Create or replace an element
 	 * @param parent Reference to the element containing the newly provided element
 	 * @param element The element to add
@@ -155,5 +163,6 @@ public interface IAssetModel {
 //	 * @param listener
 //	 */
 //	void addModelListener(IAssetModelListener listener);
+
 
 }

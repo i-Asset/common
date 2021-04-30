@@ -315,8 +315,7 @@ public class AssetModel implements IAssetModel {
 			for (OperationVariable vOut : operation.getOut()) {
 				// 
 			}
-			Object result = operation.invoke(parameter);
-			return null;
+			return operation.invoke(parameter);
 		}
 		// TODO Auto-generated method stub
 		return null;
@@ -388,6 +387,20 @@ public class AssetModel implements IAssetModel {
 			handleValueChange(dataElem.get(), value);
 			dataElem.get().setValue(value);
 			return dataElem.get();
+		}
+		return null;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public Referable setElementValue(String path, Object value) {
+		@SuppressWarnings("rawtypes")
+		Optional<DataElement> dataElem = resolveReference(path, DataElement.class);
+		if ( dataElem.isPresent()) {
+			// notify listeners that the value is about to cg
+			handleValueChange(dataElem.get(), value);
+			dataElem.get().setValue(value);
+			return dataElem.get();
+
 		}
 		return null;
 	}
