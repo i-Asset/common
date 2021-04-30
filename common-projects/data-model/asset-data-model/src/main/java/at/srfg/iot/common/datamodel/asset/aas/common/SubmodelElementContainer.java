@@ -120,7 +120,7 @@ public interface SubmodelElementContainer extends Referable {
 				resultMap.put(sme.getIdShort(), DataElement.class.cast(sme).getValue());
 			}
 			else if ( SubmodelElementContainer.class.isInstance(sme)) {
-				resultMap.put(getIdShort(), SubmodelElementContainer.class.cast(sme).getValue());
+				resultMap.put(sme.getIdShort(), SubmodelElementContainer.class.cast(sme).getValue());
 			}
 		}
 		return resultMap;
