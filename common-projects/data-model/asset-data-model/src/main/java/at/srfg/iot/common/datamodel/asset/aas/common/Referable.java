@@ -133,6 +133,19 @@ public interface Referable {
 	 */
 	Optional<Referable> getChildElement(String idShort);
 	/**
+	 * Obtain a child element by it's semantic reference
+	 * @param semanticReference
+	 * @return The child element with the requested semantic id or {@link Optional#empty()} when not found
+	 */
+	Optional<Referable> getChildElement(Reference semanticReference);
+	/**
+	 * Obtain a child element by it's semantic reference
+	 * @param semanticReference
+	 * @param clazz The expected typ of the requested element
+	 * @return The child element with the requested semantic id or {@link Optional#empty()} when not found
+	 */
+	<T extends Referable> Optional<T> getChildElement(Reference semanticReference, Class<T> clazz);
+	/**
 	 * Obtain a child element based on it's idShort
 	 * @param idShort
 	 * @param clazz The type of the requested element 

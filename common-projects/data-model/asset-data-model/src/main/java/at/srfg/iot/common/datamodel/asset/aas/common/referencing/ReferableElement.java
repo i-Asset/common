@@ -45,6 +45,7 @@ import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.AssetAdministrationShellDescriptor;
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.SubmodelDescriptor;
+import at.srfg.iot.common.datamodel.asset.aas.common.HasSemantics;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.dictionary.ConceptDictionary;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Blob;
@@ -351,6 +352,73 @@ public abstract class ReferableElement implements Referable, Serializable {
 				});
 		
 	}
+	public Optional<Referable> getChildElement(Reference semanticReference) {
+		return getChildElements().stream()
+			// filter for appropriate elements
+			.filter(new Predicate<ReferableElement>() {
+	
+				@Override
+				public boolean test(ReferableElement t) {
+					if ( HasSemantics.class.isInstance(t)) {
+						HasSemantics hasSemantics = HasSemantics.class.cast(t);
+						if ( hasSemantics.getSemanticId() !=null) {
+							return hasSemantics.getSemanticId().equals(semanticReference);
+						}
+					}
+					return false;
+				}})
+			// use the first element
+			.findFirst()
+			// map to optional
+			.flatMap(new Function<ReferableElement, Optional<Referable>>() {
+	
+				@Override
+				public Optional<Referable> apply(ReferableElement t) {
+					if (t != null) {
+						return Optional.of(t);
+					}
+					else {
+						return Optional.empty();
+					}
+				}
+			});
+				
+	}
+	public <T extends Referable> Optional<T> getChildElement(Reference semanticReference, Class<T> clazz) {
+		return getChildElements().stream()
+			// filter for appropriate elements
+			.filter(new Predicate<ReferableElement>() {
+	
+				@Override
+				public boolean test(ReferableElement t) {
+					if ( clazz.isInstance(t)) {
+						if ( HasSemantics.class.isInstance(t)) {
+							HasSemantics hasSemantics = HasSemantics.class.cast(t);
+							if ( hasSemantics.getSemanticId() !=null) {
+								return hasSemantics.getSemanticId().equals(semanticReference);
+							}
+						}
+					}
+					return false;
+				}})
+			// use the first element
+			.findFirst()
+			// map to optional
+			.flatMap(new Function<ReferableElement, Optional<T>>() {
+	
+				@Override
+				public Optional<T> apply(ReferableElement t) {
+					if (t != null) {
+						return Optional.of(clazz.cast(t));
+					}
+					else {
+						return Optional.empty();
+					}
+				}
+			});
+				
+	}
+
 	public <T extends Referable> Optional<T> getChildElement(String idShort, Class<T> clazz) {
 		return getChildElements().stream()
 					// filter for appropriate elements
