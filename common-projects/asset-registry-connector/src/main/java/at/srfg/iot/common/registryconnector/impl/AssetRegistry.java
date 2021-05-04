@@ -25,6 +25,7 @@ import at.srfg.iot.common.datamodel.asset.aas.common.HasKind;
 import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.DataElement;
@@ -35,6 +36,7 @@ import at.srfg.iot.common.datamodel.asset.connectivity.IAssetConnection;
 import at.srfg.iot.common.datamodel.asset.connectivity.move.IAssetDirectory;
 import at.srfg.iot.common.datamodel.asset.connectivity.rest.ConsumerFactory;
 import at.srfg.iot.common.registryconnector.AssetComponent;
+import at.srfg.iot.common.registryconnector.IAssetMessaging;
 import at.srfg.iot.common.registryconnector.IAssetRegistry;
 
 /**
@@ -54,13 +56,18 @@ public class AssetRegistry implements IAssetRegistry {
 	 */
 	final IAssetConnection repository;
 	/**
+	 * Service Proxy for the distribution network
+	 */
+	 IAssetMessaging distribution;
+	/**
 	 * Map holding the
 	 */
 	private Map<Identifier, IAssetModel> modelProvider = new HashMap<Identifier, IAssetModel>();
+	
 	/**
 	 * Registry ModelListener
 	 */
-	List<IAssetModelListener> modelListener = new ArrayList<IAssetModelListener>();
+	final List<IAssetModelListener> modelListener = new ArrayList<IAssetModelListener>();
 
 	private IAssetModelListener registryListener = new IAssetModelListener() {
 
@@ -102,26 +109,6 @@ public class AssetRegistry implements IAssetRegistry {
 
 		@Override
 		public void onEventElementCreate(String assetIdentifier, EventElement element) {
-			// obtain the message-broker element
-			Reference refToBroker = element.getMessageBroker();
-			// the reference must have the identifier of the aas or submodel points to
-			Key keyToAAS = refToBroker.getFirstKey();
-			if (keyToAAS != null) {
-				// obtain the element from referenced AAS
-				Optional<Referable> messageBroker = repository.getModelElement(keyToAAS.getValue(),
-						element.getMessageBroker());
-
-				if (messageBroker.isPresent()) {
-					// need to obtain the child element with a given semantic identifier
-					// or
-					// use
-					messageBroker.get().getChildElement(assetIdentifier);
-				}
-				//
-				//
-
-			}
-
 			//
 
 		}
@@ -130,6 +117,10 @@ public class AssetRegistry implements IAssetRegistry {
 	 * URI of the iAsset Directory
 	 */
 	final String directoryUrl;
+	
+	public IAssetConnection getRepoConn() {
+		return repository;
+	}
 //	private I40Component server;
 
 //	private AssetComponent component;
@@ -179,7 +170,8 @@ public class AssetRegistry implements IAssetRegistry {
 		// obtain the directory service to work with the directory
 		directory = ConsumerFactory.createConsumer(directoryUrl, IAssetDirectory.class);
 		repository = ConsumerFactory.createConsumer(directoryUrl + "/repository", IAssetConnection.class);
-
+		// register the "internal" model-listener (maybe obsolete!!)
+		modelListener.add(registryListener);
 	}
 
 	@Override
@@ -230,7 +222,7 @@ public class AssetRegistry implements IAssetRegistry {
 					if (Reference.class.isInstance(child)) {
 
 						Optional<Referable> full = repository.getModelElement(type.getId(),
-								Reference.class.cast(child));
+																Reference.class.cast(child));
 
 						if (full.isPresent()) {
 							child = full.get();
@@ -423,9 +415,21 @@ public class AssetRegistry implements IAssetRegistry {
 
 		}
 	}
+	/**
+	 * Register a new Asset with the directory service. This will
+	 * <ul>
+	 * <li>create/update the root element {@link AssetAdministrationShell} or {@link Submodel} to the registry
+	 * <li>store the endpoint with the root element, e.g. tell the registry the model's networking endpoint
+	 * </ul>
+	 * For updating the entire model, use {@link #save(IAssetModel)}
+	 * @param descriptor
+	 */	
 	public void register(IAssetModel provider) {
 		register(provider, true);
 	}
+	/**
+	 * Store all child elements with the registry
+	 */
 	public void save(IAssetModel provider) {
 		Identifiable root = provider.getRoot();
 		Optional<Identifiable> storedRoot = repository.getRoot(root.getId());
@@ -488,7 +492,14 @@ public class AssetRegistry implements IAssetRegistry {
 	public Optional<SubmodelDescriptor> lookupSubmodel(Identifier aasIdentifier, Identifier submodelIdentifier) {
 		return directory.lookup(aasIdentifier.getId(), submodelIdentifier.getId());
 	}
-
+	public Object getElementValue(Reference reference) {
+		modelProvider.keySet().contains(reference.getFirstIdentifier());
+		if ( modelProvider.containsKey(reference.getFirstIdentifier())) {
+			return modelProvider.get(reference.getFirstIdentifier()).getElementValue(reference);
+		}
+		// 
+		return null;
+	}
 	@Override
 	public Map<String,Object> invokeOperation(Identifier aasIdentifier, String path, Map<String, Object> parameters) {
 		// try to find the aas in the local registry
@@ -502,6 +513,27 @@ public class AssetRegistry implements IAssetRegistry {
 			e.printStackTrace();
 		}
 		return repository.invokeOperation(aasIdentifier.getId(), path, parameters);
+	}
+	@Override
+	public IAssetMessaging getMessaging() {
+		return new IAssetMessaging() {
+			
+			@Override
+			public void startup() {
+				for (IAssetModel model : modelProvider.values()) {
+					model.startEventProcessing();
+				}
+				
+			}
+			
+			@Override
+			public void shutdown() {
+				for (IAssetModel model : modelProvider.values()) {
+					model.stopEventProcessing();
+				}
+				
+			}
+		};
 	}
 	public AssetComponent getComponent(int port) {
 		return new I40Component(port, "/", this);
