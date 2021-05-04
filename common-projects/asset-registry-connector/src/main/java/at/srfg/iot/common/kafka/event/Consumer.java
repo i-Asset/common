@@ -1,5 +1,7 @@
 package at.srfg.iot.common.kafka.event;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +23,11 @@ public class Consumer implements Runnable {
     private Logger logger = LoggerFactory.getLogger(Consumer.class);
     private final KafkaConsumer<String, String> consumer;
     private final String host;
-    private final List<String> topics;
+    private final List<String> topics = new ArrayList<>();
     private final EventProcessor processor;
     
-    protected Consumer(String groupId, List<String> hosts, List<String> topics, EventProcessor processor) {
-        this.topics = topics;
+    protected Consumer(int groupId, String hosts, String topics, EventProcessor processor) {
+        this.topics.add(topics);
         this.host = String.join(",", hosts);
         this.processor = processor;
         Properties props = new Properties();
@@ -43,7 +45,7 @@ public class Consumer implements Runnable {
             consumer.subscribe(topics);
 
             while (true) {
-                ConsumerRecords<String, String> records = consumer.poll(Long.MAX_VALUE);
+                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(Long.MAX_VALUE));
                 for (ConsumerRecord<String, String> record : records) {
                     Map<String, Object> data = new HashMap<>();
                     data.put("partition", record.partition());
