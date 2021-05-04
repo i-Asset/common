@@ -65,16 +65,16 @@ public interface IAssetRegistry {
 	 */
 	public void delete(IAssetModel provider);
 	public void delete(String alias);
-	/**
-	 * Register a new Asset with the directory service. This will
-	 * <ul>
-	 * <li>create/update the root element {@link AssetAdministrationShell} or {@link Submodel} to the registry
-	 * <li>store the endpoint with the root element, e.g. tell the registry the model's networking endpoint
-	 * </ul>
-	 * For updating the entire model, use {@link #save(IAssetModel)}
-	 * @param descriptor
-	 */
-	public void register(IAssetModel assetProvider);
+//	/**
+//	 * Register a new Asset with the directory service. This will
+//	 * <ul>
+//	 * <li>create/update the root element {@link AssetAdministrationShell} or {@link Submodel} to the registry
+//	 * <li>store the endpoint with the root element, e.g. tell the registry the model's networking endpoint
+//	 * </ul>
+//	 * For updating the entire model, use {@link #save(IAssetModel)}
+//	 * @param descriptor
+//	 */
+//	public void register(IAssetModel assetProvider);
 	/**
 	 * Updates all elements of the model in the registry
 	 * @param assetModel
@@ -135,5 +135,6 @@ public interface IAssetRegistry {
 //	public void accept(Consumer<IAssetModelListener> method);
 //	void start(int port);
 //	public void stop();
+	IAssetMessaging getMessaging();
 	
 }
