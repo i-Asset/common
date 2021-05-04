@@ -3,6 +3,7 @@ package at.srfg.iot.common.aas;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
@@ -26,6 +27,7 @@ import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
 import at.srfg.iot.common.datamodel.asset.api.IAssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodel;
 import at.srfg.iot.common.datamodel.asset.api.ISubmodelElement;
+import at.srfg.iot.common.kafka.event.EventProcessor;
 import at.srfg.iot.common.registryconnector.impl.AssetRegistry;
 /**
  * In Memory Model representing either an {@link AssetAdministrationShell} or a {@link Submodel}.
@@ -37,6 +39,9 @@ public class AssetModel implements IAssetModel {
 	
 	private final Identifiable root;
 	private final AssetRegistry registry;
+	
+	private Map<EventElement, EventProcessor> eventProcessor = new HashMap<EventElement, EventProcessor>();
+
 	
 	public AssetModel(AssetRegistry registry, Identifiable root) {
 		this.root = root;
@@ -264,7 +269,9 @@ public class AssetModel implements IAssetModel {
 	private Referable setElement(Referable parent, Referable element) {
 		Optional<Referable> elemExist = parent.getChildElement(element.getIdShort());
 		if ( elemExist.isPresent()) {
-			handleDeletion(elemExist.get());
+			if ( ! Reference.class.isInstance(elemExist.get())) {
+				handleDeletion(elemExist.get());
+			}
 			parent.removeChildElement(elemExist.get());
 		}
 		parent.addChildElement(element);
@@ -479,6 +486,7 @@ public class AssetModel implements IAssetModel {
 			});
 			break;
 		case EventElement:
+			// notify listeners
 			registry.accept(new Consumer<IAssetModelListener>() {
 
 				@Override
@@ -486,6 +494,8 @@ public class AssetModel implements IAssetModel {
 					t.onEventElementRemove(element.asReference().getPath(),EventElement.class.cast(element));
 				}
 			});
+			// 
+			removeEventElement(EventElement.class.cast(element));
 			break;
 		case AssetAdministrationShell:
 		case Submodel:
@@ -530,13 +540,17 @@ public class AssetModel implements IAssetModel {
 			});
 			break;
 		case EventElement:
+			// notify listeners that a new evetn element is to be created
 			registry.accept(new Consumer<IAssetModelListener>() {
 
 				@Override
 				public void accept(IAssetModelListener t) {
+					// 
 					t.onEventElementCreate(element.asReference().getPath(),EventElement.class.cast(element));
 				}
 			});
+			// register the event element with the current registry
+			registerEventElement(EventElement.class.cast(element));
 			break;
 		case AssetAdministrationShell:
 		case Submodel:
@@ -564,5 +578,36 @@ public class AssetModel implements IAssetModel {
 		});
 		
 	}
+	private void removeEventElement(EventElement eventElement) {
+		if ( eventProcessor.containsKey(eventElement)) {
+			EventProcessor proc = eventProcessor.get(eventElement);
+			// stop processing
+			proc.stop();
+		}
+	}
+	private void registerEventElement(EventElement eventElement) {
+		// if element already present
+		removeEventElement(eventElement);
+		// create a new processor
+		EventProcessor processor = new EventProcessor(eventElement, registry);
+		if ( processor.isInitialized()) {
+			eventProcessor.put(eventElement, processor);
+		}
+	}
+	@Override
+	public void startEventProcessing() {
+		for (EventProcessor proc : eventProcessor.values()) {
+			proc.start();
+		}
+		
+	}
+	@Override
+	public void stopEventProcessing() {
+		for (EventProcessor proc : eventProcessor.values()) {
+			proc.stop();
+		}
+		
+	}
+
 
 }
