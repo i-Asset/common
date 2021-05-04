@@ -57,15 +57,33 @@ public class Identifier {
 	public void setIdType(IdType idType) {
 		this.idType = idType;
 	}
-	public boolean equals(Object other) {
-		if (! (other instanceof Identifier)) {
-			return false;
-		}
-		Identifier otherId = (Identifier)other;
-		if ( otherId.id == null ) return false;
-		if ( this.id == null) return false;
-		return this.id.equalsIgnoreCase(otherId.id);
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((idType == null) ? 0 : idType.hashCode());
+		return result;
 	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Identifier other = (Identifier) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (idType != other.idType)
+			return false;
+		return true;
+	}
+	
 	public String toString() {
 		return idType.name() + ": " + id;
 	}
