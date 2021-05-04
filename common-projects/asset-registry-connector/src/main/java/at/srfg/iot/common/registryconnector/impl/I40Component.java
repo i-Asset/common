@@ -83,7 +83,9 @@ public class I40Component implements AssetComponent {
 			//
 			AssetContext ctx = serviceMap.get(alias);
 			IAssetModel modelToRegister = ctx.getShell();
-			registry.register(modelToRegister, false);
+			// register the model und perform complete update (e.g. create all elements)
+			registry.register(modelToRegister, true);
+			
 //			addContext(server, alias, serviceMap.get(alias));
 			ServletHolder holder = new ServletHolder(new ServletContainer(serviceMap.get(alias)));
 			holder.setInitOrder(0);
