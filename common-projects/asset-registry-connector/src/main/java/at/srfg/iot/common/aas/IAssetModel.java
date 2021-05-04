@@ -163,6 +163,8 @@ public interface IAssetModel {
 //	 * @param listener
 //	 */
 //	void addModelListener(IAssetModelListener listener);
+	void startEventProcessing();
+	void stopEventProcessing();
 
 
 }
