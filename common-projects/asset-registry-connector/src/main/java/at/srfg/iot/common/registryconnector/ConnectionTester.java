@@ -155,24 +155,25 @@ public class ConnectionTester {
 		AssetComponent edgeServer = registry.getComponent(5000);
 		// add the distinct models to serve
 		edgeServer.serve(beltInstance, "belt");
-		AssetComponent edgeServer2 = registry.getComponent(5005);
-		edgeServer2.serve(beltInstance2, "belt2");
+//		AssetComponent edgeServer2 = registry.getComponent(5005);
+//		edgeServer2.serve(beltInstance2, "belt2");
 		// start the edge component, e.g. activate the endpoint
 		edgeServer.start();
-		edgeServer2.start();
+//		edgeServer2.start();
+		
+		
+		IAssetMessaging messenger = registry.getMessaging();
+		messenger.startup();
 		/**
-		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
-		 * 
+		 * Updates all elements, save only has effect when the 
+		 * AAS model has been registered, this is done during startup  
+		 * of the AssetComponent
 		 */
-//		registry.register(beltInstance);
+		registry.save(beltInstance);
 		/**
-		 * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
-		 * Problem at this point: the belt2Instance only holds references to it's "semanticId's"
-		 * 
-		 * TODO: implement a function to resolve the type information when required!
-		 * 
+		 *  
 		 */
-//		registry.register(beltInstance2);
+		registry.save(beltInstance2);
 		//
 		IAssetModel connected = registry.connect(beltInstance.getRoot().getIdentification());
 		// connected must do at this point:
@@ -186,7 +187,8 @@ public class ConnectionTester {
 //		 * Deactivate the service endpoint(s)
 //		 */
 		edgeServer.stop();
-		edgeServer2.stop();
+//		edgeServer2.stop();
+		messenger.shutdown();
 		
 	}
 
@@ -338,11 +340,11 @@ public class ConnectionTester {
 					)
 				);
 		// the event should observe the state of the belt
-		eventElement.setObservableElement(state);
+		eventElement.setObservableElement(beltData);
 		eventElement.setKind(Kind.Instance);
 		// the event should "send" messages, e.g. publish the events
 		eventElement.setDirection(DirectionEnum.Output);
-		eventElement.setMessageTopic("must be filled");
+		eventElement.setMessageTopic(beltData.getIdShort());
 		
 		Submodel operations = new Submodel("operations", aShell);
 		operations.setDescription("de", "Funktionen für Förderband");
@@ -370,36 +372,13 @@ public class ConnectionTester {
 		
 		setSpeed.setFunction(new Function<Map<String,Object>, Object>() {
 
-			@Override
-			public Object apply(Map<String, Object> t) {
-				Map<String, Object> result = new HashMap<>();
-				result.put("result", "Success: Speed setting updated to the new value: " + t.get("speed"));
-				return result;
-			}
+				@Override
+				public Object apply(Map<String, Object> t) {
+					Map<String, Object> result = new HashMap<>();
+					result.put("result", "Success: Speed setting updated to the new value: " + t.get("speed"));
+					return result;
+				}
 		});
-		/*
-		 * The settings of the operation (input and output-variables) should be taken from the operation's 
-		 * "type" element  
-		 */
-//		OperationVariable speedVariable = new OperationVariable("speed", setSpeed, DirectionEnum.Input);
-//		speedVariable.setDescription("de", "Input-Variable für setSpeed");
-//		speedVariable.setKind(Kind.Instance);
-//		
-//
-//		// value of variable must be a Type-Element??
-//		speedVariable.setValue(speed);
-//		speedVariable.setSemanticId(null);
-//		speedVariable.setSemanticId(
-//				// create reference
-//				new Reference(
-//						// add distinct keys
-//						Key.of("http://iasset.salzburgresearch.at/labor/belt#aas", KeyElementsEnum.AssetAdministrationShell),
-//						Key.of("operations", KeyElementsEnum.Submodel),
-//						Key.of("setSpeed", KeyElementsEnum.Operation),
-//						Key.of("speed", KeyElementsEnum.OperationVariable)
-//					)
-//				);
-
 		
 		return aShell;
 
