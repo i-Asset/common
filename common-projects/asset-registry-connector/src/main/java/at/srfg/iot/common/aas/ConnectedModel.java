@@ -142,5 +142,15 @@ public class ConnectedModel implements IAssetModel {
 	public Object getElementValue(String path) {
 		return connection.getValue(root.getId(), path);
 	}
+	@Override
+	public void startEventProcessing() {
+		throw new UnsupportedOperationException();		
+		
+	}
+	@Override
+	public void stopEventProcessing() {
+		throw new UnsupportedOperationException();		
+		
+	}
 
 }
