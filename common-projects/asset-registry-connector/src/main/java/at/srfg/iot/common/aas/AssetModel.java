@@ -39,6 +39,7 @@ public class AssetModel implements IAssetModel {
 	
 	private final Identifiable root;
 	private final AssetRegistry registry;
+	private boolean eventProcessingActive = false;
 	
 	private Map<EventElement, EventProcessor> eventProcessor = new HashMap<EventElement, EventProcessor>();
 
@@ -592,10 +593,15 @@ public class AssetModel implements IAssetModel {
 		EventProcessor processor = new EventProcessor(eventElement, registry);
 		if ( processor.isInitialized()) {
 			eventProcessor.put(eventElement, processor);
+			if ( eventProcessingActive ) {
+				// 
+				processor.start();
+			}
 		}
 	}
 	@Override
 	public void startEventProcessing() {
+		eventProcessingActive = true;
 		for (EventProcessor proc : eventProcessor.values()) {
 			proc.start();
 		}
@@ -603,10 +609,14 @@ public class AssetModel implements IAssetModel {
 	}
 	@Override
 	public void stopEventProcessing() {
+		eventProcessingActive = false;
 		for (EventProcessor proc : eventProcessor.values()) {
 			proc.stop();
 		}
 		
+	}
+	public boolean isEventProcessingActive() {
+		return eventProcessingActive;
 	}
 
 

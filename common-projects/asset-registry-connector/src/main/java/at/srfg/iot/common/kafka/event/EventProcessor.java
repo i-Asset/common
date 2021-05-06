@@ -78,9 +78,11 @@ public class EventProcessor {
     }
 
 	private void startMessageProducer() {
-		observer = new MessageProducer(eventElement);
-		// start the observer element and send the messages
-		observer.start();
+		if  (eventElement.isActive()) {
+			observer = new MessageProducer(eventElement);
+			// start the observer element and send the messages
+			observer.start();
+		}
 		
 	}
 	public void stop() {
