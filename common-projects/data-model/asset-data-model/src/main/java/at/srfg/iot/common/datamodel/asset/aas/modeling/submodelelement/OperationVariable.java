@@ -92,6 +92,6 @@ public class OperationVariable extends SubmodelElement {
 			return Optional.of(instance);
 		}
 			
-		throw new IllegalStateException("Provided parent must be a SubmodelElementContainer");
+		throw new IllegalStateException("Provided parent must be a Operation");
 	}
 }
