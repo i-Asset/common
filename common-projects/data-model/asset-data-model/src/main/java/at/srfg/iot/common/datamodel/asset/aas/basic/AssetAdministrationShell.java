@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.*;
+import at.srfg.iot.common.datamodel.asset.aas.common.types.CategoryEnum;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.SubmodelElement;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElement;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.OperationVariable;
@@ -435,8 +436,15 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 			switch (key)
 			{
 				case "category":
-					if ((model == null)) this.setCategory((String) obj.get("category"));
-					else model.setCategory((String) obj.get("category"));
+					// 
+					try {
+						CategoryEnum cat = CategoryEnum.valueOf(obj.get("category").toString());
+						if ((model == null)) this.setCategory(cat);
+						else model.setCategory(cat);
+					}
+					finally {
+						
+					}
 					break;
 
 				case "idShort":
@@ -511,8 +519,14 @@ public class AssetAdministrationShell extends IdentifiableElement implements Ref
 				{
 					continue;
 				}
+				try {
+					CategoryEnum cat = CategoryEnum.valueOf(arr.getJSONObject(i).getString("category"));
+					elem.setCategory(cat);
+				}
+				finally {
+					
+				}
 
-				elem.setCategory(arr.getJSONObject(i).getString("category"));
 				elem.setIdShort(arr.getJSONObject(i).getString("idShort"));
 
 				if (arr.getJSONObject(i).getString("kind").equals("Type")) elem.setKind(Kind.Type);

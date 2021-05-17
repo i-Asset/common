@@ -22,6 +22,7 @@ import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.ReferableDescription;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.ReferableElement;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.aas.common.types.CategoryEnum;
 import at.srfg.iot.common.datamodel.asset.aas.dictionary.ConceptDictionary;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Blob;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElement;
@@ -98,12 +99,12 @@ public interface Referable {
 	 * Getter for the element's category
 	 * @return
 	 */
-	public String getCategory();
+	public CategoryEnum getCategory();
 	/**
 	 * Setter for the category
 	 * @param category
 	 */
-	public void setCategory(String category);
+	public void setCategory(CategoryEnum category);
 	/**
 	 * Navigate to the parent element of the referable (if any)
 	 * @return The parent {@link Referable}

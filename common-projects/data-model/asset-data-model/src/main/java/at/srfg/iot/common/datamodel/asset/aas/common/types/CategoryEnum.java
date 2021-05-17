@@ -45,7 +45,7 @@ public enum CategoryEnum {
 	 * Used with {@link ConceptDescription} elements for {@link EventElement}
 	 */
 	EVENT,
-	STRING_TRANLATABLE,
+	STRING_TRANSLATABLE,
 	FUNCTION,
 	REFERENCE,
 	VIEW,

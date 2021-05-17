@@ -17,6 +17,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,6 +49,7 @@ import at.srfg.iot.common.datamodel.asset.aas.basic.directory.AssetAdministratio
 import at.srfg.iot.common.datamodel.asset.aas.basic.directory.SubmodelDescriptor;
 import at.srfg.iot.common.datamodel.asset.aas.common.HasSemantics;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
+import at.srfg.iot.common.datamodel.asset.aas.common.types.CategoryEnum;
 import at.srfg.iot.common.datamodel.asset.aas.dictionary.ConceptDictionary;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Blob;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElement;
@@ -78,7 +81,7 @@ import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.SubmodelE
 	@Type(value=File.class, 								name="File"),
 	@Type(value=Property.class, 							name="Property"),
 	@Type(value=ReferenceElement.class, 					name="ReferenceElement"),
-	@Type(value=EventElement.class, 								name="Event"),
+	@Type(value=EventElement.class, 						name="Event"),
 	@Type(value=Operation.class, 							name="Operation"),
 	@Type(value=OperationVariable.class, 					name="OperationVariable"),
 	@Type(value=RelationshipElement.class, 					name="RelationshipElement"),
@@ -108,7 +111,8 @@ public abstract class ReferableElement implements Referable, Serializable {
 	 * Optional categorization for each {@link ReferableElement}
 	 */
 	@Column(name="category", length=100)
-	private String category;
+	@Enumerated(EnumType.STRING)
+	private CategoryEnum category;
 	/**
 	 * Local Identifier - see {@link Referable#getIdShort()} 
 	 */
@@ -168,10 +172,10 @@ public abstract class ReferableElement implements Referable, Serializable {
 	protected void setElementId(Long elementId) {
 		this.elementId = elementId;
 	}
-	public String getCategory() {
+	public CategoryEnum getCategory() {
 		return category;
 	}
-	public void setCategory(String category) {
+	public void setCategory(CategoryEnum category) {
 		this.category = category;
 	}
 	public String getIdShort() {
