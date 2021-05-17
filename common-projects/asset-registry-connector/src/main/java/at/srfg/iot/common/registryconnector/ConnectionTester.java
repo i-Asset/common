@@ -23,6 +23,7 @@ import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.aas.common.types.CategoryEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.types.DataTypeEnum;
 import at.srfg.iot.common.datamodel.asset.aas.common.types.DirectionEnum;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.DataElement;
@@ -34,6 +35,8 @@ import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.SubmodelE
 public class ConnectionTester {
 
 	public static void main(String[] args) {
+		
+		MyConveyorBelt myBelt = new MyConveyorBelt(); // ist mit opc ua verbunden .... interner thread holt immer die aktuellen werte
 
 		IAssetRegistry registry = IAssetRegistry.componentWithRegistry("http://localhost:8085");
 		
@@ -98,9 +101,9 @@ public class ConnectionTester {
 		 * connect an existing AAS 
 		 */
 		IAssetModel beltInstance = registry.create("belt",
-			// Identifier of new Shell
+			// Identifier of new Shell (instance)
 			new Identifier("http://iasset.labor/belt"),
-			// Identifier of Shell-Template
+			// Identifier of Shell-Template (type)
 			new Identifier("http://iasset.salzburgresearch.at/labor/belt#aas"));
 		// 
 		/**
@@ -108,47 +111,123 @@ public class ConnectionTester {
 		 * 
 		 * NOTE: only sample-code at this point 
 		 */
-		beltInstance.setFunction("operations/setSpeed", new Function<Map<String, Object>, Object>() {
+//		beltInstance.setFunction("operations/setSpeed", new Function<Map<String, Object>, Object>() {
+//
+//				@Override
+//				public Object apply(Map<String, Object> t) {
+//					
+//					if (!t.containsKey("speed")) {
+//						throw new IllegalStateException("Missing parameter [speed]");
+//					}
+//					Optional<Property> speedProperty = beltInstance.getElement("properties/beltData/speed", Property.class);
+//					if ( speedProperty.isPresent()) {
+//						speedProperty.get().setValue(t.get("speed").toString());
+//					}
+//					beltInstance.setElementValue("properties/beltData/speed", t.get("speed").toString());
+//					return "Speed setting updated to the new value: " + t.get("speed");
+//				}
+//			});
+		beltInstance.setFunction("operations/moveBelt", new Function<Map<String, Object>, Object>() {
 
-				@Override
-				public Object apply(Map<String, Object> t) {
-					if (!t.containsKey("speed")) {
-						throw new IllegalStateException("Missing parameter [speed]");
-					}
-					Optional<Property> speedProperty = beltInstance.getElement("properties/beltData/speed", Property.class);
-					if ( speedProperty.isPresent()) {
-						speedProperty.get().setValue(t.get("speed").toString());
-					}
-					beltInstance.setElementValue("properties/beltData/speed", t.get("speed").toString());
-					return "Speed setting updated to the new value: " + t.get("speed");
+			@Override
+			public Object apply(Map<String, Object> t) {
+				
+				if (!t.containsKey("direction")) {
+					throw new IllegalStateException("Missing parameter [direction]");
 				}
-			});
+				if (!t.containsKey("distance")) {
+					throw new IllegalStateException("Missing parameter [distance]");
+				}
+				// type check der input parameter
+				// is direction gültig?? 
+				
+				// 
+				Object distance = t.get("distance");
+				if ( Number.class.isInstance(distance)) {
+					// 
+					Double d = new Double(distance.toString());
+					myBelt.moveBelt(t.get("direction").toString(), d.floatValue());
+				}
+//				Optional<Property> speedProperty = beltInstance.getElement("properties/beltData/speed", Property.class);
+//				if ( speedProperty.isPresent()) {
+//					speedProperty.get().setValue(t.get("speed").toString());
+//				}
+//				beltInstance.setElementValue("properties/beltData/speed", t.get("speed").toString());
+				return new HashMap<String, Object>();
+			}
+		});
+		beltInstance.setFunction("operations/switchBusyLight", new Function<Map<String, Object>, Object>() {
+
+			@Override
+			public Object apply(Map<String, Object> t) {
+				
+				if (!t.containsKey("state")) {
+					throw new IllegalStateException("Missing parameter [state]");
+				}
+				// type check der input parameter
+				// is direction gültig?? 
+				
+				// 
+				Object state = t.get("state");
+				if ( Boolean.class.isInstance(state)) {
+					// 
+					myBelt.switchBusyLight(Boolean.class.cast(state));
+				}
+//				Optional<Property> speedProperty = beltInstance.getElement("properties/beltData/speed", Property.class);
+//				if ( speedProperty.isPresent()) {
+//					speedProperty.get().setValue(t.get("speed").toString());
+//				}
+//				beltInstance.setElementValue("properties/beltData/speed", t.get("speed").toString());
+				return new HashMap<String, Object>();
+			}
+		});
 		// add a consumer function to the property
-		beltInstance.setValueConsumer("properties/beltData/distance",
-				// setter function, simply show the new value at System.out 
-				(String t) -> System.out.println("Distance value change: " + t));
+//		beltInstance.setValueConsumer("properties/beltData/distance",
+//				// setter function, simply show the new value at System.out 
+//				(String t) -> System.out.println("Distance value change: " + t));
+//		beltInstance.setValueConsumer("properties/beltData/distance",
+//				// setter function, simply show the new value at System.out 
+//				(String t) -> System.out.println("Distance value change: " + t));
+//		beltInstance.setValueConsumer("properties/beltData/distance",
+//				// setter function, simply show the new value at System.out 
+//				(String t) -> System.out.println("Distance value change: " + t));
+//		beltInstance.setValueConsumer("properties/beltData/distance",
+//				// setter function, simply show the new value at System.out 
+//				(String t) -> System.out.println("Distance value change: " + t));
 		// add a supplier function to the property
 		beltInstance.setValueSupplier("properties/beltData/distance",
 				// the getter function must return a string
-				() -> "Distance belt so far read at timestamp: " + LocalDateTime.now().toString());
+				() -> "" + myBelt.getDistance()) ;
+		beltInstance.setValueSupplier("properties/beltData/serverTime",
+				// the getter function must return a string
+				() -> "" + myBelt.getServerTime()) ;
+		beltInstance.setValueSupplier("properties/beltData/state",
+				// the getter function must return a string
+				() -> "" + myBelt.getState()) ;
+		beltInstance.setValueSupplier("properties/beltData/moving",
+				// the getter function must return a string
+				() -> myBelt.isMoving() ? "true": "false")  ;
+				// () -> "Band läuft ... und läuft seit timestamp: " + LocalDateTime.now().toString());
 
 //		
 //		
 //		// create the parameter map, the keys consist of the idShort's of the OperationVariable (inputVariable)
 		Map<String,Object> params = new HashMap<String, Object>();
 		// operation specifies a "speed" input parameter -> seee localhost:5000/belt/element/operations/setSpeed
-		params.put("speed", 17.3d);
+		params.put("direction", "left");
+		params.put("distance", 0.1234d);
 		// send a post request to the registry, check the stored endpoint and delegate the request to the device
 		Map<String,Object> result = registry.invokeOperation(
 				// asset model has shell as root
 				beltInstance.getRoot().getIdentification(),
 				// path to the operation 
-				"operations/setSpeed",
+				"operations/moveBelt",
 				// 
 				params);
 		if ( result != null ) {
 			System.out.println(result.get("result"));
 		}
+		
 		/**
 		 * Obtain the edge component
 		 */
@@ -257,7 +336,7 @@ public class ConnectionTester {
 		distance.setDescription("de", "Zurückgelegte Distanz");
 		distance.setValueQualifier(DataTypeEnum.DECIMAL);
 		distance.setKind(Kind.Instance);
-		distance.setCategory("iAsstLabor-Tester");
+		distance.setCategory(CategoryEnum.VARIABLE);
 		distance.setSemanticId(
 				// create reference
 				new Reference(
@@ -273,7 +352,7 @@ public class ConnectionTester {
 		speed.setDescription("de", "Aktuelle Geschwindigkeit");
 		speed.setValueQualifier(DataTypeEnum.DECIMAL);
 		speed.setKind(Kind.Instance);
-		speed.setCategory("iAsstLabor-Tester");
+		speed.setCategory(CategoryEnum.VARIABLE);
 		speed.setSemanticId(
 				// create reference
 				new Reference(
@@ -289,7 +368,7 @@ public class ConnectionTester {
 		state.setDescription("de", "Geräte-Status (On/Off)");
 		state.setValueQualifier(DataTypeEnum.BOOLEAN);
 		state.setKind(Kind.Instance);
-		state.setCategory("iAsstLabor-Tester");
+		state.setCategory(CategoryEnum.VARIABLE);
 		state.setSemanticId(
 				// create reference
 				new Reference(
@@ -305,7 +384,7 @@ public class ConnectionTester {
 		direction.setDescription("de", "Geräte-Status (On/Off)");
 		direction.setValueQualifier(DataTypeEnum.STRING);
 		direction.setKind(Kind.Instance);
-		direction.setCategory("iAsstLabor-Tester");
+		direction.setCategory(CategoryEnum.VARIABLE);
 		direction.setSemanticId(
 				// create reference
 				new Reference(
