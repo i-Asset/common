@@ -92,6 +92,14 @@ public class PartyType extends Concept implements IParty, ICustomPropertyAware {
 	 * 
 	 */
 	private Map<String, PropertyType> customProperties;
+	
+	/*
+	 * Work-Around to overcome version problems with SPRING-DATA-SOLR (4.0.3 vs. 2.0.x)
+	 */
+	@ReadOnlyProperty
+	public String getCollection() {
+		return IParty.COLLECTION;
+	}
 
 	public String getId() {
 		return getUri();
