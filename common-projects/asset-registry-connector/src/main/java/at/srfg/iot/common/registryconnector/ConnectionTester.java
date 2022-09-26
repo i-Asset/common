@@ -70,7 +70,7 @@ public class ConnectionTester {
 			@Override
 			public void onPropertyCreate(String path, Property property) {
 				System.out.println(String.format("Property %s - element created", path));
-				property.setGetter(()->"Value of Property " + path + " "+ LocalDateTime.now());
+				property.setValueSupplier(()->"Value of Property " + path + " "+ LocalDateTime.now());
 				
 			}
 
@@ -231,7 +231,7 @@ public class ConnectionTester {
 		/**
 		 * Obtain the edge component
 		 */
-		AssetComponent edgeServer = registry.getComponent(5000);
+		AssetComponent edgeServer = registry.getComponent(5050);
 		// add the distinct models to serve
 		edgeServer.serve(beltInstance, "belt");
 //		AssetComponent edgeServer2 = registry.getComponent(5005);
@@ -258,7 +258,7 @@ public class ConnectionTester {
 		// connected must do at this point:
 		// - resolve the reference for "properties"
 		// - 
-		Optional<Property> speedProperty = connected.getElement("properties/beltData/speed", Property.class);
+		Optional<Property> speedProperty = connected.getElement("properties/beltData/direction", Property.class);
 		if ( speedProperty.isPresent()) {
 			System.out.println(speedProperty.get().getValue());
 		}

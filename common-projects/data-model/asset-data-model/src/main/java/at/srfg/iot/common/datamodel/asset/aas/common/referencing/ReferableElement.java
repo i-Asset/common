@@ -36,62 +36,42 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import at.srfg.iot.common.datamodel.asset.aas.basic.Asset;
-import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
-import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
-import at.srfg.iot.common.datamodel.asset.aas.basic.directory.AssetAdministrationShellDescriptor;
-import at.srfg.iot.common.datamodel.asset.aas.basic.directory.SubmodelDescriptor;
 import at.srfg.iot.common.datamodel.asset.aas.common.HasSemantics;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.common.types.CategoryEnum;
-import at.srfg.iot.common.datamodel.asset.aas.dictionary.ConceptDictionary;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Blob;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.EventElement;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.File;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Operation;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.OperationVariable;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.ReferenceElement;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.RelationshipElement;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.SubmodelElementCollection;
 /**
  * Abstract base class for all model elements
  * @author dglachs
  *
  */
-@JsonInclude(value = Include.NON_EMPTY)
-@JsonTypeInfo(
-		property="modelType",
-		use = JsonTypeInfo.Id.NAME,
-		include = JsonTypeInfo.As.PROPERTY,
-		defaultImpl = Reference.class)
-@JsonSubTypes({
-	@Type(value=AssetAdministrationShell.class,			 	name="AssetAdministrationShell"),
-	@Type(value=Asset.class, 								name="Asset"),
-	@Type(value=Submodel.class, 							name="Submodel"),
-	@Type(value=SubmodelElementCollection.class, 			name="SubmodelElementCollection"),
-	@Type(value=ConceptDictionary.class, 					name="ConceptDictionary"),
-	@Type(value=Blob.class, 								name="Blob"),
-	@Type(value=File.class, 								name="File"),
-	@Type(value=Property.class, 							name="Property"),
-	@Type(value=ReferenceElement.class, 					name="ReferenceElement"),
-	@Type(value=EventElement.class, 						name="Event"),
-	@Type(value=Operation.class, 							name="Operation"),
-	@Type(value=OperationVariable.class, 					name="OperationVariable"),
-	@Type(value=RelationshipElement.class, 					name="RelationshipElement"),
-	// non persistent: Reference
-	@Type(value=Reference.class,							name="Reference"),
-	// non persistent: Descriptors
-	@Type(value=AssetAdministrationShellDescriptor.class,	name="AssetAdministrationShellDescriptor"),
-	@Type(value=SubmodelDescriptor.class,					name="SubmodelDescriptor"),
-})
-
+//@JsonInclude(value = Include.NON_EMPTY)
+//@JsonTypeInfo(
+//		property="modelType",
+//		use = JsonTypeInfo.Id.NAME,
+//		include = JsonTypeInfo.As.PROPERTY,
+//		defaultImpl = Reference.class)
+//@JsonSubTypes({
+//	@Type(value=AssetAdministrationShell.class,			 	name="AssetAdministrationShell"),
+//	@Type(value=Asset.class, 								name="Asset"),
+//	@Type(value=Submodel.class, 							name="Submodel"),
+//	@Type(value=SubmodelElementCollection.class, 			name="SubmodelElementCollection"),
+//	@Type(value=ConceptDictionary.class, 					name="ConceptDictionary"),
+//	@Type(value=Blob.class, 								name="Blob"),
+//	@Type(value=File.class, 								name="File"),
+//	@Type(value=Property.class, 							name="Property"),
+//	@Type(value=ReferenceElement.class, 					name="ReferenceElement"),
+//	@Type(value=EventElement.class, 						name="Event"),
+//	@Type(value=Operation.class, 							name="Operation"),
+//	@Type(value=OperationVariable.class, 					name="OperationVariable"),
+//	@Type(value=RelationshipElement.class, 					name="RelationshipElement"),
+//	// non persistent: Reference
+//	@Type(value=Reference.class,							name="Reference"),
+//	// non persistent: Descriptors
+//	@Type(value=AssetAdministrationShellDescriptor.class,	name="AssetAdministrationShellDescriptor"),
+//	@Type(value=SubmodelDescriptor.class,					name="SubmodelDescriptor"),
+//})
+//
 
 @Entity
 @Table(name="aas_referable")

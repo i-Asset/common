@@ -28,17 +28,17 @@ public interface IAssetModel {
 	public IAssetAdministrationShell getShell();
 	
 	public Identifiable getRoot();
-	/**
-	 * Retrieve the {@link Submodel} by it's idShort from the component
-	 * @param idShort
-	 * @return
-	 */
-	public Optional<ISubmodel> getSubmodel(String idShort);
-	/**
-	 * create a new {@link ISubmodel} within the component
-	 * @param submodel
-	 */
-	public void setSubmodel(ISubmodel submodel);
+//	/**
+//	 * Retrieve the {@link Submodel} by it's idShort from the component
+//	 * @param idShort
+//	 * @return
+//	 */
+//	public Optional<ISubmodel> getSubmodel(String idShort);
+//	/**
+//	 * create a new {@link ISubmodel} within the component
+//	 * @param submodel
+//	 */
+//	public void setSubmodel(ISubmodel submodel);
 	
 	/**
 	 * Retrieve the full element (including sub-elements) 
@@ -85,11 +85,12 @@ public interface IAssetModel {
 	public Referable setElement(Reference parent, Referable element);
 	/**
 	 * Set the new value of the referenced element.
-	 * @param element
-	 * @param value
+	 * @param path The relative path pointing to the element containing the new element - the path
+	 *             must resolve to a  
+	 * @param element The referable element including all containde children
 	 * @return
 	 */
-	public Referable setElement(String submodelIdentifier, String path, Referable element);
+	public Referable setElement(String path, Referable element);
 	/**
 	 * Convenience method to delete an object from the model. The {@link Referable} must 
 	 * have proper parent element in order to resolve it by it's reference (see {@link Referable#asReference()})

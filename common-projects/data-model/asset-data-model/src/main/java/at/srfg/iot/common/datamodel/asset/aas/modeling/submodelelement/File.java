@@ -23,7 +23,7 @@ public class File extends DataElement<String> {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Column(name="file_path", nullable = false)
-	private String filePath;
+	private String value;
 	@Column(name="mime_type", nullable = false)
 	private String mimeType;
 	
@@ -46,13 +46,13 @@ public class File extends DataElement<String> {
 	 * @return the value
 	 */
 	public String getValue() {
-		return filePath;
+		return value;
 	}
 	/**
 	 * @param value the value to set
 	 */
 	public void setValue(String value) {
-		this.filePath = value;
+		this.value = value;
 	}
 	/**
 	 * @return the mimeType

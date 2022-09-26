@@ -102,10 +102,10 @@ public class Property extends DataElement<String> {
 	
 	// TODO: add value Id Reference
 	
-	public void setGetter(Supplier<String> supplier) {
+	public void setValueSupplier(Supplier<String> supplier) {
 		this.supplier = supplier;
 	}
-	public void setSetter(Consumer<String> consumer) {
+	public void setValueConsumer(Consumer<String> consumer) {
 		this.consumer = consumer;
 	}
 	@Override

@@ -17,6 +17,7 @@ import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.common.SubmodelElementContainer;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Path;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.ReferableElement;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.DataElement;
@@ -176,7 +177,6 @@ public class AssetModel implements IAssetModel {
 			return path.split("/");
 		}
 	}
-
 	private Iterator<String> resolvePathIterator(String path) {
 		if ( path.startsWith("/")) {
 			// remove a beginnig slash
@@ -187,6 +187,7 @@ public class AssetModel implements IAssetModel {
 			path = path.substring(0, path.length()-1);
 		}
 		String[] parts = path.split("/");
+		
 		return Arrays.asList(parts).iterator();
 	}
 	/**
@@ -413,17 +414,11 @@ public class AssetModel implements IAssetModel {
 		return null;
 	}
 
-	@Override
-	public Optional<ISubmodel> getSubmodel(String idShort) {
-		return getShell().getSubmodel(idShort);
-	}
-	public void setSubmodel(ISubmodel submodel) {
-		getShell().addSubmodel(submodel);
-	}
 
 	@Override
-	public Referable setElement(String submodelIdentifier, String path, Referable element) {
-		Optional<ISubmodel> model = root.getChildElement(submodelIdentifier, ISubmodel.class);
+	public Referable setElement(String path, Referable element) {
+		Path thePath = new Path(path);
+		Optional<ISubmodel> model = root.getChildElement(thePath.getFirst(), ISubmodel.class);
 		if ( model.isPresent() ) {
 			Optional<SubmodelElementContainer> parent = resolveContainer(model.get(), path);
 			if ( parent.isPresent()) {
@@ -438,7 +433,7 @@ public class AssetModel implements IAssetModel {
 	public void setValueConsumer(String pathToProperty, Consumer<String> consumer) {
 		Optional<Property>  property = getElement(pathToProperty, Property.class);
 		if ( property.isPresent()) {
-			property.get().setSetter(consumer);
+			property.get().setValueConsumer(consumer);
 		}
 		
 	}
@@ -446,7 +441,7 @@ public class AssetModel implements IAssetModel {
 	public void setValueSupplier(String pathToProperty, Supplier<String> supplier) {
 		Optional<Property>  property = getElement(pathToProperty, Property.class);
 		if ( property.isPresent()) {
-			property.get().setGetter(supplier);
+			property.get().setValueSupplier(supplier);
 		}
 		
 	}

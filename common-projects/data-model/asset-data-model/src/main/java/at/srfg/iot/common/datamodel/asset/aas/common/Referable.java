@@ -116,6 +116,11 @@ public interface Referable {
 	 * @throws IllegalStateException in case the referable does not support children
 	 */
 	public void addChildElement(Referable referable);
+	/**
+	 * Obtain all children of the current element
+	 * @see #getParent()
+	 * @return
+	 */
 	public List<Referable> getChildren();
 	/**
 	 * Remove a child element 
@@ -174,6 +179,7 @@ public interface Referable {
 	}
 	/**
 	 * provide a {@link Reference} to the parent element
+	 * @see Referable#getChildren()
 	 * @return
 	 */
 	default Reference getParent() {
