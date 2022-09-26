@@ -54,16 +54,6 @@ public class ConnectedModel implements IAssetModel {
 		return root;
 	}
 
-	@Override
-	public Optional<ISubmodel> getSubmodel(String idShort) {
-		return getElement(idShort, ISubmodel.class);
-	}
-
-	@Override
-	public void setSubmodel(ISubmodel submodel) {
-		throw new UnsupportedOperationException();
-		
-	}
 
 	@Override
 	public Optional<Referable> getElement(Reference reference) {
@@ -90,7 +80,7 @@ public class ConnectedModel implements IAssetModel {
 	}
 
 	@Override
-	public Referable setElement(String submodelIdentifier, String path, Referable element) {
+	public Referable setElement(String path, Referable element) {
 		throw new UnsupportedOperationException();
 	}
 
