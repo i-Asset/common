@@ -35,16 +35,16 @@ public class ConceptClass extends ConceptBase {
 	private String category;
 //	@JsonIgnore
 	@XmlTransient
-	@ManyToOne(cascade = {CascadeType.MERGE})
+	@ManyToOne(cascade = {CascadeType.REFRESH})
 	@JoinColumn(name="parent_id", referencedColumnName = "identifier")
 	private ConceptClass parentElement;
 	@JsonIgnore
 	@XmlTransient
-	@OneToMany(mappedBy = "parentElement", cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST})
+	@OneToMany(mappedBy = "parentElement", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<ConceptClass> childElements;
 	@JsonIgnore
 	@XmlTransient
-	@OneToMany(mappedBy = "conceptClass", cascade = {CascadeType.REMOVE})
+	@OneToMany(mappedBy = "conceptClass", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<ConceptClassProperty> classProperty;
 
 	public ConceptClass() {

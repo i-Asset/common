@@ -28,7 +28,7 @@ public class ConceptClassProperty {
 	private ConceptClassPropertyPK pk;
 	@Column(name="value_constraint")
 	boolean valueConstraint = false;
-	@ManyToOne(cascade = {CascadeType.ALL, CascadeType.REMOVE})
+	@ManyToOne
 	@JoinColumn(name="class_id", insertable = false, updatable = false)
 	private ConceptClass conceptClass;
 	
