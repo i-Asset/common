@@ -39,7 +39,7 @@
 		<module>data-model</module>
 		<module>asset-registry-connector</module>
 <!--		<module>nimble-rest-client</module>-->
-<!--		<module>utility</module>-->
+		<module>utility</module>
 		<!--
 		<module>rest-client</module>
 		 -->

@@ -3,7 +3,7 @@ package at.srfg.iot.common.solr.indexing.app.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.srfg.iot.common.solr.indexing.core.controller.BasicIndexingAPI;
-//import eu.nimble.utility.LoggerUtils;
+//import at.srfg.iot.common.utility.LoggerUtils;
 import io.swagger.annotations.Api;
 
 /**

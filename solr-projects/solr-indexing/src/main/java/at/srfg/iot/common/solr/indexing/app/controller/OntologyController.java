@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import at.srfg.iot.common.solr.indexing.core.controller.SearchEvent;
 import at.srfg.iot.common.solr.indexing.core.service.OntologyService;
-//import eu.nimble.utility.LoggerUtils;
+//import at.srfg.iot.common.utility.LoggerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

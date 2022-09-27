@@ -23,6 +23,6 @@
 		<module>semantic-lookup-data-model</module>
 		<module>indexing-data-model</module>
 		<module>asset-data-model</module>
-<!--		<module>ubl-data-model</module>-->
+		<module>ubl-data-model</module>
 	</modules>
 </project>
