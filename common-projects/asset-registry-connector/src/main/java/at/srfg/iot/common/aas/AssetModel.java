@@ -17,7 +17,6 @@ import at.srfg.iot.common.datamodel.asset.aas.common.Identifiable;
 import at.srfg.iot.common.datamodel.asset.aas.common.Referable;
 import at.srfg.iot.common.datamodel.asset.aas.common.SubmodelElementContainer;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Key;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Path;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.ReferableElement;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.DataElement;
@@ -417,8 +416,7 @@ public class AssetModel implements IAssetModel {
 
 	@Override
 	public Referable setElement(String path, Referable element) {
-		Path thePath = new Path(path);
-		Optional<ISubmodel> model = root.getChildElement(thePath.getFirst(), ISubmodel.class);
+		Optional<ISubmodel> model = root.getChildElement(path, ISubmodel.class);
 		if ( model.isPresent() ) {
 			Optional<SubmodelElementContainer> parent = resolveContainer(model.get(), path);
 			if ( parent.isPresent()) {
